@@ -495,7 +495,10 @@ class ContactRequestBase(SQLModel):
     @field_validator("phone")
     @classmethod
     def _check_phone(cls, v: str) -> str:
-        return normalize_phone(v)
+        phone = normalize_phone(v)
+        if phone is None:
+            raise ValueError("Некорректный номер телефона")
+        return phone
 
 
 class ContactRequest(ContactRequestBase, table=True):

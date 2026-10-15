@@ -81,7 +81,7 @@ def crud_router(
             obj = session.get(model, id)
             if not obj:
                 raise HTTPException(status_code=404, detail="Not found")
-            obj.sqlmodel_update(body.model_dump(exclude_unset=True))
+            obj.sqlmodel_update(body.model_dump(exclude_unset=True))  # type: ignore[attr-defined]
             session.add(obj)
             session.commit()
             session.refresh(obj)

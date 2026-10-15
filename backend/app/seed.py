@@ -174,11 +174,11 @@ def _parse(value: str) -> time:
 def seed_club_data(session: Session) -> None:
     if session.exec(select(Club)).first():
         return
-    session.add(Club(**CLUB))
+    session.add(Club(**CLUB))  # type: ignore[arg-type]
     trainers: dict[str, Trainer] = {}
     for data in TRAINERS:
         key = data["key"]
-        trainer = Trainer(**{k: v for k, v in data.items() if k != "key"})
+        trainer = Trainer(**{k: v for k, v in data.items() if k != "key"})  # type: ignore[arg-type]
         session.add(trainer)
         trainers[key] = trainer  # type: ignore[index]
     trainings: dict[str, Training] = {}
@@ -205,6 +205,6 @@ def seed_club_data(session: Session) -> None:
                 )
             )
     for item in CATALOG:
-        session.add(ServiceCatalog(**item))
+        session.add(ServiceCatalog(**item))  # type: ignore[arg-type]
     session.commit()
     generate_schedule(session, settings.SCHEDULE_WEEKS_AHEAD)
