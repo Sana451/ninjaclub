@@ -28,10 +28,7 @@ export function RequestForm({
   const [kind, setKind] = useState("adults")
   const { showSuccessToast, showErrorToast } = useCustomToast()
   const mutation = useMutation({
-    mutationFn: async () => {
-      if (!isValidPhone(phone)) throw new Error(PHONE_ERROR)
-      return api.sendRequest({ name, phone, kind })
-    },
+    mutationFn: () => api.sendRequest({ name, phone, kind }),
     onSuccess: () => {
       showSuccessToast("Заявка отправлена. Мы свяжемся с вами в течение часа")
       setName("")
@@ -45,6 +42,10 @@ export function RequestForm({
       className={className}
       onSubmit={(e) => {
         e.preventDefault()
+        if (!isValidPhone(phone)) {
+          showErrorToast(PHONE_ERROR)
+          return
+        }
         mutation.mutate()
       }}
     >

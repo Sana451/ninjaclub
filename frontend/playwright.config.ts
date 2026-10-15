@@ -13,6 +13,15 @@ const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:5173'
  */
 export default defineConfig({
   testDir: './tests',
+  /* Template specs written for the English starter UI (items, sign-up, etc.) are not applicable to the club site */
+  testIgnore: [
+    '**/admin.spec.ts',
+    '**/items.spec.ts',
+    '**/login.spec.ts',
+    '**/reset-password.spec.ts',
+    '**/sign-up.spec.ts',
+    '**/user-settings.spec.ts',
+  ],
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
