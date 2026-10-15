@@ -29,12 +29,14 @@ import {
 import { Input } from "@/components/ui/input"
 import { LoadingButton } from "@/components/ui/loading-button"
 import useCustomToast from "@/hooks/useCustomToast"
+import { optionalPhoneSchema, phoneOrNull } from "@/lib/phone"
 import { handleError } from "@/utils"
 
 const formSchema = z
   .object({
     email: z.email({ message: "Invalid email address" }),
     full_name: z.string().optional(),
+    phone: optionalPhoneSchema,
     password: z
       .string()
       .min(1, { message: "Password is required" })
@@ -64,6 +66,7 @@ const AddUser = () => {
     defaultValues: {
       email: "",
       full_name: "",
+      phone: "",
       password: "",
       confirm_password: "",
       is_superuser: false,
@@ -72,7 +75,10 @@ const AddUser = () => {
   })
 
   const mutation = useMutation({
-    mutationFn: (data: UserCreate) => UsersService.createUser({ body: data }),
+    mutationFn: (data: UserCreate) =>
+      UsersService.createUser({
+        body: { ...data, phone: phoneOrNull(data.phone) },
+      }),
     onSuccess: () => {
       showSuccessToast("User created successfully")
       form.reset()
@@ -135,6 +141,24 @@ const AddUser = () => {
                     <FormLabel>Full Name</FormLabel>
                     <FormControl>
                       <Input placeholder="Full name" type="text" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Телефон</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="+7 900 000 00 00"
+                        type="tel"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

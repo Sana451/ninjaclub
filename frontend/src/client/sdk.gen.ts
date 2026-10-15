@@ -2,7 +2,7 @@
 
 import { type Client, type Options as Options2, type TDataShape, urlSearchParamsBodySerializer } from './client';
 import { client } from './client.gen';
-import type { itemsCreateItemData, itemsCreateItemErrors, itemsCreateItemResponses, itemsDeleteItemData, itemsDeleteItemErrors, itemsDeleteItemResponses, itemsReadItemData, itemsReadItemErrors, itemsReadItemResponses, itemsReadItemsData, itemsReadItemsErrors, itemsReadItemsResponses, itemsUpdateItemData, itemsUpdateItemErrors, itemsUpdateItemResponses, loginLoginAccessTokenData, loginLoginAccessTokenErrors, loginLoginAccessTokenResponses, loginRecoverPasswordData, loginRecoverPasswordErrors, loginRecoverPasswordHtmlContentData, loginRecoverPasswordHtmlContentErrors, loginRecoverPasswordHtmlContentResponses, loginRecoverPasswordResponses, loginResetPasswordData, loginResetPasswordErrors, loginResetPasswordResponses, loginTestTokenData, loginTestTokenResponses, privateCreateUserData, privateCreateUserErrors, privateCreateUserResponses, usersCreateUserData, usersCreateUserErrors, usersCreateUserResponses, usersDeleteUserData, usersDeleteUserErrors, usersDeleteUserMeData, usersDeleteUserMeResponses, usersDeleteUserResponses, usersReadUserByIdData, usersReadUserByIdErrors, usersReadUserByIdResponses, usersReadUserMeData, usersReadUserMeResponses, usersReadUsersData, usersReadUsersErrors, usersReadUsersResponses, usersRegisterUserData, usersRegisterUserErrors, usersRegisterUserResponses, usersUpdatePasswordMeData, usersUpdatePasswordMeErrors, usersUpdatePasswordMeResponses, usersUpdateUserData, usersUpdateUserErrors, usersUpdateUserMeData, usersUpdateUserMeErrors, usersUpdateUserMeResponses, usersUpdateUserResponses, utilsHealthCheckData, utilsHealthCheckResponses, utilsTestEmailData, utilsTestEmailErrors, utilsTestEmailResponses } from './types.gen';
+import type { accountPurchaseServiceData, accountPurchaseServiceErrors, accountPurchaseServiceResponses, accountReadBalanceData, accountReadBalanceResponses, accountReadMyRegistrationsData, accountReadMyRegistrationsErrors, accountReadMyRegistrationsResponses, accountReadMyServiceData, accountReadMyServiceErrors, accountReadMyServiceResponses, accountReadMyServicesData, accountReadMyServicesErrors, accountReadMyServicesResponses, accountReadVisitsData, accountReadVisitsErrors, accountReadVisitsResponses, adminCatalogCreateData, adminCatalogCreateErrors, adminCatalogCreateResponses, adminCatalogDeleteData, adminCatalogDeleteErrors, adminCatalogDeleteResponses, adminCatalogReadAllData, adminCatalogReadAllErrors, adminCatalogReadAllResponses, adminCatalogUpdateData, adminCatalogUpdateErrors, adminCatalogUpdateResponses, adminClubAdminUpdateClubData, adminClubAdminUpdateClubErrors, adminClubAdminUpdateClubResponses, adminPersonalAvailabilityCreateData, adminPersonalAvailabilityCreateErrors, adminPersonalAvailabilityCreateResponses, adminPersonalAvailabilityDeleteData, adminPersonalAvailabilityDeleteErrors, adminPersonalAvailabilityDeleteResponses, adminPersonalAvailabilityReadAllData, adminPersonalAvailabilityReadAllErrors, adminPersonalAvailabilityReadAllResponses, adminRequestsAdminReadRequestsData, adminRequestsAdminReadRequestsErrors, adminRequestsAdminReadRequestsResponses, adminRequestsAdminUpdateRequestData, adminRequestsAdminUpdateRequestErrors, adminRequestsAdminUpdateRequestResponses, adminScheduleAdminCreateScheduleData, adminScheduleAdminCreateScheduleErrors, adminScheduleAdminCreateScheduleResponses, adminScheduleAdminDeleteScheduleData, adminScheduleAdminDeleteScheduleErrors, adminScheduleAdminDeleteScheduleResponses, adminScheduleAdminGenerateScheduleData, adminScheduleAdminGenerateScheduleErrors, adminScheduleAdminGenerateScheduleResponses, adminScheduleAdminItemRegistrationsData, adminScheduleAdminItemRegistrationsErrors, adminScheduleAdminItemRegistrationsResponses, adminScheduleAdminMarkAttendedData, adminScheduleAdminMarkAttendedErrors, adminScheduleAdminMarkAttendedResponses, adminScheduleAdminReadScheduleData, adminScheduleAdminReadScheduleErrors, adminScheduleAdminReadScheduleResponses, adminScheduleAdminUpdateScheduleData, adminScheduleAdminUpdateScheduleErrors, adminScheduleAdminUpdateScheduleResponses, adminTrainersCreateData, adminTrainersCreateErrors, adminTrainersCreateResponses, adminTrainersDeleteData, adminTrainersDeleteErrors, adminTrainersDeleteResponses, adminTrainersReadAllData, adminTrainersReadAllErrors, adminTrainersReadAllResponses, adminTrainersUpdateData, adminTrainersUpdateErrors, adminTrainersUpdateResponses, adminTrainingsCreateData, adminTrainingsCreateErrors, adminTrainingsCreateResponses, adminTrainingsDeleteData, adminTrainingsDeleteErrors, adminTrainingsDeleteResponses, adminTrainingsReadAllData, adminTrainingsReadAllErrors, adminTrainingsReadAllResponses, adminTrainingsUpdateData, adminTrainingsUpdateErrors, adminTrainingsUpdateResponses, adminUserServicesAdminActivateServiceData, adminUserServicesAdminActivateServiceErrors, adminUserServicesAdminActivateServiceResponses, adminUserServicesAdminGrantServiceData, adminUserServicesAdminGrantServiceErrors, adminUserServicesAdminGrantServiceResponses, adminUserServicesAdminReadUserServicesData, adminUserServicesAdminReadUserServicesErrors, adminUserServicesAdminReadUserServicesResponses, adminWeeklySlotsCreateData, adminWeeklySlotsCreateErrors, adminWeeklySlotsCreateResponses, adminWeeklySlotsDeleteData, adminWeeklySlotsDeleteErrors, adminWeeklySlotsDeleteResponses, adminWeeklySlotsReadAllData, adminWeeklySlotsReadAllErrors, adminWeeklySlotsReadAllResponses, adminWeeklySlotsUpdateData, adminWeeklySlotsUpdateErrors, adminWeeklySlotsUpdateResponses, clubCreateRequestData, clubCreateRequestErrors, clubCreateRequestResponses, clubReadCatalogCategoriesData, clubReadCatalogCategoriesResponses, clubReadCatalogData, clubReadCatalogErrors, clubReadCatalogItemData, clubReadCatalogItemErrors, clubReadCatalogItemResponses, clubReadCatalogResponses, clubReadClubData, clubReadClubResponses, clubReadTrainerData, clubReadTrainerErrors, clubReadTrainerResponses, clubReadTrainersData, clubReadTrainersErrors, clubReadTrainersResponses, clubServerTimeData, clubServerTimeResponses, itemsCreateItemData, itemsCreateItemErrors, itemsCreateItemResponses, itemsDeleteItemData, itemsDeleteItemErrors, itemsDeleteItemResponses, itemsReadItemData, itemsReadItemErrors, itemsReadItemResponses, itemsReadItemsData, itemsReadItemsErrors, itemsReadItemsResponses, itemsUpdateItemData, itemsUpdateItemErrors, itemsUpdateItemResponses, loginLoginAccessTokenData, loginLoginAccessTokenErrors, loginLoginAccessTokenResponses, loginRecoverPasswordData, loginRecoverPasswordErrors, loginRecoverPasswordHtmlContentData, loginRecoverPasswordHtmlContentErrors, loginRecoverPasswordHtmlContentResponses, loginRecoverPasswordResponses, loginResetPasswordData, loginResetPasswordErrors, loginResetPasswordResponses, loginTestTokenData, loginTestTokenResponses, privateCreateUserData, privateCreateUserErrors, privateCreateUserResponses, scheduleCancelRegistrationData, scheduleCancelRegistrationErrors, scheduleCancelRegistrationResponses, schedulePersonalAvailableDatesData, schedulePersonalAvailableDatesErrors, schedulePersonalAvailableDatesResponses, schedulePersonalCheckData, schedulePersonalCheckErrors, schedulePersonalCheckResponses, schedulePersonalRegisterData, schedulePersonalRegisterErrors, schedulePersonalRegisterResponses, schedulePersonalServicesData, schedulePersonalServicesErrors, schedulePersonalServicesResponses, schedulePersonalTrainersData, schedulePersonalTrainersResponses, scheduleReadScheduleData, scheduleReadScheduleErrors, scheduleReadScheduleItemData, scheduleReadScheduleItemErrors, scheduleReadScheduleItemResponses, scheduleReadScheduleResponses, scheduleReadTrainingsData, scheduleReadTrainingsResponses, scheduleRegisterSimpleData, scheduleRegisterSimpleErrors, scheduleRegisterSimpleResponses, scheduleRegistrationBasisData, scheduleRegistrationBasisErrors, scheduleRegistrationBasisResponses, scheduleRegistrationCheckData, scheduleRegistrationCheckErrors, scheduleRegistrationCheckResponses, scheduleRegistrationV2Data, scheduleRegistrationV2Errors, scheduleRegistrationV2Responses, usersCreateUserData, usersCreateUserErrors, usersCreateUserResponses, usersDeleteUserData, usersDeleteUserErrors, usersDeleteUserMeData, usersDeleteUserMeResponses, usersDeleteUserResponses, usersReadUserByIdData, usersReadUserByIdErrors, usersReadUserByIdResponses, usersReadUserMeData, usersReadUserMeResponses, usersReadUsersData, usersReadUsersErrors, usersReadUsersResponses, usersRegisterUserData, usersRegisterUserErrors, usersRegisterUserResponses, usersUpdatePasswordMeData, usersUpdatePasswordMeErrors, usersUpdatePasswordMeResponses, usersUpdateUserData, usersUpdateUserErrors, usersUpdateUserMeData, usersUpdateUserMeErrors, usersUpdateUserMeResponses, usersUpdateUserResponses, utilsHealthCheckData, utilsHealthCheckResponses, utilsTestEmailData, utilsTestEmailErrors, utilsTestEmailResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -355,6 +355,806 @@ export class ItemsService {
             responseType: 'json',
             security: [{ scheme: 'bearer', type: 'http' }],
             url: '/api/v1/items/{id}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+}
+
+export class ClubService {
+    /**
+     * Read Club
+     */
+    public static readClub<ThrowOnError extends boolean = true>(options?: Options<clubReadClubData, ThrowOnError>) {
+        return (options?.client ?? client).get<clubReadClubResponses, unknown, ThrowOnError>({
+            responseType: 'json',
+            url: '/api/v1/club',
+            ...options
+        });
+    }
+    
+    /**
+     * Read Trainers
+     */
+    public static readTrainers<ThrowOnError extends boolean = true>(options?: Options<clubReadTrainersData, ThrowOnError>) {
+        return (options?.client ?? client).get<clubReadTrainersResponses, clubReadTrainersErrors, ThrowOnError>({
+            responseType: 'json',
+            url: '/api/v1/trainer',
+            ...options
+        });
+    }
+    
+    /**
+     * Read Trainer
+     */
+    public static readTrainer<ThrowOnError extends boolean = true>(options: Options<clubReadTrainerData, ThrowOnError>) {
+        return (options.client ?? client).get<clubReadTrainerResponses, clubReadTrainerErrors, ThrowOnError>({
+            responseType: 'json',
+            url: '/api/v1/trainer/{id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Read Catalog
+     */
+    public static readCatalog<ThrowOnError extends boolean = true>(options?: Options<clubReadCatalogData, ThrowOnError>) {
+        return (options?.client ?? client).get<clubReadCatalogResponses, clubReadCatalogErrors, ThrowOnError>({
+            responseType: 'json',
+            url: '/api/v1/catalog/service',
+            ...options
+        });
+    }
+    
+    /**
+     * Read Catalog Categories
+     */
+    public static readCatalogCategories<ThrowOnError extends boolean = true>(options?: Options<clubReadCatalogCategoriesData, ThrowOnError>) {
+        return (options?.client ?? client).get<clubReadCatalogCategoriesResponses, unknown, ThrowOnError>({
+            responseType: 'json',
+            url: '/api/v1/catalog/service/category',
+            ...options
+        });
+    }
+    
+    /**
+     * Read Catalog Item
+     */
+    public static readCatalogItem<ThrowOnError extends boolean = true>(options: Options<clubReadCatalogItemData, ThrowOnError>) {
+        return (options.client ?? client).get<clubReadCatalogItemResponses, clubReadCatalogItemErrors, ThrowOnError>({
+            responseType: 'json',
+            url: '/api/v1/catalog/service/{id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Server Time
+     */
+    public static serverTime<ThrowOnError extends boolean = true>(options?: Options<clubServerTimeData, ThrowOnError>) {
+        return (options?.client ?? client).get<clubServerTimeResponses, unknown, ThrowOnError>({
+            responseType: 'json',
+            url: '/api/v1/setting/server-time',
+            ...options
+        });
+    }
+    
+    /**
+     * Create Request
+     */
+    public static createRequest<ThrowOnError extends boolean = true>(options: Options<clubCreateRequestData, ThrowOnError>) {
+        return (options.client ?? client).post<clubCreateRequestResponses, clubCreateRequestErrors, ThrowOnError>({
+            responseType: 'json',
+            url: '/api/v1/requests',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+}
+
+export class ScheduleService {
+    /**
+     * Read Trainings
+     */
+    public static readTrainings<ThrowOnError extends boolean = true>(options?: Options<scheduleReadTrainingsData, ThrowOnError>) {
+        return (options?.client ?? client).get<scheduleReadTrainingsResponses, unknown, ThrowOnError>({
+            responseType: 'json',
+            url: '/api/v1/schedule/trainings',
+            ...options
+        });
+    }
+    
+    /**
+     * Personal Trainers
+     */
+    public static personalTrainers<ThrowOnError extends boolean = true>(options?: Options<schedulePersonalTrainersData, ThrowOnError>) {
+        return (options?.client ?? client).get<schedulePersonalTrainersResponses, unknown, ThrowOnError>({
+            responseType: 'json',
+            url: '/api/v1/schedule/personal/trainers',
+            ...options
+        });
+    }
+    
+    /**
+     * Personal Services
+     */
+    public static personalServices<ThrowOnError extends boolean = true>(options: Options<schedulePersonalServicesData, ThrowOnError>) {
+        return (options.client ?? client).get<schedulePersonalServicesResponses, schedulePersonalServicesErrors, ThrowOnError>({
+            responseType: 'json',
+            url: '/api/v1/schedule/personal/services',
+            ...options
+        });
+    }
+    
+    /**
+     * Personal Available Dates
+     */
+    public static personalAvailableDates<ThrowOnError extends boolean = true>(options: Options<schedulePersonalAvailableDatesData, ThrowOnError>) {
+        return (options.client ?? client).get<schedulePersonalAvailableDatesResponses, schedulePersonalAvailableDatesErrors, ThrowOnError>({
+            responseType: 'json',
+            url: '/api/v1/schedule/personal/dates',
+            ...options
+        });
+    }
+    
+    /**
+     * Personal Check
+     */
+    public static personalCheck<ThrowOnError extends boolean = true>(options: Options<schedulePersonalCheckData, ThrowOnError>) {
+        return (options.client ?? client).post<schedulePersonalCheckResponses, schedulePersonalCheckErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/schedule/personal/registration-check',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Personal Register
+     */
+    public static personalRegister<ThrowOnError extends boolean = true>(options: Options<schedulePersonalRegisterData, ThrowOnError>) {
+        return (options.client ?? client).post<schedulePersonalRegisterResponses, schedulePersonalRegisterErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/schedule/personal/registration',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Read Schedule
+     */
+    public static readSchedule<ThrowOnError extends boolean = true>(options?: Options<scheduleReadScheduleData, ThrowOnError>) {
+        return (options?.client ?? client).get<scheduleReadScheduleResponses, scheduleReadScheduleErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/schedule',
+            ...options
+        });
+    }
+    
+    /**
+     * Register Simple
+     */
+    public static registerSimple<ThrowOnError extends boolean = true>(options: Options<scheduleRegisterSimpleData, ThrowOnError>) {
+        return (options.client ?? client).post<scheduleRegisterSimpleResponses, scheduleRegisterSimpleErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/schedule',
+            ...options
+        });
+    }
+    
+    /**
+     * Registration Check
+     */
+    public static registrationCheck<ThrowOnError extends boolean = true>(options: Options<scheduleRegistrationCheckData, ThrowOnError>) {
+        return (options.client ?? client).post<scheduleRegistrationCheckResponses, scheduleRegistrationCheckErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/schedule/registration-check',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Registration V2
+     */
+    public static registrationV2<ThrowOnError extends boolean = true>(options: Options<scheduleRegistrationV2Data, ThrowOnError>) {
+        return (options.client ?? client).post<scheduleRegistrationV2Responses, scheduleRegistrationV2Errors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/schedule/registration-v2',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Registration Basis
+     */
+    public static registrationBasis<ThrowOnError extends boolean = true>(options: Options<scheduleRegistrationBasisData, ThrowOnError>) {
+        return (options.client ?? client).get<scheduleRegistrationBasisResponses, scheduleRegistrationBasisErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/schedule/catalog/{schedule_id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Cancel Registration
+     */
+    public static cancelRegistration<ThrowOnError extends boolean = true>(options: Options<scheduleCancelRegistrationData, ThrowOnError>) {
+        return (options.client ?? client).delete<scheduleCancelRegistrationResponses, scheduleCancelRegistrationErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/schedule/{id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Read Schedule Item
+     */
+    public static readScheduleItem<ThrowOnError extends boolean = true>(options: Options<scheduleReadScheduleItemData, ThrowOnError>) {
+        return (options.client ?? client).get<scheduleReadScheduleItemResponses, scheduleReadScheduleItemErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/schedule/{id}',
+            ...options
+        });
+    }
+}
+
+export class AccountService {
+    /**
+     * Read My Services
+     */
+    public static readMyServices<ThrowOnError extends boolean = true>(options?: Options<accountReadMyServicesData, ThrowOnError>) {
+        return (options?.client ?? client).get<accountReadMyServicesResponses, accountReadMyServicesErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/service',
+            ...options
+        });
+    }
+    
+    /**
+     * Purchase Service
+     */
+    public static purchaseService<ThrowOnError extends boolean = true>(options: Options<accountPurchaseServiceData, ThrowOnError>) {
+        return (options.client ?? client).post<accountPurchaseServiceResponses, accountPurchaseServiceErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/service',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Read My Service
+     */
+    public static readMyService<ThrowOnError extends boolean = true>(options: Options<accountReadMyServiceData, ThrowOnError>) {
+        return (options.client ?? client).get<accountReadMyServiceResponses, accountReadMyServiceErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/service/{id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Read Balance
+     */
+    public static readBalance<ThrowOnError extends boolean = true>(options?: Options<accountReadBalanceData, ThrowOnError>) {
+        return (options?.client ?? client).get<accountReadBalanceResponses, unknown, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/balance',
+            ...options
+        });
+    }
+    
+    /**
+     * Read My Registrations
+     */
+    public static readMyRegistrations<ThrowOnError extends boolean = true>(options?: Options<accountReadMyRegistrationsData, ThrowOnError>) {
+        return (options?.client ?? client).get<accountReadMyRegistrationsResponses, accountReadMyRegistrationsErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/user/registrations',
+            ...options
+        });
+    }
+    
+    /**
+     * Read Visits
+     */
+    public static readVisits<ThrowOnError extends boolean = true>(options?: Options<accountReadVisitsData, ThrowOnError>) {
+        return (options?.client ?? client).get<accountReadVisitsResponses, accountReadVisitsErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/visits',
+            ...options
+        });
+    }
+}
+
+export class AdminTrainersService {
+    /**
+     * Read All
+     */
+    public static trainersReadAll<ThrowOnError extends boolean = true>(options?: Options<adminTrainersReadAllData, ThrowOnError>) {
+        return (options?.client ?? client).get<adminTrainersReadAllResponses, adminTrainersReadAllErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/trainers/',
+            ...options
+        });
+    }
+    
+    /**
+     * Create
+     */
+    public static trainersCreate<ThrowOnError extends boolean = true>(options: Options<adminTrainersCreateData, ThrowOnError>) {
+        return (options.client ?? client).post<adminTrainersCreateResponses, adminTrainersCreateErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/trainers/',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Delete
+     */
+    public static trainersDelete<ThrowOnError extends boolean = true>(options: Options<adminTrainersDeleteData, ThrowOnError>) {
+        return (options.client ?? client).delete<adminTrainersDeleteResponses, adminTrainersDeleteErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/trainers/{id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Update
+     */
+    public static trainersUpdate<ThrowOnError extends boolean = true>(options: Options<adminTrainersUpdateData, ThrowOnError>) {
+        return (options.client ?? client).put<adminTrainersUpdateResponses, adminTrainersUpdateErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/trainers/{id}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+}
+
+export class AdminTrainingsService {
+    /**
+     * Read All
+     */
+    public static trainingsReadAll<ThrowOnError extends boolean = true>(options?: Options<adminTrainingsReadAllData, ThrowOnError>) {
+        return (options?.client ?? client).get<adminTrainingsReadAllResponses, adminTrainingsReadAllErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/trainings/',
+            ...options
+        });
+    }
+    
+    /**
+     * Create
+     */
+    public static trainingsCreate<ThrowOnError extends boolean = true>(options: Options<adminTrainingsCreateData, ThrowOnError>) {
+        return (options.client ?? client).post<adminTrainingsCreateResponses, adminTrainingsCreateErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/trainings/',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Delete
+     */
+    public static trainingsDelete<ThrowOnError extends boolean = true>(options: Options<adminTrainingsDeleteData, ThrowOnError>) {
+        return (options.client ?? client).delete<adminTrainingsDeleteResponses, adminTrainingsDeleteErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/trainings/{id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Update
+     */
+    public static trainingsUpdate<ThrowOnError extends boolean = true>(options: Options<adminTrainingsUpdateData, ThrowOnError>) {
+        return (options.client ?? client).put<adminTrainingsUpdateResponses, adminTrainingsUpdateErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/trainings/{id}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+}
+
+export class AdminWeeklySlotsService {
+    /**
+     * Read All
+     */
+    public static weeklySlotsReadAll<ThrowOnError extends boolean = true>(options?: Options<adminWeeklySlotsReadAllData, ThrowOnError>) {
+        return (options?.client ?? client).get<adminWeeklySlotsReadAllResponses, adminWeeklySlotsReadAllErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/weekly-slots/',
+            ...options
+        });
+    }
+    
+    /**
+     * Create
+     */
+    public static weeklySlotsCreate<ThrowOnError extends boolean = true>(options: Options<adminWeeklySlotsCreateData, ThrowOnError>) {
+        return (options.client ?? client).post<adminWeeklySlotsCreateResponses, adminWeeklySlotsCreateErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/weekly-slots/',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Delete
+     */
+    public static weeklySlotsDelete<ThrowOnError extends boolean = true>(options: Options<adminWeeklySlotsDeleteData, ThrowOnError>) {
+        return (options.client ?? client).delete<adminWeeklySlotsDeleteResponses, adminWeeklySlotsDeleteErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/weekly-slots/{id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Update
+     */
+    public static weeklySlotsUpdate<ThrowOnError extends boolean = true>(options: Options<adminWeeklySlotsUpdateData, ThrowOnError>) {
+        return (options.client ?? client).put<adminWeeklySlotsUpdateResponses, adminWeeklySlotsUpdateErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/weekly-slots/{id}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+}
+
+export class AdminCatalogService {
+    /**
+     * Read All
+     */
+    public static catalogReadAll<ThrowOnError extends boolean = true>(options?: Options<adminCatalogReadAllData, ThrowOnError>) {
+        return (options?.client ?? client).get<adminCatalogReadAllResponses, adminCatalogReadAllErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/catalog/',
+            ...options
+        });
+    }
+    
+    /**
+     * Create
+     */
+    public static catalogCreate<ThrowOnError extends boolean = true>(options: Options<adminCatalogCreateData, ThrowOnError>) {
+        return (options.client ?? client).post<adminCatalogCreateResponses, adminCatalogCreateErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/catalog/',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Delete
+     */
+    public static catalogDelete<ThrowOnError extends boolean = true>(options: Options<adminCatalogDeleteData, ThrowOnError>) {
+        return (options.client ?? client).delete<adminCatalogDeleteResponses, adminCatalogDeleteErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/catalog/{id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Update
+     */
+    public static catalogUpdate<ThrowOnError extends boolean = true>(options: Options<adminCatalogUpdateData, ThrowOnError>) {
+        return (options.client ?? client).put<adminCatalogUpdateResponses, adminCatalogUpdateErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/catalog/{id}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+}
+
+export class AdminPersonalAvailabilityService {
+    /**
+     * Read All
+     */
+    public static personalAvailabilityReadAll<ThrowOnError extends boolean = true>(options?: Options<adminPersonalAvailabilityReadAllData, ThrowOnError>) {
+        return (options?.client ?? client).get<adminPersonalAvailabilityReadAllResponses, adminPersonalAvailabilityReadAllErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/personal-availability/',
+            ...options
+        });
+    }
+    
+    /**
+     * Create
+     */
+    public static personalAvailabilityCreate<ThrowOnError extends boolean = true>(options: Options<adminPersonalAvailabilityCreateData, ThrowOnError>) {
+        return (options.client ?? client).post<adminPersonalAvailabilityCreateResponses, adminPersonalAvailabilityCreateErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/personal-availability/',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Delete
+     */
+    public static personalAvailabilityDelete<ThrowOnError extends boolean = true>(options: Options<adminPersonalAvailabilityDeleteData, ThrowOnError>) {
+        return (options.client ?? client).delete<adminPersonalAvailabilityDeleteResponses, adminPersonalAvailabilityDeleteErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/personal-availability/{id}',
+            ...options
+        });
+    }
+}
+
+export class AdminScheduleService {
+    /**
+     * Admin Read Schedule
+     */
+    public static scheduleAdminReadSchedule<ThrowOnError extends boolean = true>(options?: Options<adminScheduleAdminReadScheduleData, ThrowOnError>) {
+        return (options?.client ?? client).get<adminScheduleAdminReadScheduleResponses, adminScheduleAdminReadScheduleErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/schedule/',
+            ...options
+        });
+    }
+    
+    /**
+     * Admin Create Schedule
+     */
+    public static scheduleAdminCreateSchedule<ThrowOnError extends boolean = true>(options: Options<adminScheduleAdminCreateScheduleData, ThrowOnError>) {
+        return (options.client ?? client).post<adminScheduleAdminCreateScheduleResponses, adminScheduleAdminCreateScheduleErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/schedule/',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Admin Generate Schedule
+     */
+    public static scheduleAdminGenerateSchedule<ThrowOnError extends boolean = true>(options?: Options<adminScheduleAdminGenerateScheduleData, ThrowOnError>) {
+        return (options?.client ?? client).post<adminScheduleAdminGenerateScheduleResponses, adminScheduleAdminGenerateScheduleErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/schedule/generate',
+            ...options
+        });
+    }
+    
+    /**
+     * Admin Delete Schedule
+     */
+    public static scheduleAdminDeleteSchedule<ThrowOnError extends boolean = true>(options: Options<adminScheduleAdminDeleteScheduleData, ThrowOnError>) {
+        return (options.client ?? client).delete<adminScheduleAdminDeleteScheduleResponses, adminScheduleAdminDeleteScheduleErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/schedule/{id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Admin Update Schedule
+     */
+    public static scheduleAdminUpdateSchedule<ThrowOnError extends boolean = true>(options: Options<adminScheduleAdminUpdateScheduleData, ThrowOnError>) {
+        return (options.client ?? client).put<adminScheduleAdminUpdateScheduleResponses, adminScheduleAdminUpdateScheduleErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/schedule/{id}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Admin Item Registrations
+     */
+    public static scheduleAdminItemRegistrations<ThrowOnError extends boolean = true>(options: Options<adminScheduleAdminItemRegistrationsData, ThrowOnError>) {
+        return (options.client ?? client).get<adminScheduleAdminItemRegistrationsResponses, adminScheduleAdminItemRegistrationsErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/schedule/{id}/registrations',
+            ...options
+        });
+    }
+    
+    /**
+     * Admin Mark Attended
+     */
+    public static scheduleAdminMarkAttended<ThrowOnError extends boolean = true>(options: Options<adminScheduleAdminMarkAttendedData, ThrowOnError>) {
+        return (options.client ?? client).post<adminScheduleAdminMarkAttendedResponses, adminScheduleAdminMarkAttendedErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/schedule/registrations/{registration_id}/attended',
+            ...options
+        });
+    }
+}
+
+export class AdminUserServicesService {
+    /**
+     * Admin Read User Services
+     */
+    public static userServicesAdminReadUserServices<ThrowOnError extends boolean = true>(options?: Options<adminUserServicesAdminReadUserServicesData, ThrowOnError>) {
+        return (options?.client ?? client).get<adminUserServicesAdminReadUserServicesResponses, adminUserServicesAdminReadUserServicesErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/user-services/',
+            ...options
+        });
+    }
+    
+    /**
+     * Admin Grant Service
+     */
+    public static userServicesAdminGrantService<ThrowOnError extends boolean = true>(options: Options<adminUserServicesAdminGrantServiceData, ThrowOnError>) {
+        return (options.client ?? client).post<adminUserServicesAdminGrantServiceResponses, adminUserServicesAdminGrantServiceErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/user-services/',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Admin Activate Service
+     */
+    public static userServicesAdminActivateService<ThrowOnError extends boolean = true>(options: Options<adminUserServicesAdminActivateServiceData, ThrowOnError>) {
+        return (options.client ?? client).post<adminUserServicesAdminActivateServiceResponses, adminUserServicesAdminActivateServiceErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/user-services/{id}/activate',
+            ...options
+        });
+    }
+}
+
+export class AdminRequestsService {
+    /**
+     * Admin Read Requests
+     */
+    public static requestsAdminReadRequests<ThrowOnError extends boolean = true>(options?: Options<adminRequestsAdminReadRequestsData, ThrowOnError>) {
+        return (options?.client ?? client).get<adminRequestsAdminReadRequestsResponses, adminRequestsAdminReadRequestsErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/requests/',
+            ...options
+        });
+    }
+    
+    /**
+     * Admin Update Request
+     */
+    public static requestsAdminUpdateRequest<ThrowOnError extends boolean = true>(options: Options<adminRequestsAdminUpdateRequestData, ThrowOnError>) {
+        return (options.client ?? client).put<adminRequestsAdminUpdateRequestResponses, adminRequestsAdminUpdateRequestErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/requests/{id}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+}
+
+export class AdminClubService {
+    /**
+     * Admin Update Club
+     */
+    public static clubAdminUpdateClub<ThrowOnError extends boolean = true>(options: Options<adminClubAdminUpdateClubData, ThrowOnError>) {
+        return (options.client ?? client).put<adminClubAdminUpdateClubResponses, adminClubAdminUpdateClubErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/admin/club/',
             ...options,
             headers: {
                 'Content-Type': 'application/json',

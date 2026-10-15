@@ -44,7 +44,7 @@ export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
       {
-        title: "Log In - FastAPI Template",
+        title: "Log In - Ninja Club",
       },
     ],
   }),
@@ -75,7 +75,7 @@ function Login() {
           className="flex flex-col gap-6"
         >
           <div className="flex flex-col items-center gap-2 text-center">
-            <h1 className="text-2xl font-bold">Login to your account</h1>
+            <h1 className="text-2xl font-bold">Войти в личный кабинет</h1>
           </div>
 
           <div className="grid gap-4">
@@ -104,12 +104,12 @@ function Login() {
               render={({ field }) => (
                 <FormItem>
                   <div className="flex items-center">
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>Пароль</FormLabel>
                     <RouterLink
                       to="/recover-password"
                       className="ml-auto text-sm underline-offset-4 hover:underline"
                     >
-                      Forgot your password?
+                      Забыли пароль?
                     </RouterLink>
                   </div>
                   <FormControl>
@@ -125,14 +125,14 @@ function Login() {
             />
 
             <LoadingButton type="submit" loading={loginMutation.isPending}>
-              Log In
+              Войти
             </LoadingButton>
           </div>
 
           <div className="text-center text-sm">
-            Don't have an account yet?{" "}
+            Нет аккаунта?{" "}
             <RouterLink to="/signup" className="underline underline-offset-4">
-              Sign up
+              Зарегистрироваться
             </RouterLink>
           </div>
         </form>

@@ -339,6 +339,40 @@ def test_register_user(client: TestClient, db: Session) -> None:
     assert verified
 
 
+def test_register_user_with_phone(client: TestClient, db: Session) -> None:
+    email = random_email()
+    phone = "+7 900 123 45 67"
+    data = {"email": email, "password": random_lower_string(), "phone": phone}
+    r = client.post(f"{settings.API_V1_STR}/users/signup", json=data)
+    assert r.status_code == 200
+    assert r.json()["phone"] == phone.replace(" ", "")
+
+    user_db = db.exec(select(User).where(User.email == email)).first()
+    assert user_db
+    assert user_db.phone == phone.replace(" ", "")
+
+
+def test_update_user_me_phone(
+    client: TestClient, normal_user_token_headers: dict[str, str]
+) -> None:
+    phone = "+7 900 765 43 21"
+    r = client.patch(
+        f"{settings.API_V1_STR}/users/me",
+        headers=normal_user_token_headers,
+        json={"phone": phone},
+    )
+    assert r.status_code == 200
+    assert r.json()["phone"] == phone.replace(" ", "")
+
+    r = client.patch(
+        f"{settings.API_V1_STR}/users/me",
+        headers=normal_user_token_headers,
+        json={"phone": None},
+    )
+    assert r.status_code == 200
+    assert r.json()["phone"] is None
+
+
 def test_register_user_already_exists_error(client: TestClient) -> None:
     password = random_lower_string()
     full_name = random_lower_string()

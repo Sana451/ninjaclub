@@ -10,17 +10,33 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LayoutRouteImport } from './routes/_layout'
+import { Route as PublicRouteImport } from './routes/_public'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as RecoverPasswordRouteImport } from './routes/recover-password'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SignupRouteImport } from './routes/signup'
-import { Route as LayoutIndexRouteImport } from './routes/_layout/index'
+import { Route as LayoutAccountRouteImport } from './routes/_layout/account'
 import { Route as LayoutAdminRouteImport } from './routes/_layout/admin'
-import { Route as LayoutItemsRouteImport } from './routes/_layout/items'
+import { Route as LayoutCatalogAdminRouteImport } from './routes/_layout/catalog-admin'
+import { Route as LayoutRequestsRouteImport } from './routes/_layout/requests'
+import { Route as LayoutScheduleAdminRouteImport } from './routes/_layout/schedule-admin'
 import { Route as LayoutSettingsRouteImport } from './routes/_layout/settings'
+import { Route as LayoutTrainersAdminRouteImport } from './routes/_layout/trainers-admin'
+import { Route as LayoutTrainingsAdminRouteImport } from './routes/_layout/trainings-admin'
+import { Route as LayoutUserServicesRouteImport } from './routes/_layout/user-services'
+import { Route as PublicIndexRouteImport } from './routes/_public/index'
+import { Route as PublicCompetitionsRouteImport } from './routes/_public/competitions'
+import { Route as PublicContactsRouteImport } from './routes/_public/contacts'
+import { Route as PublicPriceRouteImport } from './routes/_public/price'
+import { Route as PublicScheduleRouteImport } from './routes/_public/schedule'
+import { Route as PublicDocsSlugRouteImport } from './routes/_public/docs.$slug'
 
 const LayoutRoute = LayoutRouteImport.update({
   id: '/_layout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PublicRoute = PublicRouteImport.update({
+  id: '/_public',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -43,9 +59,9 @@ const SignupRoute = SignupRouteImport.update({
   path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LayoutIndexRoute = LayoutIndexRouteImport.update({
-  id: '/',
-  path: '/',
+const LayoutAccountRoute = LayoutAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
   getParentRoute: () => LayoutRoute,
 } as any)
 const LayoutAdminRoute = LayoutAdminRouteImport.update({
@@ -53,9 +69,19 @@ const LayoutAdminRoute = LayoutAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => LayoutRoute,
 } as any)
-const LayoutItemsRoute = LayoutItemsRouteImport.update({
-  id: '/items',
-  path: '/items',
+const LayoutCatalogAdminRoute = LayoutCatalogAdminRouteImport.update({
+  id: '/catalog-admin',
+  path: '/catalog-admin',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutRequestsRoute = LayoutRequestsRouteImport.update({
+  id: '/requests',
+  path: '/requests',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutScheduleAdminRoute = LayoutScheduleAdminRouteImport.update({
+  id: '/schedule-admin',
+  path: '/schedule-admin',
   getParentRoute: () => LayoutRoute,
 } as any)
 const LayoutSettingsRoute = LayoutSettingsRouteImport.update({
@@ -63,38 +89,117 @@ const LayoutSettingsRoute = LayoutSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => LayoutRoute,
 } as any)
+const LayoutTrainersAdminRoute = LayoutTrainersAdminRouteImport.update({
+  id: '/trainers-admin',
+  path: '/trainers-admin',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutTrainingsAdminRoute = LayoutTrainingsAdminRouteImport.update({
+  id: '/trainings-admin',
+  path: '/trainings-admin',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutUserServicesRoute = LayoutUserServicesRouteImport.update({
+  id: '/user-services',
+  path: '/user-services',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const PublicIndexRoute = PublicIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicCompetitionsRoute = PublicCompetitionsRouteImport.update({
+  id: '/competitions',
+  path: '/competitions',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicContactsRoute = PublicContactsRouteImport.update({
+  id: '/contacts',
+  path: '/contacts',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicPriceRoute = PublicPriceRouteImport.update({
+  id: '/price',
+  path: '/price',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicScheduleRoute = PublicScheduleRouteImport.update({
+  id: '/schedule',
+  path: '/schedule',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicDocsSlugRoute = PublicDocsSlugRouteImport.update({
+  id: '/docs/$slug',
+  path: '/docs/$slug',
+  getParentRoute: () => PublicRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof LayoutIndexRoute
+  '/': typeof PublicIndexRoute
   '/login': typeof LoginRoute
   '/recover-password': typeof RecoverPasswordRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
+  '/account': typeof LayoutAccountRoute
   '/admin': typeof LayoutAdminRoute
-  '/items': typeof LayoutItemsRoute
+  '/catalog-admin': typeof LayoutCatalogAdminRoute
+  '/requests': typeof LayoutRequestsRoute
+  '/schedule-admin': typeof LayoutScheduleAdminRoute
   '/settings': typeof LayoutSettingsRoute
+  '/trainers-admin': typeof LayoutTrainersAdminRoute
+  '/trainings-admin': typeof LayoutTrainingsAdminRoute
+  '/user-services': typeof LayoutUserServicesRoute
+  '/competitions': typeof PublicCompetitionsRoute
+  '/contacts': typeof PublicContactsRoute
+  '/price': typeof PublicPriceRoute
+  '/schedule': typeof PublicScheduleRoute
+  '/docs/$slug': typeof PublicDocsSlugRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof PublicIndexRoute
   '/login': typeof LoginRoute
   '/recover-password': typeof RecoverPasswordRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
+  '/account': typeof LayoutAccountRoute
   '/admin': typeof LayoutAdminRoute
-  '/items': typeof LayoutItemsRoute
+  '/catalog-admin': typeof LayoutCatalogAdminRoute
+  '/requests': typeof LayoutRequestsRoute
+  '/schedule-admin': typeof LayoutScheduleAdminRoute
   '/settings': typeof LayoutSettingsRoute
-  '/': typeof LayoutIndexRoute
+  '/trainers-admin': typeof LayoutTrainersAdminRoute
+  '/trainings-admin': typeof LayoutTrainingsAdminRoute
+  '/user-services': typeof LayoutUserServicesRoute
+  '/competitions': typeof PublicCompetitionsRoute
+  '/contacts': typeof PublicContactsRoute
+  '/price': typeof PublicPriceRoute
+  '/schedule': typeof PublicScheduleRoute
+  '/docs/$slug': typeof PublicDocsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_layout': typeof LayoutRouteWithChildren
+  '/_public': typeof PublicRouteWithChildren
   '/login': typeof LoginRoute
   '/recover-password': typeof RecoverPasswordRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
+  '/_layout/account': typeof LayoutAccountRoute
   '/_layout/admin': typeof LayoutAdminRoute
-  '/_layout/items': typeof LayoutItemsRoute
+  '/_layout/catalog-admin': typeof LayoutCatalogAdminRoute
+  '/_layout/requests': typeof LayoutRequestsRoute
+  '/_layout/schedule-admin': typeof LayoutScheduleAdminRoute
   '/_layout/settings': typeof LayoutSettingsRoute
-  '/_layout/': typeof LayoutIndexRoute
+  '/_layout/trainers-admin': typeof LayoutTrainersAdminRoute
+  '/_layout/trainings-admin': typeof LayoutTrainingsAdminRoute
+  '/_layout/user-services': typeof LayoutUserServicesRoute
+  '/_public/competitions': typeof PublicCompetitionsRoute
+  '/_public/contacts': typeof PublicContactsRoute
+  '/_public/price': typeof PublicPriceRoute
+  '/_public/schedule': typeof PublicScheduleRoute
+  '/_public/': typeof PublicIndexRoute
+  '/_public/docs/$slug': typeof PublicDocsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -104,34 +209,69 @@ export interface FileRouteTypes {
     | '/recover-password'
     | '/reset-password'
     | '/signup'
+    | '/account'
     | '/admin'
-    | '/items'
+    | '/catalog-admin'
+    | '/requests'
+    | '/schedule-admin'
     | '/settings'
+    | '/trainers-admin'
+    | '/trainings-admin'
+    | '/user-services'
+    | '/competitions'
+    | '/contacts'
+    | '/price'
+    | '/schedule'
+    | '/docs/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/login'
     | '/recover-password'
     | '/reset-password'
     | '/signup'
+    | '/account'
     | '/admin'
-    | '/items'
+    | '/catalog-admin'
+    | '/requests'
+    | '/schedule-admin'
     | '/settings'
-    | '/'
+    | '/trainers-admin'
+    | '/trainings-admin'
+    | '/user-services'
+    | '/competitions'
+    | '/contacts'
+    | '/price'
+    | '/schedule'
+    | '/docs/$slug'
   id:
     | '__root__'
     | '/_layout'
+    | '/_public'
     | '/login'
     | '/recover-password'
     | '/reset-password'
     | '/signup'
+    | '/_layout/account'
     | '/_layout/admin'
-    | '/_layout/items'
+    | '/_layout/catalog-admin'
+    | '/_layout/requests'
+    | '/_layout/schedule-admin'
     | '/_layout/settings'
-    | '/_layout/'
+    | '/_layout/trainers-admin'
+    | '/_layout/trainings-admin'
+    | '/_layout/user-services'
+    | '/_public/competitions'
+    | '/_public/contacts'
+    | '/_public/price'
+    | '/_public/schedule'
+    | '/_public/'
+    | '/_public/docs/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   LayoutRoute: typeof LayoutRouteWithChildren
+  PublicRoute: typeof PublicRouteWithChildren
   LoginRoute: typeof LoginRoute
   RecoverPasswordRoute: typeof RecoverPasswordRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
@@ -145,6 +285,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof LayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_public': {
+      id: '/_public'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof PublicRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -175,11 +322,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_layout/': {
-      id: '/_layout/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof LayoutIndexRouteImport
+    '/_layout/account': {
+      id: '/_layout/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof LayoutAccountRouteImport
       parentRoute: typeof LayoutRoute
     }
     '/_layout/admin': {
@@ -189,11 +336,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutAdminRouteImport
       parentRoute: typeof LayoutRoute
     }
-    '/_layout/items': {
-      id: '/_layout/items'
-      path: '/items'
-      fullPath: '/items'
-      preLoaderRoute: typeof LayoutItemsRouteImport
+    '/_layout/catalog-admin': {
+      id: '/_layout/catalog-admin'
+      path: '/catalog-admin'
+      fullPath: '/catalog-admin'
+      preLoaderRoute: typeof LayoutCatalogAdminRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/requests': {
+      id: '/_layout/requests'
+      path: '/requests'
+      fullPath: '/requests'
+      preLoaderRoute: typeof LayoutRequestsRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/schedule-admin': {
+      id: '/_layout/schedule-admin'
+      path: '/schedule-admin'
+      fullPath: '/schedule-admin'
+      preLoaderRoute: typeof LayoutScheduleAdminRouteImport
       parentRoute: typeof LayoutRoute
     }
     '/_layout/settings': {
@@ -203,28 +364,123 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutSettingsRouteImport
       parentRoute: typeof LayoutRoute
     }
+    '/_layout/trainers-admin': {
+      id: '/_layout/trainers-admin'
+      path: '/trainers-admin'
+      fullPath: '/trainers-admin'
+      preLoaderRoute: typeof LayoutTrainersAdminRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/trainings-admin': {
+      id: '/_layout/trainings-admin'
+      path: '/trainings-admin'
+      fullPath: '/trainings-admin'
+      preLoaderRoute: typeof LayoutTrainingsAdminRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/user-services': {
+      id: '/_layout/user-services'
+      path: '/user-services'
+      fullPath: '/user-services'
+      preLoaderRoute: typeof LayoutUserServicesRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_public/': {
+      id: '/_public/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof PublicIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/competitions': {
+      id: '/_public/competitions'
+      path: '/competitions'
+      fullPath: '/competitions'
+      preLoaderRoute: typeof PublicCompetitionsRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/contacts': {
+      id: '/_public/contacts'
+      path: '/contacts'
+      fullPath: '/contacts'
+      preLoaderRoute: typeof PublicContactsRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/price': {
+      id: '/_public/price'
+      path: '/price'
+      fullPath: '/price'
+      preLoaderRoute: typeof PublicPriceRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/schedule': {
+      id: '/_public/schedule'
+      path: '/schedule'
+      fullPath: '/schedule'
+      preLoaderRoute: typeof PublicScheduleRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/docs/$slug': {
+      id: '/_public/docs/$slug'
+      path: '/docs/$slug'
+      fullPath: '/docs/$slug'
+      preLoaderRoute: typeof PublicDocsSlugRouteImport
+      parentRoute: typeof PublicRoute
+    }
   }
 }
 
 interface LayoutRouteChildren {
+  LayoutAccountRoute: typeof LayoutAccountRoute
   LayoutAdminRoute: typeof LayoutAdminRoute
-  LayoutItemsRoute: typeof LayoutItemsRoute
+  LayoutCatalogAdminRoute: typeof LayoutCatalogAdminRoute
+  LayoutRequestsRoute: typeof LayoutRequestsRoute
+  LayoutScheduleAdminRoute: typeof LayoutScheduleAdminRoute
   LayoutSettingsRoute: typeof LayoutSettingsRoute
-  LayoutIndexRoute: typeof LayoutIndexRoute
+  LayoutTrainersAdminRoute: typeof LayoutTrainersAdminRoute
+  LayoutTrainingsAdminRoute: typeof LayoutTrainingsAdminRoute
+  LayoutUserServicesRoute: typeof LayoutUserServicesRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
+  LayoutAccountRoute: LayoutAccountRoute,
   LayoutAdminRoute: LayoutAdminRoute,
-  LayoutItemsRoute: LayoutItemsRoute,
+  LayoutCatalogAdminRoute: LayoutCatalogAdminRoute,
+  LayoutRequestsRoute: LayoutRequestsRoute,
+  LayoutScheduleAdminRoute: LayoutScheduleAdminRoute,
   LayoutSettingsRoute: LayoutSettingsRoute,
-  LayoutIndexRoute: LayoutIndexRoute,
+  LayoutTrainersAdminRoute: LayoutTrainersAdminRoute,
+  LayoutTrainingsAdminRoute: LayoutTrainingsAdminRoute,
+  LayoutUserServicesRoute: LayoutUserServicesRoute,
 }
 
 const LayoutRouteWithChildren =
   LayoutRoute._addFileChildren(LayoutRouteChildren)
 
+interface PublicRouteChildren {
+  PublicCompetitionsRoute: typeof PublicCompetitionsRoute
+  PublicContactsRoute: typeof PublicContactsRoute
+  PublicPriceRoute: typeof PublicPriceRoute
+  PublicScheduleRoute: typeof PublicScheduleRoute
+  PublicIndexRoute: typeof PublicIndexRoute
+  PublicDocsSlugRoute: typeof PublicDocsSlugRoute
+}
+
+const PublicRouteChildren: PublicRouteChildren = {
+  PublicCompetitionsRoute: PublicCompetitionsRoute,
+  PublicContactsRoute: PublicContactsRoute,
+  PublicPriceRoute: PublicPriceRoute,
+  PublicScheduleRoute: PublicScheduleRoute,
+  PublicIndexRoute: PublicIndexRoute,
+  PublicDocsSlugRoute: PublicDocsSlugRoute,
+}
+
+const PublicRouteWithChildren =
+  PublicRoute._addFileChildren(PublicRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   LayoutRoute: LayoutRouteWithChildren,
+  PublicRoute: PublicRouteWithChildren,
   LoginRoute: LoginRoute,
   RecoverPasswordRoute: RecoverPasswordRoute,
   ResetPasswordRoute: ResetPasswordRoute,

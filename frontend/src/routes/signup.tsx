@@ -19,10 +19,12 @@ import { Input } from "@/components/ui/input"
 import { LoadingButton } from "@/components/ui/loading-button"
 import { PasswordInput } from "@/components/ui/password-input"
 import useAuth, { isLoggedIn } from "@/hooks/useAuth"
+import { optionalPhoneSchema, phoneOrNull } from "@/lib/phone"
 
 const formSchema = z
   .object({
     email: z.email({ message: "Invalid email address" }),
+    phone: optionalPhoneSchema,
     full_name: z.string().min(1, { message: "Full Name is required" }),
     password: z
       .string()
@@ -51,7 +53,7 @@ export const Route = createFileRoute("/signup")({
   head: () => ({
     meta: [
       {
-        title: "Sign Up - FastAPI Template",
+        title: "Sign Up - Ninja Club",
       },
     ],
   }),
@@ -65,6 +67,7 @@ function SignUp() {
     criteriaMode: "all",
     defaultValues: {
       email: "",
+      phone: "",
       full_name: "",
       password: "",
       confirm_password: "",
@@ -76,7 +79,10 @@ function SignUp() {
 
     // exclude confirm_password from submission data
     const { confirm_password: _confirm_password, ...submitData } = data
-    signUpMutation.mutate(submitData)
+    signUpMutation.mutate({
+      ...submitData,
+      phone: phoneOrNull(submitData.phone),
+    })
   }
 
   return (
@@ -121,6 +127,25 @@ function SignUp() {
                       data-testid="email-input"
                       placeholder="user@example.com"
                       type="email"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Телефон (необязательно)</FormLabel>
+                  <FormControl>
+                    <Input
+                      data-testid="phone-input"
+                      placeholder="+7 900 000 00 00"
+                      type="tel"
                       {...field}
                     />
                   </FormControl>

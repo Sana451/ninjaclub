@@ -40,6 +40,15 @@ export const columns: ColumnDef<DataTableFeatures, UserTableData>[] = [
     ),
   },
   {
+    accessorKey: "phone",
+    header: "Phone",
+    cell: ({ row }) => (
+      <span className="text-muted-foreground">
+        {row.original.phone || "N/A"}
+      </span>
+    ),
+  },
+  {
     accessorKey: "is_superuser",
     header: "Role",
     cell: ({ row }) => (

@@ -3,13 +3,13 @@ from sqlmodel import Session, create_engine, select
 from app import crud
 from app.core.config import settings
 from app.models import User, UserCreate
+from app.seed import seed_club_data
 
 engine = create_engine(str(settings.DATABASE_URL), pool_pre_ping=True)
 
 
 # make sure all SQLModel models are imported (app.models) before initializing DB
 # otherwise, SQLModel might fail to initialize relationships properly
-# for more details: https://github.com/fastapi/full-stack-fastapi-template/issues/28
 
 
 def init_db(session: Session) -> None:
@@ -31,3 +31,5 @@ def init_db(session: Session) -> None:
             is_superuser=True,
         )
         user = crud.create_user(session=session, user_create=user_in)
+
+    seed_club_data(session)

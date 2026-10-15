@@ -35,6 +35,134 @@ export type Body_login_login_access_token = {
 };
 
 /**
+ * ClubPublic
+ */
+export type ClubPublic = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Address
+     */
+    address: string;
+    /**
+     * Phone
+     */
+    phone: string;
+    /**
+     * Email
+     */
+    email?: string | null;
+    /**
+     * Club Time From
+     */
+    club_time_from: string;
+    /**
+     * Club Time To
+     */
+    club_time_to: string;
+    /**
+     * Work Days
+     */
+    work_days: string;
+    /**
+     * Description
+     */
+    description?: string | null;
+    /**
+     * Social
+     */
+    social?: {
+        [key: string]: string;
+    };
+};
+
+/**
+ * ContactRequestCreate
+ */
+export type ContactRequestCreate = {
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Phone
+     */
+    phone: string;
+    /**
+     * Kind
+     */
+    kind?: string;
+    /**
+     * Comment
+     */
+    comment?: string | null;
+};
+
+/**
+ * ContactRequestPublic
+ */
+export type ContactRequestPublic = {
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Phone
+     */
+    phone: string;
+    /**
+     * Kind
+     */
+    kind?: string;
+    /**
+     * Comment
+     */
+    comment?: string | null;
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Status
+     */
+    status: string;
+    /**
+     * Created At
+     */
+    created_at: string;
+};
+
+/**
+ * ContactRequestUpdate
+ */
+export type ContactRequestUpdate = {
+    /**
+     * Status
+     */
+    status: string;
+};
+
+/**
+ * ContactRequestsPublic
+ */
+export type ContactRequestsPublic = {
+    /**
+     * Data
+     */
+    data: Array<ContactRequestPublic>;
+    /**
+     * Count
+     */
+    count: number;
+};
+
+/**
  * HTTPValidationError
  */
 export type HTTPValidationError = {
@@ -137,6 +265,96 @@ export type NewPassword = {
 };
 
 /**
+ * PersonalAvailabilityCreate
+ */
+export type PersonalAvailabilityCreate = {
+    /**
+     * Trainer Id
+     */
+    trainer_id: number;
+    /**
+     * Weekday
+     */
+    weekday: number;
+    /**
+     * Time From
+     */
+    time_from: string;
+    /**
+     * Time To
+     */
+    time_to: string;
+    /**
+     * Slot Minutes
+     */
+    slot_minutes?: number;
+};
+
+/**
+ * PersonalAvailabilityPublic
+ */
+export type PersonalAvailabilityPublic = {
+    /**
+     * Trainer Id
+     */
+    trainer_id: number;
+    /**
+     * Weekday
+     */
+    weekday: number;
+    /**
+     * Time From
+     */
+    time_from: string;
+    /**
+     * Time To
+     */
+    time_to: string;
+    /**
+     * Slot Minutes
+     */
+    slot_minutes?: number;
+    /**
+     * Id
+     */
+    id: number;
+};
+
+/**
+ * PersonalDates
+ */
+export type PersonalDates = {
+    /**
+     * Dates
+     */
+    dates: {
+        [key: string]: Array<string>;
+    };
+};
+
+/**
+ * PersonalRegistrationRequest
+ */
+export type PersonalRegistrationRequest = {
+    /**
+     * Trainer Id
+     */
+    trainer_id: number;
+    /**
+     * User Service Id
+     */
+    user_service_id: number;
+    /**
+     * Date
+     */
+    date: string;
+    /**
+     * Time
+     */
+    time: string;
+};
+
+/**
  * PrivateUserCreate
  */
 export type PrivateUserCreate = {
@@ -159,6 +377,416 @@ export type PrivateUserCreate = {
 };
 
 /**
+ * RegistrationCheck
+ */
+export type RegistrationCheck = {
+    /**
+     * Allowed
+     */
+    allowed: boolean;
+    /**
+     * Status
+     */
+    status: string;
+    /**
+     * Reason
+     */
+    reason?: string | null;
+    /**
+     * User Service Id
+     */
+    user_service_id?: number | null;
+};
+
+/**
+ * RegistrationPublic
+ */
+export type RegistrationPublic = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Status
+     */
+    status: string;
+    /**
+     * Attended
+     */
+    attended: boolean;
+    /**
+     * Created At
+     */
+    created_at: string;
+    schedule_item: ScheduleItemPublic;
+};
+
+/**
+ * RegistrationRequest
+ */
+export type RegistrationRequest = {
+    /**
+     * Schedule Id
+     */
+    schedule_id: number;
+    /**
+     * User Service Id
+     */
+    user_service_id?: number | null;
+};
+
+/**
+ * RegistrationResult
+ */
+export type RegistrationResult = {
+    /**
+     * Status
+     */
+    status: string;
+    /**
+     * Message
+     */
+    message: string;
+    /**
+     * Registration Id
+     */
+    registration_id?: number | null;
+};
+
+/**
+ * RegistrationsPublic
+ */
+export type RegistrationsPublic = {
+    /**
+     * Data
+     */
+    data: Array<RegistrationPublic>;
+    /**
+     * Count
+     */
+    count: number;
+};
+
+/**
+ * ScheduleItemCreate
+ */
+export type ScheduleItemCreate = {
+    /**
+     * Training Id
+     */
+    training_id: number;
+    /**
+     * Trainer Id
+     */
+    trainer_id: number;
+    /**
+     * Date
+     */
+    date: string;
+    /**
+     * Time Start
+     */
+    time_start: string;
+    /**
+     * Time End
+     */
+    time_end: string;
+    /**
+     * Records Limit
+     */
+    records_limit?: number;
+    /**
+     * Status
+     */
+    status?: string;
+    /**
+     * Description
+     */
+    description?: string | null;
+};
+
+/**
+ * ScheduleItemPublic
+ */
+export type ScheduleItemPublic = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Training Id
+     */
+    training_id: number;
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Level
+     */
+    level: string;
+    /**
+     * Age Group
+     */
+    age_group: string;
+    /**
+     * Color
+     */
+    color: string;
+    /**
+     * Text Color
+     */
+    text_color: string;
+    /**
+     * Date
+     */
+    date: string;
+    /**
+     * Time Start
+     */
+    time_start: string;
+    /**
+     * Time End
+     */
+    time_end: string;
+    /**
+     * Records Limit
+     */
+    records_limit: number;
+    /**
+     * Records Current
+     */
+    records_current: number;
+    /**
+     * Waiting Current
+     */
+    waiting_current?: number;
+    /**
+     * Status
+     */
+    status: string;
+    /**
+     * Description
+     */
+    description?: string | null;
+    trainer: TrainerPublic;
+    /**
+     * Sign Id
+     */
+    sign_id?: number | null;
+    /**
+     * Sign Status
+     */
+    sign_status?: string | null;
+};
+
+/**
+ * ScheduleItemUpdate
+ */
+export type ScheduleItemUpdate = {
+    /**
+     * Training Id
+     */
+    training_id?: number | null;
+    /**
+     * Trainer Id
+     */
+    trainer_id?: number | null;
+    /**
+     * Date
+     */
+    date?: string | null;
+    /**
+     * Time Start
+     */
+    time_start?: string | null;
+    /**
+     * Time End
+     */
+    time_end?: string | null;
+    /**
+     * Records Limit
+     */
+    records_limit?: number | null;
+    /**
+     * Status
+     */
+    status?: string | null;
+    /**
+     * Description
+     */
+    description?: string | null;
+};
+
+/**
+ * ScheduleItemsPublic
+ */
+export type ScheduleItemsPublic = {
+    /**
+     * Data
+     */
+    data: Array<ScheduleItemPublic>;
+    /**
+     * Count
+     */
+    count: number;
+};
+
+/**
+ * ServerTime
+ */
+export type ServerTime = {
+    /**
+     * Timestamp
+     */
+    timestamp: number;
+};
+
+/**
+ * ServiceCatalogCreate
+ */
+export type ServiceCatalogCreate = {
+    /**
+     * Category
+     */
+    category: string;
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Description
+     */
+    description?: string | null;
+    /**
+     * Price
+     */
+    price: number;
+    /**
+     * Visits Count
+     */
+    visits_count?: number | null;
+    /**
+     * Valid Days
+     */
+    valid_days?: number;
+    /**
+     * Is Single
+     */
+    is_single?: boolean;
+    /**
+     * Is Active
+     */
+    is_active?: boolean;
+    /**
+     * Sort
+     */
+    sort?: number;
+};
+
+/**
+ * ServiceCatalogPublic
+ */
+export type ServiceCatalogPublic = {
+    /**
+     * Category
+     */
+    category: string;
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Description
+     */
+    description?: string | null;
+    /**
+     * Price
+     */
+    price: number;
+    /**
+     * Visits Count
+     */
+    visits_count?: number | null;
+    /**
+     * Valid Days
+     */
+    valid_days?: number;
+    /**
+     * Is Single
+     */
+    is_single?: boolean;
+    /**
+     * Is Active
+     */
+    is_active?: boolean;
+    /**
+     * Sort
+     */
+    sort?: number;
+    /**
+     * Id
+     */
+    id: number;
+};
+
+/**
+ * ServiceCatalogUpdate
+ */
+export type ServiceCatalogUpdate = {
+    /**
+     * Category
+     */
+    category?: string | null;
+    /**
+     * Name
+     */
+    name?: string | null;
+    /**
+     * Description
+     */
+    description?: string | null;
+    /**
+     * Price
+     */
+    price?: number | null;
+    /**
+     * Visits Count
+     */
+    visits_count?: number | null;
+    /**
+     * Valid Days
+     */
+    valid_days?: number | null;
+    /**
+     * Is Single
+     */
+    is_single?: boolean | null;
+    /**
+     * Is Active
+     */
+    is_active?: boolean | null;
+    /**
+     * Sort
+     */
+    sort?: number | null;
+};
+
+/**
+ * ServicePurchase
+ */
+export type ServicePurchase = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Promocode
+     */
+    promocode?: string | null;
+};
+
+/**
  * Token
  */
 export type Token = {
@@ -170,6 +798,268 @@ export type Token = {
      * Token Type
      */
     token_type?: string;
+};
+
+/**
+ * TrainerCreate
+ */
+export type TrainerCreate = {
+    /**
+     * Surname
+     */
+    surname: string;
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Patronymic
+     */
+    patronymic?: string | null;
+    /**
+     * Photo
+     */
+    photo?: string | null;
+    /**
+     * Description
+     */
+    description?: string | null;
+    /**
+     * Function
+     */
+    function?: string | null;
+    /**
+     * Gender
+     */
+    gender?: string | null;
+    /**
+     * Is Active
+     */
+    is_active?: boolean;
+    /**
+     * Sort
+     */
+    sort?: number;
+};
+
+/**
+ * TrainerPublic
+ */
+export type TrainerPublic = {
+    /**
+     * Surname
+     */
+    surname: string;
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Patronymic
+     */
+    patronymic?: string | null;
+    /**
+     * Photo
+     */
+    photo?: string | null;
+    /**
+     * Description
+     */
+    description?: string | null;
+    /**
+     * Function
+     */
+    function?: string | null;
+    /**
+     * Gender
+     */
+    gender?: string | null;
+    /**
+     * Is Active
+     */
+    is_active?: boolean;
+    /**
+     * Sort
+     */
+    sort?: number;
+    /**
+     * Id
+     */
+    id: number;
+};
+
+/**
+ * TrainerUpdate
+ */
+export type TrainerUpdate = {
+    /**
+     * Surname
+     */
+    surname?: string | null;
+    /**
+     * Name
+     */
+    name?: string | null;
+    /**
+     * Patronymic
+     */
+    patronymic?: string | null;
+    /**
+     * Photo
+     */
+    photo?: string | null;
+    /**
+     * Description
+     */
+    description?: string | null;
+    /**
+     * Function
+     */
+    function?: string | null;
+    /**
+     * Gender
+     */
+    gender?: string | null;
+    /**
+     * Is Active
+     */
+    is_active?: boolean | null;
+    /**
+     * Sort
+     */
+    sort?: number | null;
+};
+
+/**
+ * TrainersPublic
+ */
+export type TrainersPublic = {
+    /**
+     * Data
+     */
+    data: Array<TrainerPublic>;
+    /**
+     * Count
+     */
+    count: number;
+};
+
+/**
+ * TrainingCreate
+ */
+export type TrainingCreate = {
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Description
+     */
+    description?: string | null;
+    /**
+     * Level
+     */
+    level?: string;
+    /**
+     * Age Group
+     */
+    age_group?: string;
+    /**
+     * Color
+     */
+    color?: string;
+    /**
+     * Text Color
+     */
+    text_color?: string;
+    /**
+     * Is Personal
+     */
+    is_personal?: boolean;
+    /**
+     * Is Active
+     */
+    is_active?: boolean;
+};
+
+/**
+ * TrainingPublic
+ */
+export type TrainingPublic = {
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Description
+     */
+    description?: string | null;
+    /**
+     * Level
+     */
+    level?: string;
+    /**
+     * Age Group
+     */
+    age_group?: string;
+    /**
+     * Color
+     */
+    color?: string;
+    /**
+     * Text Color
+     */
+    text_color?: string;
+    /**
+     * Is Personal
+     */
+    is_personal?: boolean;
+    /**
+     * Is Active
+     */
+    is_active?: boolean;
+    /**
+     * Id
+     */
+    id: number;
+};
+
+/**
+ * TrainingUpdate
+ */
+export type TrainingUpdate = {
+    /**
+     * Name
+     */
+    name?: string | null;
+    /**
+     * Description
+     */
+    description?: string | null;
+    /**
+     * Level
+     */
+    level?: string | null;
+    /**
+     * Age Group
+     */
+    age_group?: string | null;
+    /**
+     * Color
+     */
+    color?: string | null;
+    /**
+     * Text Color
+     */
+    text_color?: string | null;
+    /**
+     * Is Personal
+     */
+    is_personal?: boolean | null;
+    /**
+     * Is Active
+     */
+    is_active?: boolean | null;
 };
 
 /**
@@ -207,6 +1097,10 @@ export type UserCreate = {
      */
     full_name?: string | null;
     /**
+     * Phone
+     */
+    phone?: string | null;
+    /**
      * Password
      */
     password: string;
@@ -233,6 +1127,10 @@ export type UserPublic = {
      */
     full_name?: string | null;
     /**
+     * Phone
+     */
+    phone?: string | null;
+    /**
      * Id
      */
     id: string;
@@ -258,6 +1156,81 @@ export type UserRegister = {
      * Full Name
      */
     full_name?: string | null;
+    /**
+     * Phone
+     */
+    phone?: string | null;
+};
+
+/**
+ * UserServiceGrant
+ */
+export type UserServiceGrant = {
+    /**
+     * User Id
+     */
+    user_id: string;
+    /**
+     * Catalog Id
+     */
+    catalog_id: number;
+    /**
+     * Start Date
+     */
+    start_date?: string | null;
+};
+
+/**
+ * UserServicePublic
+ */
+export type UserServicePublic = {
+    /**
+     * Id
+     */
+    id: number;
+    catalog: ServiceCatalogPublic;
+    /**
+     * Visits Total
+     */
+    visits_total?: number | null;
+    /**
+     * Visits Left
+     */
+    visits_left?: number | null;
+    /**
+     * Start Date
+     */
+    start_date?: string | null;
+    /**
+     * End Date
+     */
+    end_date?: string | null;
+    /**
+     * Status
+     */
+    status: string;
+    /**
+     * Price
+     */
+    price: number;
+    /**
+     * Created At
+     */
+    created_at: string;
+};
+
+/**
+ * UserServicesPublic
+ */
+export type UserServicesPublic = {
+    /**
+     * Data
+     */
+    data: Array<UserServicePublic>;
+    /**
+     * Count
+     */
+    count: number;
 };
 
 /**
@@ -281,6 +1254,10 @@ export type UserUpdate = {
      */
     full_name?: string | null;
     /**
+     * Phone
+     */
+    phone?: string | null;
+    /**
      * Password
      */
     password?: string | null;
@@ -294,6 +1271,10 @@ export type UserUpdateMe = {
      * Full Name
      */
     full_name?: string | null;
+    /**
+     * Phone
+     */
+    phone?: string | null;
     /**
      * Email
      */
@@ -340,6 +1321,153 @@ export type ValidationError = {
     ctx?: {
         [key: string]: unknown;
     };
+};
+
+/**
+ * VisitPublic
+ */
+export type VisitPublic = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Schedule Item Id
+     */
+    schedule_item_id: number;
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Start At
+     */
+    start_at: string;
+    /**
+     * End At
+     */
+    end_at: string;
+    trainer: TrainerPublic;
+};
+
+/**
+ * VisitsPublic
+ */
+export type VisitsPublic = {
+    /**
+     * Data
+     */
+    data: Array<VisitPublic>;
+    /**
+     * Count
+     */
+    count: number;
+};
+
+/**
+ * WeeklySlotCreate
+ */
+export type WeeklySlotCreate = {
+    /**
+     * Training Id
+     */
+    training_id: number;
+    /**
+     * Trainer Id
+     */
+    trainer_id: number;
+    /**
+     * Weekday
+     */
+    weekday: number;
+    /**
+     * Time Start
+     */
+    time_start: string;
+    /**
+     * Time End
+     */
+    time_end: string;
+    /**
+     * Records Limit
+     */
+    records_limit?: number;
+    /**
+     * Is Active
+     */
+    is_active?: boolean;
+};
+
+/**
+ * WeeklySlotPublic
+ */
+export type WeeklySlotPublic = {
+    /**
+     * Training Id
+     */
+    training_id: number;
+    /**
+     * Trainer Id
+     */
+    trainer_id: number;
+    /**
+     * Weekday
+     */
+    weekday: number;
+    /**
+     * Time Start
+     */
+    time_start: string;
+    /**
+     * Time End
+     */
+    time_end: string;
+    /**
+     * Records Limit
+     */
+    records_limit?: number;
+    /**
+     * Is Active
+     */
+    is_active?: boolean;
+    /**
+     * Id
+     */
+    id: number;
+};
+
+/**
+ * WeeklySlotUpdate
+ */
+export type WeeklySlotUpdate = {
+    /**
+     * Training Id
+     */
+    training_id?: number | null;
+    /**
+     * Trainer Id
+     */
+    trainer_id?: number | null;
+    /**
+     * Weekday
+     */
+    weekday?: number | null;
+    /**
+     * Time Start
+     */
+    time_start?: string | null;
+    /**
+     * Time End
+     */
+    time_end?: string | null;
+    /**
+     * Records Limit
+     */
+    records_limit?: number | null;
+    /**
+     * Is Active
+     */
+    is_active?: boolean | null;
 };
 
 export type loginLoginAccessTokenData = {
@@ -920,6 +2048,1757 @@ export type itemsUpdateItemResponses = {
 };
 
 export type itemsUpdateItemResponse = itemsUpdateItemResponses[keyof itemsUpdateItemResponses];
+
+export type clubReadClubData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/club';
+};
+
+export type clubReadClubResponses = {
+    /**
+     * Successful Response
+     */
+    200: ClubPublic;
+};
+
+export type clubReadClubResponse = clubReadClubResponses[keyof clubReadClubResponses];
+
+export type clubReadTrainersData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Gender
+         */
+        gender?: string | null;
+        /**
+         * Page
+         */
+        page?: number;
+        /**
+         * Pagesize
+         */
+        pageSize?: number;
+    };
+    url: '/api/v1/trainer';
+};
+
+export type clubReadTrainersErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type clubReadTrainersError = clubReadTrainersErrors[keyof clubReadTrainersErrors];
+
+export type clubReadTrainersResponses = {
+    /**
+     * Successful Response
+     */
+    200: TrainersPublic;
+};
+
+export type clubReadTrainersResponse = clubReadTrainersResponses[keyof clubReadTrainersResponses];
+
+export type clubReadTrainerData = {
+    body?: never;
+    path: {
+        /**
+         * Id
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/api/v1/trainer/{id}';
+};
+
+export type clubReadTrainerErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type clubReadTrainerError = clubReadTrainerErrors[keyof clubReadTrainerErrors];
+
+export type clubReadTrainerResponses = {
+    /**
+     * Successful Response
+     */
+    200: TrainerPublic;
+};
+
+export type clubReadTrainerResponse = clubReadTrainerResponses[keyof clubReadTrainerResponses];
+
+export type clubReadCatalogData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Category
+         */
+        category?: string | null;
+    };
+    url: '/api/v1/catalog/service';
+};
+
+export type clubReadCatalogErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type clubReadCatalogError = clubReadCatalogErrors[keyof clubReadCatalogErrors];
+
+export type clubReadCatalogResponses = {
+    /**
+     * Response Club-Read Catalog
+     *
+     * Successful Response
+     */
+    200: Array<ServiceCatalogPublic>;
+};
+
+export type clubReadCatalogResponse = clubReadCatalogResponses[keyof clubReadCatalogResponses];
+
+export type clubReadCatalogCategoriesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/catalog/service/category';
+};
+
+export type clubReadCatalogCategoriesResponses = {
+    /**
+     * Response Club-Read Catalog Categories
+     *
+     * Successful Response
+     */
+    200: Array<string>;
+};
+
+export type clubReadCatalogCategoriesResponse = clubReadCatalogCategoriesResponses[keyof clubReadCatalogCategoriesResponses];
+
+export type clubReadCatalogItemData = {
+    body?: never;
+    path: {
+        /**
+         * Id
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/api/v1/catalog/service/{id}';
+};
+
+export type clubReadCatalogItemErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type clubReadCatalogItemError = clubReadCatalogItemErrors[keyof clubReadCatalogItemErrors];
+
+export type clubReadCatalogItemResponses = {
+    /**
+     * Successful Response
+     */
+    200: ServiceCatalogPublic;
+};
+
+export type clubReadCatalogItemResponse = clubReadCatalogItemResponses[keyof clubReadCatalogItemResponses];
+
+export type clubServerTimeData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/setting/server-time';
+};
+
+export type clubServerTimeResponses = {
+    /**
+     * Successful Response
+     */
+    200: ServerTime;
+};
+
+export type clubServerTimeResponse = clubServerTimeResponses[keyof clubServerTimeResponses];
+
+export type clubCreateRequestData = {
+    body: ContactRequestCreate;
+    path?: never;
+    query?: never;
+    url: '/api/v1/requests';
+};
+
+export type clubCreateRequestErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type clubCreateRequestError = clubCreateRequestErrors[keyof clubCreateRequestErrors];
+
+export type clubCreateRequestResponses = {
+    /**
+     * Successful Response
+     */
+    200: ContactRequestPublic;
+};
+
+export type clubCreateRequestResponse = clubCreateRequestResponses[keyof clubCreateRequestResponses];
+
+export type scheduleReadTrainingsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/schedule/trainings';
+};
+
+export type scheduleReadTrainingsResponses = {
+    /**
+     * Response Schedule-Read Trainings
+     *
+     * Successful Response
+     */
+    200: Array<TrainingPublic>;
+};
+
+export type scheduleReadTrainingsResponse = scheduleReadTrainingsResponses[keyof scheduleReadTrainingsResponses];
+
+export type schedulePersonalTrainersData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/schedule/personal/trainers';
+};
+
+export type schedulePersonalTrainersResponses = {
+    /**
+     * Response Schedule-Personal Trainers
+     *
+     * Successful Response
+     */
+    200: Array<TrainerPublic>;
+};
+
+export type schedulePersonalTrainersResponse = schedulePersonalTrainersResponses[keyof schedulePersonalTrainersResponses];
+
+export type schedulePersonalServicesData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Trainer Id
+         */
+        trainer_id: number;
+    };
+    url: '/api/v1/schedule/personal/services';
+};
+
+export type schedulePersonalServicesErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type schedulePersonalServicesError = schedulePersonalServicesErrors[keyof schedulePersonalServicesErrors];
+
+export type schedulePersonalServicesResponses = {
+    /**
+     * Response Schedule-Personal Services
+     *
+     * Successful Response
+     */
+    200: Array<ServiceCatalogPublic>;
+};
+
+export type schedulePersonalServicesResponse = schedulePersonalServicesResponses[keyof schedulePersonalServicesResponses];
+
+export type schedulePersonalAvailableDatesData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Trainer Id
+         */
+        trainer_id: number;
+        /**
+         * Date From
+         */
+        date_from?: string | null;
+        /**
+         * Date To
+         */
+        date_to?: string | null;
+    };
+    url: '/api/v1/schedule/personal/dates';
+};
+
+export type schedulePersonalAvailableDatesErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type schedulePersonalAvailableDatesError = schedulePersonalAvailableDatesErrors[keyof schedulePersonalAvailableDatesErrors];
+
+export type schedulePersonalAvailableDatesResponses = {
+    /**
+     * Successful Response
+     */
+    200: PersonalDates;
+};
+
+export type schedulePersonalAvailableDatesResponse = schedulePersonalAvailableDatesResponses[keyof schedulePersonalAvailableDatesResponses];
+
+export type schedulePersonalCheckData = {
+    body: PersonalRegistrationRequest;
+    path?: never;
+    query?: never;
+    url: '/api/v1/schedule/personal/registration-check';
+};
+
+export type schedulePersonalCheckErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type schedulePersonalCheckError = schedulePersonalCheckErrors[keyof schedulePersonalCheckErrors];
+
+export type schedulePersonalCheckResponses = {
+    /**
+     * Successful Response
+     */
+    200: RegistrationCheck;
+};
+
+export type schedulePersonalCheckResponse = schedulePersonalCheckResponses[keyof schedulePersonalCheckResponses];
+
+export type schedulePersonalRegisterData = {
+    body: PersonalRegistrationRequest;
+    path?: never;
+    query?: never;
+    url: '/api/v1/schedule/personal/registration';
+};
+
+export type schedulePersonalRegisterErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type schedulePersonalRegisterError = schedulePersonalRegisterErrors[keyof schedulePersonalRegisterErrors];
+
+export type schedulePersonalRegisterResponses = {
+    /**
+     * Successful Response
+     */
+    200: RegistrationResult;
+};
+
+export type schedulePersonalRegisterResponse = schedulePersonalRegisterResponses[keyof schedulePersonalRegisterResponses];
+
+export type scheduleReadScheduleData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Datefrom
+         */
+        dateFrom?: string | null;
+        /**
+         * Dateto
+         */
+        dateTo?: string | null;
+        /**
+         * Trainer[]
+         */
+        'trainer[]'?: Array<number> | null;
+        /**
+         * Training[]
+         */
+        'training[]'?: Array<number> | null;
+        /**
+         * Agetype
+         */
+        ageType?: string | null;
+        /**
+         * Level
+         */
+        level?: string | null;
+        /**
+         * Page
+         */
+        page?: number;
+        /**
+         * Pagesize
+         */
+        pageSize?: number;
+    };
+    url: '/api/v1/schedule';
+};
+
+export type scheduleReadScheduleErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type scheduleReadScheduleError = scheduleReadScheduleErrors[keyof scheduleReadScheduleErrors];
+
+export type scheduleReadScheduleResponses = {
+    /**
+     * Successful Response
+     */
+    200: ScheduleItemsPublic;
+};
+
+export type scheduleReadScheduleResponse = scheduleReadScheduleResponses[keyof scheduleReadScheduleResponses];
+
+export type scheduleRegisterSimpleData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Training
+         */
+        training: number;
+    };
+    url: '/api/v1/schedule';
+};
+
+export type scheduleRegisterSimpleErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type scheduleRegisterSimpleError = scheduleRegisterSimpleErrors[keyof scheduleRegisterSimpleErrors];
+
+export type scheduleRegisterSimpleResponses = {
+    /**
+     * Successful Response
+     */
+    200: RegistrationResult;
+};
+
+export type scheduleRegisterSimpleResponse = scheduleRegisterSimpleResponses[keyof scheduleRegisterSimpleResponses];
+
+export type scheduleRegistrationCheckData = {
+    body: RegistrationRequest;
+    path?: never;
+    query?: never;
+    url: '/api/v1/schedule/registration-check';
+};
+
+export type scheduleRegistrationCheckErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type scheduleRegistrationCheckError = scheduleRegistrationCheckErrors[keyof scheduleRegistrationCheckErrors];
+
+export type scheduleRegistrationCheckResponses = {
+    /**
+     * Successful Response
+     */
+    200: RegistrationCheck;
+};
+
+export type scheduleRegistrationCheckResponse = scheduleRegistrationCheckResponses[keyof scheduleRegistrationCheckResponses];
+
+export type scheduleRegistrationV2Data = {
+    body: RegistrationRequest;
+    path?: never;
+    query?: never;
+    url: '/api/v1/schedule/registration-v2';
+};
+
+export type scheduleRegistrationV2Errors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type scheduleRegistrationV2Error = scheduleRegistrationV2Errors[keyof scheduleRegistrationV2Errors];
+
+export type scheduleRegistrationV2Responses = {
+    /**
+     * Successful Response
+     */
+    200: RegistrationResult;
+};
+
+export type scheduleRegistrationV2Response = scheduleRegistrationV2Responses[keyof scheduleRegistrationV2Responses];
+
+export type scheduleRegistrationBasisData = {
+    body?: never;
+    path: {
+        /**
+         * Schedule Id
+         */
+        schedule_id: number;
+    };
+    query?: never;
+    url: '/api/v1/schedule/catalog/{schedule_id}';
+};
+
+export type scheduleRegistrationBasisErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type scheduleRegistrationBasisError = scheduleRegistrationBasisErrors[keyof scheduleRegistrationBasisErrors];
+
+export type scheduleRegistrationBasisResponses = {
+    /**
+     * Response Schedule-Registration Basis
+     *
+     * Successful Response
+     */
+    200: Array<UserServicePublic>;
+};
+
+export type scheduleRegistrationBasisResponse = scheduleRegistrationBasisResponses[keyof scheduleRegistrationBasisResponses];
+
+export type scheduleCancelRegistrationData = {
+    body?: never;
+    path: {
+        /**
+         * Id
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/api/v1/schedule/{id}';
+};
+
+export type scheduleCancelRegistrationErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type scheduleCancelRegistrationError = scheduleCancelRegistrationErrors[keyof scheduleCancelRegistrationErrors];
+
+export type scheduleCancelRegistrationResponses = {
+    /**
+     * Successful Response
+     */
+    200: Message;
+};
+
+export type scheduleCancelRegistrationResponse = scheduleCancelRegistrationResponses[keyof scheduleCancelRegistrationResponses];
+
+export type scheduleReadScheduleItemData = {
+    body?: never;
+    path: {
+        /**
+         * Id
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/api/v1/schedule/{id}';
+};
+
+export type scheduleReadScheduleItemErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type scheduleReadScheduleItemError = scheduleReadScheduleItemErrors[keyof scheduleReadScheduleItemErrors];
+
+export type scheduleReadScheduleItemResponses = {
+    /**
+     * Successful Response
+     */
+    200: ScheduleItemPublic;
+};
+
+export type scheduleReadScheduleItemResponse = scheduleReadScheduleItemResponses[keyof scheduleReadScheduleItemResponses];
+
+export type accountReadMyServicesData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Closed
+         */
+        closed?: boolean;
+    };
+    url: '/api/v1/service';
+};
+
+export type accountReadMyServicesErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type accountReadMyServicesError = accountReadMyServicesErrors[keyof accountReadMyServicesErrors];
+
+export type accountReadMyServicesResponses = {
+    /**
+     * Successful Response
+     */
+    200: UserServicesPublic;
+};
+
+export type accountReadMyServicesResponse = accountReadMyServicesResponses[keyof accountReadMyServicesResponses];
+
+export type accountPurchaseServiceData = {
+    body: ServicePurchase;
+    path?: never;
+    query?: never;
+    url: '/api/v1/service';
+};
+
+export type accountPurchaseServiceErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type accountPurchaseServiceError = accountPurchaseServiceErrors[keyof accountPurchaseServiceErrors];
+
+export type accountPurchaseServiceResponses = {
+    /**
+     * Successful Response
+     */
+    200: UserServicePublic;
+};
+
+export type accountPurchaseServiceResponse = accountPurchaseServiceResponses[keyof accountPurchaseServiceResponses];
+
+export type accountReadMyServiceData = {
+    body?: never;
+    path: {
+        /**
+         * Id
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/api/v1/service/{id}';
+};
+
+export type accountReadMyServiceErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type accountReadMyServiceError = accountReadMyServiceErrors[keyof accountReadMyServiceErrors];
+
+export type accountReadMyServiceResponses = {
+    /**
+     * Successful Response
+     */
+    200: UserServicePublic;
+};
+
+export type accountReadMyServiceResponse = accountReadMyServiceResponses[keyof accountReadMyServiceResponses];
+
+export type accountReadBalanceData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/balance';
+};
+
+export type accountReadBalanceResponses = {
+    /**
+     * Response Account-Read Balance
+     *
+     * Successful Response
+     */
+    200: {
+        [key: string]: unknown;
+    };
+};
+
+export type accountReadBalanceResponse = accountReadBalanceResponses[keyof accountReadBalanceResponses];
+
+export type accountReadMyRegistrationsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Upcoming
+         */
+        upcoming?: boolean;
+        /**
+         * Page
+         */
+        page?: number;
+        /**
+         * Pagesize
+         */
+        pageSize?: number;
+    };
+    url: '/api/v1/user/registrations';
+};
+
+export type accountReadMyRegistrationsErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type accountReadMyRegistrationsError = accountReadMyRegistrationsErrors[keyof accountReadMyRegistrationsErrors];
+
+export type accountReadMyRegistrationsResponses = {
+    /**
+     * Successful Response
+     */
+    200: RegistrationsPublic;
+};
+
+export type accountReadMyRegistrationsResponse = accountReadMyRegistrationsResponses[keyof accountReadMyRegistrationsResponses];
+
+export type accountReadVisitsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Page
+         */
+        page?: number;
+        /**
+         * Pagesize
+         */
+        pageSize?: number;
+    };
+    url: '/api/v1/visits';
+};
+
+export type accountReadVisitsErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type accountReadVisitsError = accountReadVisitsErrors[keyof accountReadVisitsErrors];
+
+export type accountReadVisitsResponses = {
+    /**
+     * Successful Response
+     */
+    200: VisitsPublic;
+};
+
+export type accountReadVisitsResponse = accountReadVisitsResponses[keyof accountReadVisitsResponses];
+
+export type adminTrainersReadAllData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Skip
+         */
+        skip?: number;
+        /**
+         * Limit
+         */
+        limit?: number;
+    };
+    url: '/api/v1/admin/trainers/';
+};
+
+export type adminTrainersReadAllErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminTrainersReadAllError = adminTrainersReadAllErrors[keyof adminTrainersReadAllErrors];
+
+export type adminTrainersReadAllResponses = {
+    /**
+     * Response Admin-Trainers-Read All
+     *
+     * Successful Response
+     */
+    200: Array<TrainerPublic>;
+};
+
+export type adminTrainersReadAllResponse = adminTrainersReadAllResponses[keyof adminTrainersReadAllResponses];
+
+export type adminTrainersCreateData = {
+    body: TrainerCreate;
+    path?: never;
+    query?: never;
+    url: '/api/v1/admin/trainers/';
+};
+
+export type adminTrainersCreateErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminTrainersCreateError = adminTrainersCreateErrors[keyof adminTrainersCreateErrors];
+
+export type adminTrainersCreateResponses = {
+    /**
+     * Successful Response
+     */
+    200: TrainerPublic;
+};
+
+export type adminTrainersCreateResponse = adminTrainersCreateResponses[keyof adminTrainersCreateResponses];
+
+export type adminTrainersDeleteData = {
+    body?: never;
+    path: {
+        /**
+         * Id
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/api/v1/admin/trainers/{id}';
+};
+
+export type adminTrainersDeleteErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminTrainersDeleteError = adminTrainersDeleteErrors[keyof adminTrainersDeleteErrors];
+
+export type adminTrainersDeleteResponses = {
+    /**
+     * Successful Response
+     */
+    200: Message;
+};
+
+export type adminTrainersDeleteResponse = adminTrainersDeleteResponses[keyof adminTrainersDeleteResponses];
+
+export type adminTrainersUpdateData = {
+    body: TrainerUpdate;
+    path: {
+        /**
+         * Id
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/api/v1/admin/trainers/{id}';
+};
+
+export type adminTrainersUpdateErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminTrainersUpdateError = adminTrainersUpdateErrors[keyof adminTrainersUpdateErrors];
+
+export type adminTrainersUpdateResponses = {
+    /**
+     * Successful Response
+     */
+    200: TrainerPublic;
+};
+
+export type adminTrainersUpdateResponse = adminTrainersUpdateResponses[keyof adminTrainersUpdateResponses];
+
+export type adminTrainingsReadAllData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Skip
+         */
+        skip?: number;
+        /**
+         * Limit
+         */
+        limit?: number;
+    };
+    url: '/api/v1/admin/trainings/';
+};
+
+export type adminTrainingsReadAllErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminTrainingsReadAllError = adminTrainingsReadAllErrors[keyof adminTrainingsReadAllErrors];
+
+export type adminTrainingsReadAllResponses = {
+    /**
+     * Response Admin-Trainings-Read All
+     *
+     * Successful Response
+     */
+    200: Array<TrainingPublic>;
+};
+
+export type adminTrainingsReadAllResponse = adminTrainingsReadAllResponses[keyof adminTrainingsReadAllResponses];
+
+export type adminTrainingsCreateData = {
+    body: TrainingCreate;
+    path?: never;
+    query?: never;
+    url: '/api/v1/admin/trainings/';
+};
+
+export type adminTrainingsCreateErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminTrainingsCreateError = adminTrainingsCreateErrors[keyof adminTrainingsCreateErrors];
+
+export type adminTrainingsCreateResponses = {
+    /**
+     * Successful Response
+     */
+    200: TrainingPublic;
+};
+
+export type adminTrainingsCreateResponse = adminTrainingsCreateResponses[keyof adminTrainingsCreateResponses];
+
+export type adminTrainingsDeleteData = {
+    body?: never;
+    path: {
+        /**
+         * Id
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/api/v1/admin/trainings/{id}';
+};
+
+export type adminTrainingsDeleteErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminTrainingsDeleteError = adminTrainingsDeleteErrors[keyof adminTrainingsDeleteErrors];
+
+export type adminTrainingsDeleteResponses = {
+    /**
+     * Successful Response
+     */
+    200: Message;
+};
+
+export type adminTrainingsDeleteResponse = adminTrainingsDeleteResponses[keyof adminTrainingsDeleteResponses];
+
+export type adminTrainingsUpdateData = {
+    body: TrainingUpdate;
+    path: {
+        /**
+         * Id
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/api/v1/admin/trainings/{id}';
+};
+
+export type adminTrainingsUpdateErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminTrainingsUpdateError = adminTrainingsUpdateErrors[keyof adminTrainingsUpdateErrors];
+
+export type adminTrainingsUpdateResponses = {
+    /**
+     * Successful Response
+     */
+    200: TrainingPublic;
+};
+
+export type adminTrainingsUpdateResponse = adminTrainingsUpdateResponses[keyof adminTrainingsUpdateResponses];
+
+export type adminWeeklySlotsReadAllData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Skip
+         */
+        skip?: number;
+        /**
+         * Limit
+         */
+        limit?: number;
+    };
+    url: '/api/v1/admin/weekly-slots/';
+};
+
+export type adminWeeklySlotsReadAllErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminWeeklySlotsReadAllError = adminWeeklySlotsReadAllErrors[keyof adminWeeklySlotsReadAllErrors];
+
+export type adminWeeklySlotsReadAllResponses = {
+    /**
+     * Response Admin-Weekly-Slots-Read All
+     *
+     * Successful Response
+     */
+    200: Array<WeeklySlotPublic>;
+};
+
+export type adminWeeklySlotsReadAllResponse = adminWeeklySlotsReadAllResponses[keyof adminWeeklySlotsReadAllResponses];
+
+export type adminWeeklySlotsCreateData = {
+    body: WeeklySlotCreate;
+    path?: never;
+    query?: never;
+    url: '/api/v1/admin/weekly-slots/';
+};
+
+export type adminWeeklySlotsCreateErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminWeeklySlotsCreateError = adminWeeklySlotsCreateErrors[keyof adminWeeklySlotsCreateErrors];
+
+export type adminWeeklySlotsCreateResponses = {
+    /**
+     * Successful Response
+     */
+    200: WeeklySlotPublic;
+};
+
+export type adminWeeklySlotsCreateResponse = adminWeeklySlotsCreateResponses[keyof adminWeeklySlotsCreateResponses];
+
+export type adminWeeklySlotsDeleteData = {
+    body?: never;
+    path: {
+        /**
+         * Id
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/api/v1/admin/weekly-slots/{id}';
+};
+
+export type adminWeeklySlotsDeleteErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminWeeklySlotsDeleteError = adminWeeklySlotsDeleteErrors[keyof adminWeeklySlotsDeleteErrors];
+
+export type adminWeeklySlotsDeleteResponses = {
+    /**
+     * Successful Response
+     */
+    200: Message;
+};
+
+export type adminWeeklySlotsDeleteResponse = adminWeeklySlotsDeleteResponses[keyof adminWeeklySlotsDeleteResponses];
+
+export type adminWeeklySlotsUpdateData = {
+    body: WeeklySlotUpdate;
+    path: {
+        /**
+         * Id
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/api/v1/admin/weekly-slots/{id}';
+};
+
+export type adminWeeklySlotsUpdateErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminWeeklySlotsUpdateError = adminWeeklySlotsUpdateErrors[keyof adminWeeklySlotsUpdateErrors];
+
+export type adminWeeklySlotsUpdateResponses = {
+    /**
+     * Successful Response
+     */
+    200: WeeklySlotPublic;
+};
+
+export type adminWeeklySlotsUpdateResponse = adminWeeklySlotsUpdateResponses[keyof adminWeeklySlotsUpdateResponses];
+
+export type adminCatalogReadAllData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Skip
+         */
+        skip?: number;
+        /**
+         * Limit
+         */
+        limit?: number;
+    };
+    url: '/api/v1/admin/catalog/';
+};
+
+export type adminCatalogReadAllErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminCatalogReadAllError = adminCatalogReadAllErrors[keyof adminCatalogReadAllErrors];
+
+export type adminCatalogReadAllResponses = {
+    /**
+     * Response Admin-Catalog-Read All
+     *
+     * Successful Response
+     */
+    200: Array<ServiceCatalogPublic>;
+};
+
+export type adminCatalogReadAllResponse = adminCatalogReadAllResponses[keyof adminCatalogReadAllResponses];
+
+export type adminCatalogCreateData = {
+    body: ServiceCatalogCreate;
+    path?: never;
+    query?: never;
+    url: '/api/v1/admin/catalog/';
+};
+
+export type adminCatalogCreateErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminCatalogCreateError = adminCatalogCreateErrors[keyof adminCatalogCreateErrors];
+
+export type adminCatalogCreateResponses = {
+    /**
+     * Successful Response
+     */
+    200: ServiceCatalogPublic;
+};
+
+export type adminCatalogCreateResponse = adminCatalogCreateResponses[keyof adminCatalogCreateResponses];
+
+export type adminCatalogDeleteData = {
+    body?: never;
+    path: {
+        /**
+         * Id
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/api/v1/admin/catalog/{id}';
+};
+
+export type adminCatalogDeleteErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminCatalogDeleteError = adminCatalogDeleteErrors[keyof adminCatalogDeleteErrors];
+
+export type adminCatalogDeleteResponses = {
+    /**
+     * Successful Response
+     */
+    200: Message;
+};
+
+export type adminCatalogDeleteResponse = adminCatalogDeleteResponses[keyof adminCatalogDeleteResponses];
+
+export type adminCatalogUpdateData = {
+    body: ServiceCatalogUpdate;
+    path: {
+        /**
+         * Id
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/api/v1/admin/catalog/{id}';
+};
+
+export type adminCatalogUpdateErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminCatalogUpdateError = adminCatalogUpdateErrors[keyof adminCatalogUpdateErrors];
+
+export type adminCatalogUpdateResponses = {
+    /**
+     * Successful Response
+     */
+    200: ServiceCatalogPublic;
+};
+
+export type adminCatalogUpdateResponse = adminCatalogUpdateResponses[keyof adminCatalogUpdateResponses];
+
+export type adminPersonalAvailabilityReadAllData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Skip
+         */
+        skip?: number;
+        /**
+         * Limit
+         */
+        limit?: number;
+    };
+    url: '/api/v1/admin/personal-availability/';
+};
+
+export type adminPersonalAvailabilityReadAllErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminPersonalAvailabilityReadAllError = adminPersonalAvailabilityReadAllErrors[keyof adminPersonalAvailabilityReadAllErrors];
+
+export type adminPersonalAvailabilityReadAllResponses = {
+    /**
+     * Response Admin-Personal-Availability-Read All
+     *
+     * Successful Response
+     */
+    200: Array<PersonalAvailabilityPublic>;
+};
+
+export type adminPersonalAvailabilityReadAllResponse = adminPersonalAvailabilityReadAllResponses[keyof adminPersonalAvailabilityReadAllResponses];
+
+export type adminPersonalAvailabilityCreateData = {
+    body: PersonalAvailabilityCreate;
+    path?: never;
+    query?: never;
+    url: '/api/v1/admin/personal-availability/';
+};
+
+export type adminPersonalAvailabilityCreateErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminPersonalAvailabilityCreateError = adminPersonalAvailabilityCreateErrors[keyof adminPersonalAvailabilityCreateErrors];
+
+export type adminPersonalAvailabilityCreateResponses = {
+    /**
+     * Successful Response
+     */
+    200: PersonalAvailabilityPublic;
+};
+
+export type adminPersonalAvailabilityCreateResponse = adminPersonalAvailabilityCreateResponses[keyof adminPersonalAvailabilityCreateResponses];
+
+export type adminPersonalAvailabilityDeleteData = {
+    body?: never;
+    path: {
+        /**
+         * Id
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/api/v1/admin/personal-availability/{id}';
+};
+
+export type adminPersonalAvailabilityDeleteErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminPersonalAvailabilityDeleteError = adminPersonalAvailabilityDeleteErrors[keyof adminPersonalAvailabilityDeleteErrors];
+
+export type adminPersonalAvailabilityDeleteResponses = {
+    /**
+     * Successful Response
+     */
+    200: Message;
+};
+
+export type adminPersonalAvailabilityDeleteResponse = adminPersonalAvailabilityDeleteResponses[keyof adminPersonalAvailabilityDeleteResponses];
+
+export type adminScheduleAdminReadScheduleData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Date From
+         */
+        date_from?: string | null;
+        /**
+         * Date To
+         */
+        date_to?: string | null;
+    };
+    url: '/api/v1/admin/schedule/';
+};
+
+export type adminScheduleAdminReadScheduleErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminScheduleAdminReadScheduleError = adminScheduleAdminReadScheduleErrors[keyof adminScheduleAdminReadScheduleErrors];
+
+export type adminScheduleAdminReadScheduleResponses = {
+    /**
+     * Response Admin-Schedule-Admin Read Schedule
+     *
+     * Successful Response
+     */
+    200: Array<ScheduleItemPublic>;
+};
+
+export type adminScheduleAdminReadScheduleResponse = adminScheduleAdminReadScheduleResponses[keyof adminScheduleAdminReadScheduleResponses];
+
+export type adminScheduleAdminCreateScheduleData = {
+    body: ScheduleItemCreate;
+    path?: never;
+    query?: never;
+    url: '/api/v1/admin/schedule/';
+};
+
+export type adminScheduleAdminCreateScheduleErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminScheduleAdminCreateScheduleError = adminScheduleAdminCreateScheduleErrors[keyof adminScheduleAdminCreateScheduleErrors];
+
+export type adminScheduleAdminCreateScheduleResponses = {
+    /**
+     * Successful Response
+     */
+    200: ScheduleItemPublic;
+};
+
+export type adminScheduleAdminCreateScheduleResponse = adminScheduleAdminCreateScheduleResponses[keyof adminScheduleAdminCreateScheduleResponses];
+
+export type adminScheduleAdminGenerateScheduleData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Weeks
+         */
+        weeks?: number | null;
+    };
+    url: '/api/v1/admin/schedule/generate';
+};
+
+export type adminScheduleAdminGenerateScheduleErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminScheduleAdminGenerateScheduleError = adminScheduleAdminGenerateScheduleErrors[keyof adminScheduleAdminGenerateScheduleErrors];
+
+export type adminScheduleAdminGenerateScheduleResponses = {
+    /**
+     * Successful Response
+     */
+    200: Message;
+};
+
+export type adminScheduleAdminGenerateScheduleResponse = adminScheduleAdminGenerateScheduleResponses[keyof adminScheduleAdminGenerateScheduleResponses];
+
+export type adminScheduleAdminDeleteScheduleData = {
+    body?: never;
+    path: {
+        /**
+         * Id
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/api/v1/admin/schedule/{id}';
+};
+
+export type adminScheduleAdminDeleteScheduleErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminScheduleAdminDeleteScheduleError = adminScheduleAdminDeleteScheduleErrors[keyof adminScheduleAdminDeleteScheduleErrors];
+
+export type adminScheduleAdminDeleteScheduleResponses = {
+    /**
+     * Successful Response
+     */
+    200: Message;
+};
+
+export type adminScheduleAdminDeleteScheduleResponse = adminScheduleAdminDeleteScheduleResponses[keyof adminScheduleAdminDeleteScheduleResponses];
+
+export type adminScheduleAdminUpdateScheduleData = {
+    body: ScheduleItemUpdate;
+    path: {
+        /**
+         * Id
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/api/v1/admin/schedule/{id}';
+};
+
+export type adminScheduleAdminUpdateScheduleErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminScheduleAdminUpdateScheduleError = adminScheduleAdminUpdateScheduleErrors[keyof adminScheduleAdminUpdateScheduleErrors];
+
+export type adminScheduleAdminUpdateScheduleResponses = {
+    /**
+     * Successful Response
+     */
+    200: ScheduleItemPublic;
+};
+
+export type adminScheduleAdminUpdateScheduleResponse = adminScheduleAdminUpdateScheduleResponses[keyof adminScheduleAdminUpdateScheduleResponses];
+
+export type adminScheduleAdminItemRegistrationsData = {
+    body?: never;
+    path: {
+        /**
+         * Id
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/api/v1/admin/schedule/{id}/registrations';
+};
+
+export type adminScheduleAdminItemRegistrationsErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminScheduleAdminItemRegistrationsError = adminScheduleAdminItemRegistrationsErrors[keyof adminScheduleAdminItemRegistrationsErrors];
+
+export type adminScheduleAdminItemRegistrationsResponses = {
+    /**
+     * Response Admin-Schedule-Admin Item Registrations
+     *
+     * Successful Response
+     */
+    200: Array<{
+        [key: string]: unknown;
+    }>;
+};
+
+export type adminScheduleAdminItemRegistrationsResponse = adminScheduleAdminItemRegistrationsResponses[keyof adminScheduleAdminItemRegistrationsResponses];
+
+export type adminScheduleAdminMarkAttendedData = {
+    body?: never;
+    path: {
+        /**
+         * Registration Id
+         */
+        registration_id: number;
+    };
+    query?: {
+        /**
+         * Attended
+         */
+        attended?: boolean;
+    };
+    url: '/api/v1/admin/schedule/registrations/{registration_id}/attended';
+};
+
+export type adminScheduleAdminMarkAttendedErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminScheduleAdminMarkAttendedError = adminScheduleAdminMarkAttendedErrors[keyof adminScheduleAdminMarkAttendedErrors];
+
+export type adminScheduleAdminMarkAttendedResponses = {
+    /**
+     * Successful Response
+     */
+    200: Message;
+};
+
+export type adminScheduleAdminMarkAttendedResponse = adminScheduleAdminMarkAttendedResponses[keyof adminScheduleAdminMarkAttendedResponses];
+
+export type adminUserServicesAdminReadUserServicesData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Status
+         */
+        status?: string | null;
+        /**
+         * Skip
+         */
+        skip?: number;
+        /**
+         * Limit
+         */
+        limit?: number;
+    };
+    url: '/api/v1/admin/user-services/';
+};
+
+export type adminUserServicesAdminReadUserServicesErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminUserServicesAdminReadUserServicesError = adminUserServicesAdminReadUserServicesErrors[keyof adminUserServicesAdminReadUserServicesErrors];
+
+export type adminUserServicesAdminReadUserServicesResponses = {
+    /**
+     * Response Admin-User-Services-Admin Read User Services
+     *
+     * Successful Response
+     */
+    200: Array<UserServicePublic>;
+};
+
+export type adminUserServicesAdminReadUserServicesResponse = adminUserServicesAdminReadUserServicesResponses[keyof adminUserServicesAdminReadUserServicesResponses];
+
+export type adminUserServicesAdminGrantServiceData = {
+    body: UserServiceGrant;
+    path?: never;
+    query?: never;
+    url: '/api/v1/admin/user-services/';
+};
+
+export type adminUserServicesAdminGrantServiceErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminUserServicesAdminGrantServiceError = adminUserServicesAdminGrantServiceErrors[keyof adminUserServicesAdminGrantServiceErrors];
+
+export type adminUserServicesAdminGrantServiceResponses = {
+    /**
+     * Successful Response
+     */
+    200: UserServicePublic;
+};
+
+export type adminUserServicesAdminGrantServiceResponse = adminUserServicesAdminGrantServiceResponses[keyof adminUserServicesAdminGrantServiceResponses];
+
+export type adminUserServicesAdminActivateServiceData = {
+    body?: never;
+    path: {
+        /**
+         * Id
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/api/v1/admin/user-services/{id}/activate';
+};
+
+export type adminUserServicesAdminActivateServiceErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminUserServicesAdminActivateServiceError = adminUserServicesAdminActivateServiceErrors[keyof adminUserServicesAdminActivateServiceErrors];
+
+export type adminUserServicesAdminActivateServiceResponses = {
+    /**
+     * Successful Response
+     */
+    200: UserServicePublic;
+};
+
+export type adminUserServicesAdminActivateServiceResponse = adminUserServicesAdminActivateServiceResponses[keyof adminUserServicesAdminActivateServiceResponses];
+
+export type adminRequestsAdminReadRequestsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Status
+         */
+        status?: string | null;
+        /**
+         * Skip
+         */
+        skip?: number;
+        /**
+         * Limit
+         */
+        limit?: number;
+    };
+    url: '/api/v1/admin/requests/';
+};
+
+export type adminRequestsAdminReadRequestsErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminRequestsAdminReadRequestsError = adminRequestsAdminReadRequestsErrors[keyof adminRequestsAdminReadRequestsErrors];
+
+export type adminRequestsAdminReadRequestsResponses = {
+    /**
+     * Successful Response
+     */
+    200: ContactRequestsPublic;
+};
+
+export type adminRequestsAdminReadRequestsResponse = adminRequestsAdminReadRequestsResponses[keyof adminRequestsAdminReadRequestsResponses];
+
+export type adminRequestsAdminUpdateRequestData = {
+    body: ContactRequestUpdate;
+    path: {
+        /**
+         * Id
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/api/v1/admin/requests/{id}';
+};
+
+export type adminRequestsAdminUpdateRequestErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminRequestsAdminUpdateRequestError = adminRequestsAdminUpdateRequestErrors[keyof adminRequestsAdminUpdateRequestErrors];
+
+export type adminRequestsAdminUpdateRequestResponses = {
+    /**
+     * Successful Response
+     */
+    200: ContactRequestPublic;
+};
+
+export type adminRequestsAdminUpdateRequestResponse = adminRequestsAdminUpdateRequestResponses[keyof adminRequestsAdminUpdateRequestResponses];
+
+export type adminClubAdminUpdateClubData = {
+    body: ClubPublic;
+    path?: never;
+    query?: never;
+    url: '/api/v1/admin/club/';
+};
+
+export type adminClubAdminUpdateClubErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminClubAdminUpdateClubError = adminClubAdminUpdateClubErrors[keyof adminClubAdminUpdateClubErrors];
+
+export type adminClubAdminUpdateClubResponses = {
+    /**
+     * Successful Response
+     */
+    200: ClubPublic;
+};
+
+export type adminClubAdminUpdateClubResponse = adminClubAdminUpdateClubResponses[keyof adminClubAdminUpdateClubResponses];
 
 export type privateCreateUserData = {
     body: PrivateUserCreate;

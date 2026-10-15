@@ -18,11 +18,13 @@ import { Input } from "@/components/ui/input"
 import { LoadingButton } from "@/components/ui/loading-button"
 import useAuth from "@/hooks/useAuth"
 import useCustomToast from "@/hooks/useCustomToast"
+import { optionalPhoneSchema, phoneOrNull } from "@/lib/phone"
 import { cn } from "@/lib/utils"
 import { handleError } from "@/utils"
 
 const formSchema = z.object({
   full_name: z.string().max(30).optional(),
+  phone: optionalPhoneSchema,
   email: z.email({ message: "Invalid email address" }),
 })
 
@@ -40,6 +42,7 @@ const UserInformation = () => {
     criteriaMode: "all",
     defaultValues: {
       full_name: currentUser?.full_name ?? undefined,
+      phone: currentUser?.phone ?? "",
       email: currentUser?.email,
     },
   })
@@ -67,6 +70,9 @@ const UserInformation = () => {
     // only include fields that have changed
     if (data.full_name !== currentUser?.full_name) {
       updateData.full_name = data.full_name
+    }
+    if ((data.phone ?? "") !== (currentUser?.phone ?? "")) {
+      updateData.phone = phoneOrNull(data.phone)
     }
     if (data.email !== currentUser?.email) {
       updateData.email = data.email
@@ -110,6 +116,38 @@ const UserInformation = () => {
                     )}
                   >
                     {field.value || "N/A"}
+                  </p>
+                </FormItem>
+              )
+            }
+          />
+
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) =>
+              editMode ? (
+                <FormItem>
+                  <FormLabel>Телефон</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="tel"
+                      placeholder="+7 900 000 00 00"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              ) : (
+                <FormItem>
+                  <FormLabel>Телефон</FormLabel>
+                  <p
+                    className={cn(
+                      "py-2 truncate max-w-sm",
+                      !field.value && "text-muted-foreground",
+                    )}
+                  >
+                    {field.value || "Не указан"}
                   </p>
                 </FormItem>
               )

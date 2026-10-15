@@ -29,6 +29,10 @@ class Settings(BaseSettings):
     PROJECT_NAME: str
     SENTRY_DSN: HttpUrl | None = None
     DATABASE_URL: PostgresDsn
+    CLUB_TIMEZONE: str = "Europe/Moscow"
+    CANCEL_BEFORE_HOURS: int = 2
+    SCHEDULE_WEEKS_AHEAD: int = 4
+    FIRST_VISIT_DISCOUNT_PERCENT: int = 30
 
     @field_validator("DATABASE_URL", mode="before")
     @classmethod

@@ -29,12 +29,14 @@ import {
 import { Input } from "@/components/ui/input"
 import { LoadingButton } from "@/components/ui/loading-button"
 import useCustomToast from "@/hooks/useCustomToast"
+import { optionalPhoneSchema, phoneOrNull } from "@/lib/phone"
 import { handleError } from "@/utils"
 
 const formSchema = z
   .object({
     email: z.email({ message: "Invalid email address" }),
     full_name: z.string().optional(),
+    phone: optionalPhoneSchema,
     password: z
       .string()
       .min(8, { message: "Password must be at least 8 characters" })
@@ -68,6 +70,7 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
     defaultValues: {
       email: user.email,
       full_name: user.full_name ?? undefined,
+      phone: user.phone ?? "",
       is_superuser: user.is_superuser,
       is_active: user.is_active,
     },
@@ -75,7 +78,10 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
 
   const mutation = useMutation({
     mutationFn: (data: FormData) =>
-      UsersService.updateUser({ path: { user_id: user.id }, body: data }),
+      UsersService.updateUser({
+        path: { user_id: user.id },
+        body: { ...data, phone: phoneOrNull(data.phone) },
+      }),
     onSuccess: () => {
       showSuccessToast("User updated successfully")
       setIsOpen(false)
@@ -144,6 +150,24 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
                     <FormLabel>Full Name</FormLabel>
                     <FormControl>
                       <Input placeholder="Full name" type="text" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Телефон</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="+7 900 000 00 00"
+                        type="tel"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

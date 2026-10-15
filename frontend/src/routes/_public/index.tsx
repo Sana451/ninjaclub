@@ -1,0 +1,246 @@
+import { createFileRoute, Link } from "@tanstack/react-router"
+
+import { PriceCards, TrainersGrid } from "@/components/Public/Blocks"
+import { ClubMap } from "@/components/Public/ClubMap"
+import { RequestDialog, RequestForm } from "@/components/Public/RequestDialog"
+import { Button } from "@/components/ui/button"
+import {
+  aboutOcr,
+  club,
+  famousRaces,
+  faq,
+  galleryImages,
+  goalImages,
+  goals,
+  popularity,
+  promo,
+} from "@/content/club"
+
+export const Route = createFileRoute("/_public/")({
+  component: Home,
+  head: () => ({
+    meta: [{ title: "Ninja Club — лучший ниндзя зал в СПб" }],
+  }),
+})
+
+function Section({
+  id,
+  title,
+  children,
+}: {
+  id?: string
+  title?: string
+  children: React.ReactNode
+}) {
+  return (
+    <section id={id} className="mx-auto max-w-6xl scroll-mt-20 px-4 py-14">
+      {title && <h2 className="mb-8 text-3xl font-black uppercase">{title}</h2>}
+      {children}
+    </section>
+  )
+}
+
+function Home() {
+  return (
+    <>
+      <section
+        className="relative flex min-h-[70vh] items-center bg-cover bg-center"
+        style={{ backgroundImage: `url(${club.heroImage})` }}
+      >
+        <div className="absolute inset-0 bg-black/70" />
+        <div className="relative mx-auto w-full max-w-6xl px-4 text-white">
+          <p className="mb-3 text-sm">{club.hours}</p>
+          <h1 className="text-4xl font-black uppercase md:text-6xl">
+            <span className="text-primary">Ninja Club</span>: гонки с
+            препятствиями для детей и взрослых
+          </h1>
+          <p className="mt-4 text-lg">
+            Присоединяйтесь к тренировкам для разных возрастных групп.
+          </p>
+          <div className="mt-8 flex gap-3">
+            <RequestDialog trigger={<Button size="lg">Записаться</Button>} />
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="text-foreground"
+            >
+              <Link to="/schedule">Смотреть расписание</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <Section id="about" title="Что такое OCR:">
+        <div className="grid gap-6 md:grid-cols-2">
+          <p>{aboutOcr.ocr}</p>
+          <p>{aboutOcr.ninja}</p>
+        </div>
+        <figure className="mt-10">
+          <div className="aspect-video w-full overflow-hidden rounded-xl border bg-black">
+            <iframe
+              src={club.video.src}
+              title={club.video.title}
+              className="size-full"
+              loading="lazy"
+              allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+          <figcaption className="mt-2 text-sm text-muted-foreground">
+            {club.video.title}
+          </figcaption>
+        </figure>
+        <h3 className="mt-10 mb-4 text-xl font-bold">
+          {aboutOcr.differenceTitle}
+        </h3>
+        <div className="grid gap-6 md:grid-cols-2">
+          <p className="rounded-xl border bg-card p-5">
+            {aboutOcr.differenceNinja}
+          </p>
+          <p className="rounded-xl border bg-card p-5">
+            {aboutOcr.differenceOcr}
+          </p>
+        </div>
+      </Section>
+
+      <Section title="Почему так возрастает популярность Ninja и OCR?">
+        <div className="grid gap-4 md:grid-cols-2">
+          {popularity.map((p) => (
+            <div key={p.year} className="rounded-xl border bg-card p-5">
+              <div className="text-sm text-muted-foreground">
+                В {p.year} году
+              </div>
+              <p>{p.text}</p>
+            </div>
+          ))}
+        </div>
+        <p className="mt-6 text-muted-foreground">
+          <b>Самые известные на сегодняшний день гонки:</b> {famousRaces}
+        </p>
+      </Section>
+
+      <Section id="price" title="Цены на тренировки">
+        <PriceCards />
+        <p className="mt-6 text-center">
+          <Link to="/price" className="text-primary underline">
+            Все цены
+          </Link>
+        </p>
+      </Section>
+
+      <Section title="Какая главная цель тренировок?">
+        <div className="grid gap-6">
+          {goals.map((g, i) => (
+            <div
+              key={g.title}
+              className="grid overflow-hidden rounded-xl border bg-card md:grid-cols-2"
+            >
+              <div
+                className={`flex flex-col justify-center p-6 ${i % 2 === 1 ? "md:order-2" : ""}`}
+              >
+                <h3 className="mb-2 text-lg font-bold">{g.title}</h3>
+                <p className="text-sm text-muted-foreground">{g.text}</p>
+              </div>
+              {goalImages[i] && (
+                <img
+                  src={goalImages[i]}
+                  alt={g.title}
+                  loading="lazy"
+                  className={`aspect-[4/3] w-full object-cover ${i % 2 === 1 ? "md:order-1" : ""}`}
+                />
+              )}
+            </div>
+          ))}
+        </div>
+        <div className="mt-10 rounded-xl border bg-card p-8 text-center">
+          <p className="mb-4 text-2xl font-black">{promo}</p>
+          <RequestDialog
+            trigger={<Button variant="secondary">Записаться</Button>}
+          />
+        </div>
+      </Section>
+
+      <Section id="gallery" title="Фотографии">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+          {galleryImages.map((src, i) => {
+            const row = Math.floor(i / 2)
+            const wide = (i % 2 === 0) === (row % 2 === 0)
+            return (
+              <a
+                key={src}
+                href={src}
+                target="_blank"
+                rel="noreferrer"
+                className={wide ? "md:col-span-2" : "md:col-span-1"}
+              >
+                <img
+                  src={src}
+                  alt="Тренировки в Ninja Club"
+                  loading="lazy"
+                  className="h-72 w-full rounded-lg object-cover transition hover:opacity-80"
+                />
+              </a>
+            )
+          })}
+        </div>
+      </Section>
+
+      <Section title="Результаты наших атлетов">
+        <img
+          src={club.resultsImage}
+          alt="Результаты наших атлетов"
+          loading="lazy"
+          className="mx-auto max-h-[600px] rounded-xl"
+        />
+      </Section>
+
+      <Section id="trainers" title="Наши тренеры">
+        <TrainersGrid />
+      </Section>
+
+      <Section title="Самые частые вопросы о Ninja">
+        <p className="mb-6 text-muted-foreground">
+          А еще мы будем рады ответить на ваши вопросы по телефону: {club.phone}
+        </p>
+        <div className="flex flex-col gap-2">
+          {faq.map((f, i) => (
+            <details key={f.q} className="rounded-lg border bg-card p-4">
+              <summary className="cursor-pointer font-semibold">
+                {i + 1}. {f.q}
+              </summary>
+              <p className="mt-2 text-sm text-muted-foreground">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </Section>
+
+      <section
+        id="contacts"
+        className="flex min-h-screen scroll-mt-20 items-center bg-cover px-4 py-14"
+        style={{
+          backgroundPosition: "center 45%",
+          backgroundImage:
+            "linear-gradient(to bottom, rgba(15,15,15,0.15), rgba(15,15,15,0.75)), url('/media/IMG_3459.png')",
+        }}
+      >
+        <div className="mx-auto w-full max-w-lg rounded-xl border bg-card/80 p-8 backdrop-blur-sm">
+          <h2 className="mb-2 text-2xl font-black md:text-3xl">
+            Запишитесь на первое пробное занятие в группе со скидкой 30%!
+          </h2>
+          <p className="mb-6 text-sm text-muted-foreground">
+            Мы свяжемся с вами в течение часа и подберем тренера, дату и время
+          </p>
+          <RequestForm />
+        </div>
+      </section>
+
+      <Section id="map" title="Как нас найти">
+        <p className="mb-4 text-lg font-semibold">
+          Санкт-Петербург, ул. Народная, д. 55, лит. Т, второй этаж
+        </p>
+        <ClubMap large />
+      </Section>
+    </>
+  )
+}
