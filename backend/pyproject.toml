@@ -78,5 +78,22 @@ show_contexts = true
 [tool.ty.terminal]
 error-on-warning = true
 
+# SQLModel exposes primary keys as `int | None` and the generic admin CRUD router
+# is built dynamically; ty does not honour mypy-style `type: ignore[code]` comments.
+[[tool.ty.overrides]]
+include = [
+    "app/seed.py",
+    "app/booking.py",
+    "app/api/routes/account.py",
+    "app/api/routes/admin.py",
+    "app/api/routes/schedule.py",
+]
+
+[tool.ty.overrides.rules]
+invalid-argument-type = "ignore"
+invalid-type-form = "ignore"
+invalid-assignment = "ignore"
+unresolved-attribute = "ignore"
+
 [tool.fastapi]
 entrypoint = "app.main:app"

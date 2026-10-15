@@ -119,7 +119,7 @@ export type ContactRequestPublic = {
     /**
      * Kind
      */
-    kind?: string;
+    kind: string;
     /**
      * Comment
      */
@@ -1188,6 +1188,14 @@ export type UserServicePublic = {
      * Id
      */
     id: number;
+    /**
+     * User Email
+     */
+    user_email?: string | null;
+    /**
+     * User Full Name
+     */
+    user_full_name?: string | null;
     catalog: ServiceCatalogPublic;
     /**
      * Visits Total
@@ -1217,6 +1225,24 @@ export type UserServicePublic = {
      * Created At
      */
     created_at: string;
+};
+
+/**
+ * UserServiceUpdate
+ */
+export type UserServiceUpdate = {
+    /**
+     * Visits Left
+     */
+    visits_left?: number | null;
+    /**
+     * End Date
+     */
+    end_date?: string | null;
+    /**
+     * Status
+     */
+    status?: 'pending' | 'active' | 'closed' | 'expired' | null;
 };
 
 /**
@@ -3676,6 +3702,36 @@ export type adminUserServicesAdminGrantServiceResponses = {
 };
 
 export type adminUserServicesAdminGrantServiceResponse = adminUserServicesAdminGrantServiceResponses[keyof adminUserServicesAdminGrantServiceResponses];
+
+export type adminUserServicesAdminUpdateUserServiceData = {
+    body: UserServiceUpdate;
+    path: {
+        /**
+         * Id
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/api/v1/admin/user-services/{id}';
+};
+
+export type adminUserServicesAdminUpdateUserServiceErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type adminUserServicesAdminUpdateUserServiceError = adminUserServicesAdminUpdateUserServiceErrors[keyof adminUserServicesAdminUpdateUserServiceErrors];
+
+export type adminUserServicesAdminUpdateUserServiceResponses = {
+    /**
+     * Successful Response
+     */
+    200: UserServicePublic;
+};
+
+export type adminUserServicesAdminUpdateUserServiceResponse = adminUserServicesAdminUpdateUserServiceResponses[keyof adminUserServicesAdminUpdateUserServiceResponses];
 
 export type adminUserServicesAdminActivateServiceData = {
     body?: never;
