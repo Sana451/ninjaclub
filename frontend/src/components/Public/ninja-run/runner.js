@@ -9,7 +9,7 @@ const GW = 280,
   GH = 110,
   GG = 92,
   PX = 44,
-  RR = 9 // «пиксельный» экран, линия пола, x героини, радиус кольца
+  RR = 11 // «пиксельный» экран, линия пола, x героини, радиус кольца
 const DIM = {
   step: [14, 12],
   pedestal: [16, 18],
@@ -295,17 +295,18 @@ export function mountGame(root) {
     const t = pool[(Math.random() * pool.length) | 0],
       dm = DIM[t]
     S.obs.push({ t, x, w: dm[0], h: dm[1] })
-    S.rings.push({
-      x: x + dm[0] / 2,
-      y: {
-        step: GG - 48,
-        pedestal: GG - 52,
-        beam: GG - 48,
-        warped: GG - 62,
-        gate: GG - 9,
-        pool: GG - 50,
-      }[t],
-    }) // кольцо-награда на каждом препятствии
+    if (Math.random() < 0.5)
+      S.rings.push({
+        x: x + dm[0] / 2,
+        y: {
+          step: GG - 48,
+          pedestal: GG - 52,
+          beam: GG - 48,
+          warped: GG - 62,
+          gate: GG - 9,
+          pool: GG - 50,
+        }[t],
+      }) // кольцо-награда примерно на половине препятствий
     S.nextD = d + dm[0] + gap()
   }
 
