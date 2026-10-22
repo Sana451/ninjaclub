@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react"
 
-import { mountGame } from "../../../ninja-ui-kit/runner.js"
+import { mountGame } from "./ninja-run/runner.js"
 
 export function NinjaRunGame() {
   const ref = useRef<HTMLDivElement>(null)
