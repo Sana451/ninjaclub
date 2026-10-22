@@ -44,7 +44,7 @@ function Home() {
   return (
     <>
       <section
-        className="nk-hero flex min-h-[70vh] items-center"
+        className="nk-hero flex min-h-[calc(100svh-4rem)] items-center"
         style={{
           backgroundImage: `url(${club.heroImage})`,
           backgroundSize: "cover",
