@@ -12,7 +12,7 @@ export const Route = createFileRoute("/_public/schedule")({
 
 function SchedulePage() {
   return (
-    <div className="nk-container py-12">
+    <div className="nk-container max-w-4xl py-12">
       <h1 className="nk-h2 mb-6">Расписание</h1>
       <ul className="nk-muted mb-8 space-y-1 text-sm">
         <li>
