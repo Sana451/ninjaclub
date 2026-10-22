@@ -3,103 +3,104 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react"
 
-export type Theme = "dark" | "light" | "system"
+export type Theme = "dark" | "light"
+export type Palette = "ninja" | "toxic" | "electric" | "sakura" | "dojo"
+
+export const PALETTES: {
+  id: Palette
+  label: string
+  mode: Theme
+  a: string
+  b: string
+}[] = [
+  { id: "ninja", label: "Ninja", mode: "dark", a: "#ff5a1f", b: "#c6ff3d" },
+  { id: "toxic", label: "Toxic", mode: "dark", a: "#2bff88", b: "#f5ff3d" },
+  {
+    id: "electric",
+    label: "Electric",
+    mode: "dark",
+    a: "#4d7cff",
+    b: "#00f5d4",
+  },
+  { id: "sakura", label: "Sakura", mode: "dark", a: "#ff3d8b", b: "#ffd166" },
+  {
+    id: "dojo",
+    label: "Dojo (светлая)",
+    mode: "light",
+    a: "#f4f1ea",
+    b: "#e8431a",
+  },
+]
 
 type ThemeProviderProps = {
   children: React.ReactNode
-  defaultTheme?: Theme
+  defaultPalette?: Palette
   storageKey?: string
 }
 
 type ThemeProviderState = {
+  palette: Palette
   theme: Theme
-  resolvedTheme: "dark" | "light"
+  setPalette: (palette: Palette) => void
   setTheme: (theme: Theme) => void
 }
 
-const initialState: ThemeProviderState = {
-  theme: "system",
-  resolvedTheme: "light",
-  setTheme: () => null,
-}
+const ThemeProviderContext = createContext<ThemeProviderState | undefined>(
+  undefined,
+)
 
-const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
+const isPalette = (value: string | null): value is Palette =>
+  PALETTES.some((p) => p.id === value)
 
 export function ThemeProvider({
   children,
-  defaultTheme = "system",
-  storageKey = "vite-ui-theme",
-  ...props
+  defaultPalette = "ninja",
+  storageKey = "nk-theme",
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme,
-  )
+  const [palette, setPaletteState] = useState<Palette>(() => {
+    const stored = localStorage.getItem(storageKey)
+    return isPalette(stored) ? stored : defaultPalette
+  })
 
-  const getResolvedTheme = useCallback((theme: Theme): "dark" | "light" => {
-    if (theme === "system") {
-      return window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light"
-    }
-    return theme
-  }, [])
-
-  const [resolvedTheme, setResolvedTheme] = useState<"dark" | "light">(() =>
-    getResolvedTheme(theme),
-  )
-
-  const updateTheme = useCallback((newTheme: Theme) => {
-    const root = window.document.documentElement
-
-    root.classList.remove("light", "dark")
-
-    if (newTheme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
-        ? "dark"
-        : "light"
-
-      root.classList.add(systemTheme)
-      return
-    }
-
-    root.classList.add(newTheme)
-  }, [])
+  const theme: Theme = PALETTES.find((p) => p.id === palette)?.mode ?? "dark"
 
   useEffect(() => {
-    updateTheme(theme)
-    setResolvedTheme(getResolvedTheme(theme))
+    const root = window.document.documentElement
+    root.dataset.theme = palette
+    root.classList.remove("light", "dark")
+    root.classList.add(theme)
+  }, [palette, theme])
 
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
-
-    const handleChange = () => {
-      if (theme === "system") {
-        updateTheme("system")
-        setResolvedTheme(getResolvedTheme("system"))
-      }
-    }
-
-    mediaQuery.addEventListener("change", handleChange)
-
-    return () => {
-      mediaQuery.removeEventListener("change", handleChange)
-    }
-  }, [theme, updateTheme, getResolvedTheme])
-
-  const value = {
-    theme,
-    resolvedTheme,
-    setTheme: (theme: Theme) => {
-      localStorage.setItem(storageKey, theme)
-      setTheme(theme)
+  const setPalette = useCallback(
+    (next: Palette) => {
+      localStorage.setItem(storageKey, next)
+      setPaletteState(next)
     },
-  }
+    [storageKey],
+  )
+
+  const value = useMemo<ThemeProviderState>(
+    () => ({
+      palette,
+      theme,
+      setPalette,
+      setTheme: (mode: Theme) => {
+        if (mode === "light") {
+          setPalette("dojo")
+        } else if (palette === "dojo") {
+          setPalette("ninja")
+        }
+      },
+    }),
+    [palette, theme, setPalette],
+  )
 
   return (
-    <ThemeProviderContext.Provider {...props} value={value}>
+    <ThemeProviderContext.Provider value={value}>
       {children}
     </ThemeProviderContext.Provider>
   )

@@ -1,0 +1,637 @@
+/* Ninja Club UI kit, перенесено из ninja-ui-kit/ninja-kit.css.
+   Палитра выбирается атрибутом html[data-theme] (см. components/theme-provider.tsx).
+   Токены shadcn маппятся на них в index.css. */
+
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600&display=swap");
+
+:root {
+  --nk-bg: #0b0d10;
+  --nk-surface: #14181d;
+  --nk-surface-2: #1c222a;
+  --nk-line: #2a323c;
+  --nk-text: #f2f4f7;
+  --nk-muted: #8d98a6;
+  --nk-fire: #ff5a1f;
+  --nk-lime: #c6ff3d;
+  --nk-steel: #4cc9f0;
+  --nk-on-fire: #fff;
+  --nk-on-lime: #10150a;
+  --nk-radius: 14px;
+  --nk-cut: polygon(
+    0 0,
+    calc(100% - 14px) 0,
+    100% 14px,
+    100% 100%,
+    14px 100%,
+    0 calc(100% - 14px)
+  );
+  --nk-display: "Barlow Condensed", Impact, sans-serif;
+  --nk-body: "Inter", system-ui, sans-serif;
+  --nk-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Палитры превью кита: ninja (по умолчанию), toxic, electric, sakura, dojo (светлая) */
+:root[data-theme="toxic"] {
+  --nk-bg: #07100b;
+  --nk-surface: #0f1a13;
+  --nk-surface-2: #16251b;
+  --nk-line: #244030;
+  --nk-fire: #2bff88;
+  --nk-lime: #f5ff3d;
+  --nk-steel: #00d4ff;
+  --nk-on-fire: #04130a;
+}
+:root[data-theme="electric"] {
+  --nk-bg: #090b16;
+  --nk-surface: #121631;
+  --nk-surface-2: #1b2145;
+  --nk-line: #2d3566;
+  --nk-fire: #4d7cff;
+  --nk-lime: #00f5d4;
+  --nk-steel: #ff4fd8;
+}
+:root[data-theme="sakura"] {
+  --nk-bg: #120a10;
+  --nk-surface: #1e1119;
+  --nk-surface-2: #2a1824;
+  --nk-line: #46283a;
+  --nk-fire: #ff3d8b;
+  --nk-lime: #ffd166;
+  --nk-steel: #8ecbff;
+}
+:root[data-theme="dojo"] {
+  color-scheme: light;
+  --nk-bg: #f4f1ea;
+  --nk-surface: #ffffff;
+  --nk-surface-2: #ece7dc;
+  --nk-line: #d8d1c2;
+  --nk-text: #14171a;
+  --nk-muted: #5d6670;
+  --nk-fire: #e8431a;
+  --nk-lime: #2b8a3e;
+  --nk-steel: #1c7ed6;
+  --nk-on-fire: #ffffff;
+  --nk-on-lime: #ffffff;
+}
+
+html,
+body {
+  background: var(--nk-bg);
+  color: var(--nk-text);
+  font-family: var(--nk-body);
+  transition: background-color 0.4s;
+}
+body {
+  padding-bottom: 90px;
+}
+h1,
+h2,
+h3 {
+  font-family: var(--nk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+[data-slot="button"] {
+  font-family: var(--nk-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Плавающий переключатель тем (как внизу превью) */
+.nk-wipe {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  pointer-events: none;
+  background: var(--nk-fire);
+  clip-path: circle(0 at 50% 100%);
+}
+.nk-wipe.go {
+  animation: nk-wipe 0.8s var(--nk-ease);
+}
+@keyframes nk-wipe {
+  0% {
+    clip-path: circle(0 at 50% 100%);
+    opacity: 0.9;
+  }
+  70% {
+    clip-path: circle(150% at 50% 100%);
+    opacity: 0.5;
+  }
+  100% {
+    clip-path: circle(150% at 50% 100%);
+    opacity: 0;
+  }
+}
+.nk-sw {
+  position: fixed;
+  left: 50%;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 40;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--nk-surface) 85%, transparent);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--nk-line);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+.nk-sw span {
+  font: 700 0.75rem var(--nk-display);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--nk-muted);
+  margin-right: 4px;
+}
+.nk-sw button {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 0;
+  cursor: pointer;
+  background: conic-gradient(from 135deg, var(--a) 0 50%, var(--b) 0 100%);
+  box-shadow:
+    0 0 0 2px var(--nk-surface),
+    0 0 0 4px transparent;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.nk-sw button:hover {
+  transform: scale(1.18);
+}
+.nk-sw button[aria-pressed="true"] {
+  box-shadow:
+    0 0 0 2px var(--nk-surface),
+    0 0 0 4px var(--nk-text);
+}
+
+.nk-root {
+  background: var(--nk-bg);
+  color: var(--nk-text);
+  font-family: var(--nk-body);
+  line-height: 1.5;
+  min-height: 100vh;
+  padding-bottom: 90px;
+}
+.nk-root *,
+.nk-root *::before,
+.nk-root *::after {
+  box-sizing: border-box;
+}
+.nk-h1,
+.nk-h2 {
+  font-family: var(--nk-display);
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 0.95;
+}
+.nk-h1 {
+  font-size: clamp(3rem, 9vw, 6.5rem);
+}
+.nk-h2 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+}
+.nk-h3 {
+  font-family: var(--nk-display);
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 1.4rem;
+  letter-spacing: 0.03em;
+  line-height: 1.05;
+}
+.nk-accent {
+  color: var(--nk-fire);
+}
+.nk-muted {
+  color: var(--nk-muted);
+}
+.nk-container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.nk-section {
+  padding: 72px 0;
+}
+
+/* ---------- Шапка и футер ---------- */
+.nk-logo {
+  font-family: var(--nk-display);
+  font-weight: 800;
+  font-size: 1.6rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--nk-text);
+  text-decoration: none;
+  line-height: 1;
+}
+.nk-logo span {
+  color: var(--nk-fire);
+}
+.nk-nav a {
+  font: 700 0.95rem var(--nk-display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--nk-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nk-nav a:hover {
+  color: var(--nk-fire);
+}
+.nk-link {
+  color: var(--nk-steel);
+  text-decoration: none;
+}
+.nk-link:hover {
+  text-decoration: underline;
+}
+.nk-header {
+  background: color-mix(in srgb, var(--nk-bg) 85%, transparent);
+  border-color: var(--nk-line);
+}
+.nk-footer {
+  background: var(--nk-surface);
+  border-color: var(--nk-line);
+}
+
+/* ---------- Button ---------- */
+.nk-btn {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  border: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font: 700 1.1rem var(--nk-display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 14px 28px;
+  color: var(--nk-on-fire);
+  background: var(--nk-fire);
+  clip-path: var(--nk-cut);
+  transition:
+    transform 0.2s var(--nk-ease),
+    filter 0.2s;
+}
+.nk-btn::after {
+  /* блик, как полоса скорости */
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  transform: translateX(-160%) skewX(-25deg);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.45),
+    transparent
+  );
+}
+.nk-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  filter: brightness(1.1);
+}
+.nk-btn:hover::after {
+  transform: translateX(380%) skewX(-25deg);
+  transition: transform 0.7s var(--nk-ease);
+}
+.nk-btn:active {
+  transform: scale(0.97);
+}
+.nk-btn--lime {
+  background: var(--nk-lime);
+  color: var(--nk-on-lime);
+}
+.nk-btn--ghost {
+  background: transparent;
+  color: var(--nk-text);
+  box-shadow: inset 0 0 0 2px var(--nk-line);
+}
+.nk-btn--ghost:hover {
+  box-shadow: inset 0 0 0 2px var(--nk-fire);
+}
+.nk-btn--sm {
+  font-size: 0.95rem;
+  padding: 8px 16px;
+}
+.nk-btn:focus-visible,
+.nk-input:focus-visible {
+  outline: 3px solid var(--nk-steel);
+  outline-offset: 3px;
+}
+.nk-btn[disabled] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ---------- Badge / Card ---------- */
+.nk-badge {
+  display: inline-block;
+  font: 700 0.8rem var(--nk-display);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--nk-fire) 16%, transparent);
+  color: var(--nk-fire);
+}
+.nk-badge--lime {
+  background: color-mix(in srgb, var(--nk-lime) 16%, transparent);
+  color: var(--nk-lime);
+}
+.nk-badge--steel {
+  background: color-mix(in srgb, var(--nk-steel) 16%, transparent);
+  color: var(--nk-steel);
+}
+
+.nk-card {
+  background: var(--nk-surface);
+  border: 1px solid var(--nk-line);
+  border-radius: var(--nk-radius);
+  padding: 24px;
+  transition:
+    transform 0.25s var(--nk-ease),
+    border-color 0.25s,
+    box-shadow 0.25s;
+}
+.nk-card:hover {
+  border-color: var(--nk-fire);
+  box-shadow: 0 12px 40px -12px
+    color-mix(in srgb, var(--nk-fire) 45%, transparent);
+}
+.nk-card--flush {
+  padding: 0;
+  overflow: hidden;
+}
+
+/* ---------- Input ---------- */
+.nk-field {
+  display: grid;
+  gap: 6px;
+}
+.nk-field label {
+  font: 700 0.85rem var(--nk-display);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--nk-muted);
+}
+.nk-input {
+  width: 100%;
+  background: var(--nk-surface-2);
+  border: 2px solid var(--nk-line);
+  border-radius: 10px;
+  color: var(--nk-text);
+  font: 500 1rem var(--nk-body);
+  padding: 12px 14px;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.nk-input::placeholder {
+  color: var(--nk-muted);
+}
+.nk-input:focus {
+  border-color: var(--nk-fire);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--nk-fire) 20%, transparent);
+  outline: none;
+}
+.nk-input--sm {
+  width: auto;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+
+/* ---------- Tabs ---------- */
+.nk-tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+  background: var(--nk-surface);
+  border-radius: 12px;
+  border: 1px solid var(--nk-line);
+}
+.nk-tab {
+  position: relative;
+  background: none;
+  border: 0;
+  color: var(--nk-muted);
+  font: 700 1rem var(--nk-display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.nk-tab[aria-selected="true"] {
+  color: var(--nk-on-fire);
+  background: var(--nk-fire);
+  animation: nk-pop 0.3s var(--nk-ease);
+}
+
+/* ---------- Schedule item ---------- */
+.nk-slot {
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 16px 20px;
+  border-left: 4px solid var(--nk-fire);
+  background: var(--nk-surface);
+  border-radius: 0 12px 12px 0;
+  transition:
+    transform 0.25s var(--nk-ease),
+    background 0.2s;
+}
+.nk-slot:hover {
+  transform: translateX(6px);
+  background: var(--nk-surface-2);
+}
+@media (max-width: 560px) {
+  .nk-slot {
+    grid-template-columns: 70px 1fr;
+  }
+  .nk-slot > :last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---------- Marquee ---------- */
+.nk-marquee {
+  overflow: hidden;
+  border-block: 2px solid var(--nk-line);
+  background: var(--nk-surface);
+  transform: skewY(-1.5deg);
+}
+.nk-marquee__row {
+  display: flex;
+  width: max-content;
+  animation: nk-scroll 22s linear infinite;
+}
+.nk-marquee__item {
+  font: 800 1.6rem var(--nk-display);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 14px 28px;
+  white-space: nowrap;
+}
+.nk-marquee__item:nth-child(even) {
+  color: var(--nk-fire);
+}
+
+/* ---------- Hero ---------- */
+.nk-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 96px 0 80px;
+}
+.nk-hero::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(
+      40% 40% at 75% 30%,
+      color-mix(in srgb, var(--nk-fire) 28%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      30% 30% at 15% 80%,
+      color-mix(in srgb, var(--nk-steel) 16%, transparent),
+      transparent 70%
+    );
+}
+.nk-hero__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.28;
+}
+.nk-hero__fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, var(--nk-bg));
+}
+.nk-speed {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--nk-fire), transparent);
+  opacity: 0;
+  animation: nk-dash 2.8s linear infinite;
+}
+.nk-hero__content {
+  position: relative;
+  display: grid;
+  gap: 24px;
+  justify-items: start;
+}
+.nk-shuriken {
+  color: var(--nk-fire);
+}
+.nk-shuriken--spin {
+  animation: nk-spin 1.1s linear infinite;
+}
+.nk-hero__star {
+  position: absolute;
+  right: 6%;
+  top: 18%;
+  width: clamp(120px, 22vw, 260px);
+  opacity: 0.9;
+  animation: nk-spin 14s linear infinite;
+  filter: drop-shadow(
+    0 0 30px color-mix(in srgb, var(--nk-fire) 50%, transparent)
+  );
+}
+
+/* ---------- Stats / Grid ---------- */
+.nk-grid {
+  display: grid;
+  gap: 12px;
+}
+.nk-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+.nk-stat b {
+  display: block;
+  font: 800 3rem var(--nk-display);
+  color: var(--nk-lime);
+}
+
+/* ---------- Reveal on scroll ---------- */
+.nk-reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.7s var(--nk-ease),
+    transform 0.7s var(--nk-ease);
+}
+.nk-reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Keyframes ---------- */
+@keyframes nk-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes nk-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes nk-dash {
+  0% {
+    transform: translateX(-60%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateX(60%);
+    opacity: 0;
+  }
+}
+@keyframes nk-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nk-root *,
+  .nk-root *::before,
+  .nk-root *::after {
+    animation-duration: 0.001s;
+    animation-iteration-count: 1;
+    transition-duration: 0.001s;
+  }
+  .nk-reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

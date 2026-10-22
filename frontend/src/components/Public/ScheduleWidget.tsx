@@ -99,6 +99,7 @@ export function ScheduleWidget() {
         <Button
           variant="outline"
           size="sm"
+          className="nk-btn nk-btn--ghost nk-btn--sm"
           disabled={weekOffset === 0}
           onClick={() => changeWeek(weekOffset - 1)}
         >
@@ -107,11 +108,12 @@ export function ScheduleWidget() {
         <Button
           variant="outline"
           size="sm"
+          className="nk-btn nk-btn--ghost nk-btn--sm"
           onClick={() => changeWeek(weekOffset + 1)}
         >
           →
         </Button>
-        <span className="text-sm font-medium">
+        <span className="nk-muted text-sm font-medium">
           {days[0].toLocaleDateString("ru-RU", {
             day: "numeric",
             month: "long",
@@ -123,38 +125,32 @@ export function ScheduleWidget() {
           })}
         </span>
         <select
-          className="h-9 rounded-md border bg-background px-3 text-sm text-foreground"
+          className="nk-input nk-input--sm"
           value={age}
           onChange={(e) => setAge(e.target.value)}
         >
           {AGE_FILTERS.map(([v, l]) => (
-            <option key={v} value={v} className="bg-background text-foreground">
+            <option key={v} value={v}>
               {l}
             </option>
           ))}
         </select>
         <select
-          className="h-9 rounded-md border bg-background px-3 text-sm text-foreground"
+          className="nk-input nk-input--sm"
           value={trainer}
           onChange={(e) =>
             setTrainer(e.target.value === "" ? "" : Number(e.target.value))
           }
         >
-          <option value="" className="bg-background text-foreground">
-            Все тренеры
-          </option>
+          <option value="">Все тренеры</option>
           {(trainers.data ?? []).map((t) => (
-            <option
-              key={t.id}
-              value={t.id}
-              className="bg-background text-foreground"
-            >
+            <option key={t.id} value={t.id}>
               {fullName(t)}
             </option>
           ))}
         </select>
       </div>
-      <div className="mb-6 grid grid-cols-7 gap-1">
+      <div className="nk-tabs mb-6 flex w-full" role="tablist">
         {days.map((d) => {
           const key = iso(d)
           const active = key === selected
@@ -163,7 +159,9 @@ export function ScheduleWidget() {
               type="button"
               key={key}
               onClick={() => setSelected(key)}
-              className={`rounded-lg border px-1 py-2 text-center text-xs sm:text-sm ${active ? "border-primary bg-primary text-primary-foreground" : "bg-card"}`}
+              className="nk-tab flex-1 px-1 py-2 text-center text-xs sm:text-sm"
+              role="tab"
+              aria-selected={active}
             >
               <div className="font-semibold">
                 {weekdaysShort[(d.getDay() + 6) % 7]}
@@ -176,31 +174,32 @@ export function ScheduleWidget() {
       <div className="flex flex-col gap-3">
         {schedule.isLoading && <p>Загрузка…</p>}
         {!schedule.isLoading && items.length === 0 && (
-          <p className="text-muted-foreground">В этот день занятий нет</p>
+          <p className="nk-muted">В этот день занятий нет</p>
         )}
         {items.map((i) => {
           const free = i.records_limit - i.records_current
           return (
             <div
               key={i.id}
-              className="flex flex-wrap items-center gap-4 rounded-xl border bg-card p-4"
-              style={{ borderLeft: `6px solid ${i.color}` }}
+              className="nk-slot"
+              style={{ borderLeftColor: i.color }}
             >
-              <div className="w-28 font-mono text-lg font-bold">
+              <div className="font-mono text-lg font-bold">
                 {hhmm(i.time_start)}–{hhmm(i.time_end)}
               </div>
               <div className="min-w-48 flex-1">
                 <div className="font-semibold">{i.name}</div>
-                <div className="text-sm text-muted-foreground">
+                <div className="nk-muted text-sm">
                   {fullName(i.trainer)} · {levelLabels[i.level] ?? i.level}
                 </div>
               </div>
-              <div className="text-sm text-muted-foreground">
+              <div className="nk-muted text-sm">
                 {free > 0 ? `Мест: ${free}` : "Мест нет"}
               </div>
               {i.sign_id ? (
                 <Button
                   variant="outline"
+                  className="nk-btn nk-btn--ghost nk-btn--sm"
                   disabled={cancel.isPending}
                   onClick={() => cancel.mutate(i.id)}
                 >
@@ -209,7 +208,11 @@ export function ScheduleWidget() {
                     : "Вы записаны · Отменить"}
                 </Button>
               ) : (
-                <Button disabled={book.isPending} onClick={() => onBook(i)}>
+                <Button
+                  className="nk-btn nk-btn--lime nk-btn--sm"
+                  disabled={book.isPending}
+                  onClick={() => onBook(i)}
+                >
                   {free > 0 ? "Записаться" : "В лист ожидания"}
                 </Button>
               )}

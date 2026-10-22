@@ -181,3 +181,6 @@ fabric.properties
 
 # Serena plugin
 .serena
+
+# Frontend ninja UI kit
+frontend/ninja-ui-kit/

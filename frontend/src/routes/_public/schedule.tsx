@@ -12,9 +12,9 @@ export const Route = createFileRoute("/_public/schedule")({
 
 function SchedulePage() {
   return (
-    <div className="mx-auto max-w-4xl px-4 py-12">
-      <h1 className="mb-6 text-4xl font-black uppercase">Расписание</h1>
-      <ul className="mb-8 space-y-1 text-sm text-muted-foreground">
+    <div className="nk-container py-12">
+      <h1 className="nk-h2 mb-6">Расписание</h1>
+      <ul className="nk-muted mb-8 space-y-1 text-sm">
         <li>
           <b>{levelLabels.beginner}</b> — группы для новичков, можно в первый
           раз.

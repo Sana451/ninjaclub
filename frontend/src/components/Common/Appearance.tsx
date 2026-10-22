@@ -1,4 +1,4 @@
-import { Monitor, Moon, Sun } from "lucide-react"
+import { Moon, Sun } from "lucide-react"
 
 import { type Theme, useTheme } from "@/components/theme-provider"
 import { Button } from "@/components/ui/button"
@@ -17,7 +17,6 @@ import {
 type LucideIcon = React.FC<React.SVGProps<SVGSVGElement>>
 
 const ICON_MAP: Record<Theme, LucideIcon> = {
-  system: Monitor,
   light: Sun,
   dark: Moon,
 }
@@ -56,10 +55,6 @@ export const SidebarAppearance = () => {
             <Moon className="mr-2 h-4 w-4" />
             Dark
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setTheme("system")}>
-            <Monitor className="mr-2 h-4 w-4" />
-            System
-          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </SidebarMenuItem>
@@ -93,10 +88,6 @@ export const Appearance = () => {
           >
             <Moon className="mr-2 h-4 w-4" />
             Dark
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setTheme("system")}>
-            <Monitor className="mr-2 h-4 w-4" />
-            System
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
