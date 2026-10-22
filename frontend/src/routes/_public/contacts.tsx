@@ -12,20 +12,20 @@ export const Route = createFileRoute("/_public/contacts")({
 
 function ContactsPage() {
   return (
-    <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 md:grid-cols-2">
+    <div className="nk-container grid gap-10 py-12 md:grid-cols-2">
       <div>
-        <h1 className="mb-6 text-4xl font-black uppercase">Контакты</h1>
+        <h1 className="nk-h2 mb-6">Контакты</h1>
         <p className="mb-2">{club.address}</p>
         <p className="mb-2">Работаем ежедневно: {club.hours}</p>
         <p className="mb-2">
           Телефон, Telegram:{" "}
-          <a className="text-primary" href={club.phoneHref}>
+          <a className="nk-link" href={club.phoneHref}>
             {club.phone}
           </a>
         </p>
         <p className="mb-2">
           Почта:{" "}
-          <a className="text-primary" href={`mailto:${club.email}`}>
+          <a className="nk-link" href={`mailto:${club.email}`}>
             {club.email}
           </a>
         </p>
@@ -37,8 +37,8 @@ function ContactsPage() {
           <ClubMap />
         </div>
       </div>
-      <div className="rounded-xl border bg-card p-8">
-        <h2 className="mb-4 text-xl font-bold">Отправьте заявку</h2>
+      <div className="nk-card p-8">
+        <h2 className="nk-h3 mb-4">Отправьте заявку</h2>
         <RequestForm />
       </div>
     </div>

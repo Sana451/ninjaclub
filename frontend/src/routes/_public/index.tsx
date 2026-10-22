@@ -23,6 +23,16 @@ export const Route = createFileRoute("/_public/")({
   }),
 })
 
+const MARQUEE_WORDS = [
+  "Бег",
+  "Стена",
+  "Канаты",
+  "Турник",
+  "Лазание",
+  "Баланс",
+  "Финиш",
+]
+
 function Section({
   id,
   title,
@@ -33,8 +43,8 @@ function Section({
   children: React.ReactNode
 }) {
   return (
-    <section id={id} className="mx-auto max-w-6xl scroll-mt-20 px-4 py-14">
-      {title && <h2 className="mb-8 text-3xl font-black uppercase">{title}</h2>}
+    <section id={id} className="nk-section nk-container scroll-mt-20">
+      {title && <h2 className="nk-h2 mb-10">{title}</h2>}
       {children}
     </section>
   )
@@ -44,32 +54,58 @@ function Home() {
   return (
     <>
       <section
-        className="relative flex min-h-[70vh] items-center bg-cover bg-center"
-        style={{ backgroundImage: `url(${club.heroImage})` }}
+        className="nk-hero flex min-h-[calc(100svh-8rem)] items-center"
+        style={{
+          backgroundImage: `url(${club.heroImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
       >
         <div className="absolute inset-0 bg-black/70" />
-        <div className="relative mx-auto w-full max-w-6xl px-4 text-white">
-          <p className="mb-3 text-sm">{club.hours}</p>
-          <h1 className="text-4xl font-black uppercase md:text-6xl">
-            <span className="text-primary">Ninja Club</span>: гонки с
-            препятствиями для детей и взрослых
+        <div className="nk-container relative w-full text-white">
+          <span className="nk-badge nk-badge--lime">
+            OCR · Ninja · Obstacle Racing
+          </span>
+          <h1 className="nk-h1 mt-6">
+            <span className="nk-accent">Ninja</span>
+            <br />
+            <span className="nk-accent">Club</span>
           </h1>
-          <p className="mt-4 text-lg">
+          <p className="mt-4 text-3xl font-semibold text-white md:text-4xl">
+            гонки с препятствиями для детей и взрослых
+          </p>
+          <p className="nk-muted mt-4 text-lg">
             Присоединяйтесь к тренировкам для разных возрастных групп.
           </p>
           <div className="mt-8 flex gap-3">
-            <RequestDialog trigger={<Button size="lg">Записаться</Button>} />
+            <RequestDialog
+              trigger={
+                <Button size="lg" className="nk-btn nk-btn--lime">
+                  Записаться
+                </Button>
+              }
+            />
             <Button
               asChild
               size="lg"
               variant="outline"
-              className="text-foreground"
+              className="nk-btn nk-btn--ghost"
             >
               <Link to="/schedule">Смотреть расписание</Link>
             </Button>
           </div>
         </div>
       </section>
+
+      <div className="nk-marquee relative z-10 -mt-12" aria-hidden="true">
+        <div className="nk-marquee__row">
+          {[...MARQUEE_WORDS, ...MARQUEE_WORDS].map((w, i) => (
+            <span key={`${w}-${i}`} className="nk-marquee__item">
+              {w} ✦
+            </span>
+          ))}
+        </div>
+      </div>
 
       <Section id="about" title="Что такое OCR:">
         <div className="grid gap-6 md:grid-cols-2">
@@ -87,35 +123,27 @@ function Home() {
               allowFullScreen
             />
           </div>
-          <figcaption className="mt-2 text-sm text-muted-foreground">
+          <figcaption className="nk-muted mt-2 text-sm">
             {club.video.title}
           </figcaption>
         </figure>
-        <h3 className="mt-10 mb-4 text-xl font-bold">
-          {aboutOcr.differenceTitle}
-        </h3>
+        <h3 className="nk-h3 mt-10 mb-4">{aboutOcr.differenceTitle}</h3>
         <div className="grid gap-6 md:grid-cols-2">
-          <p className="rounded-xl border bg-card p-5">
-            {aboutOcr.differenceNinja}
-          </p>
-          <p className="rounded-xl border bg-card p-5">
-            {aboutOcr.differenceOcr}
-          </p>
+          <p className="nk-card">{aboutOcr.differenceNinja}</p>
+          <p className="nk-card">{aboutOcr.differenceOcr}</p>
         </div>
       </Section>
 
       <Section title="Почему так возрастает популярность Ninja и OCR?">
         <div className="grid gap-4 md:grid-cols-2">
           {popularity.map((p) => (
-            <div key={p.year} className="rounded-xl border bg-card p-5">
-              <div className="text-sm text-muted-foreground">
-                В {p.year} году
-              </div>
+            <div key={p.year} className="nk-card">
+              <span className="nk-badge mb-3">В {p.year} году</span>
               <p>{p.text}</p>
             </div>
           ))}
         </div>
-        <p className="mt-6 text-muted-foreground">
+        <p className="nk-muted mt-6">
           <b>Самые известные на сегодняшний день гонки:</b> {famousRaces}
         </p>
       </Section>
@@ -123,7 +151,7 @@ function Home() {
       <Section id="price" title="Цены на тренировки">
         <PriceCards />
         <p className="mt-6 text-center">
-          <Link to="/price" className="text-primary underline">
+          <Link to="/price" className="nk-link underline">
             Все цены
           </Link>
         </p>
@@ -134,13 +162,13 @@ function Home() {
           {goals.map((g, i) => (
             <div
               key={g.title}
-              className="grid overflow-hidden rounded-xl border bg-card md:grid-cols-2"
+              className="nk-card nk-card--flush grid md:grid-cols-2"
             >
               <div
                 className={`flex flex-col justify-center p-6 ${i % 2 === 1 ? "md:order-2" : ""}`}
               >
-                <h3 className="mb-2 text-lg font-bold">{g.title}</h3>
-                <p className="text-sm text-muted-foreground">{g.text}</p>
+                <h3 className="nk-h3 mb-2">{g.title}</h3>
+                <p className="nk-muted text-sm">{g.text}</p>
               </div>
               {goalImages[i] && (
                 <img
@@ -153,10 +181,12 @@ function Home() {
             </div>
           ))}
         </div>
-        <div className="mt-10 rounded-xl border bg-card p-8 text-center">
-          <p className="mb-4 text-2xl font-black">{promo}</p>
+        <div className="nk-card mt-10 p-8 text-center">
+          <p className="nk-h2 mb-4">{promo}</p>
           <RequestDialog
-            trigger={<Button variant="secondary">Записаться</Button>}
+            trigger={
+              <Button className="nk-btn nk-btn--lime">Записаться</Button>
+            }
           />
         </div>
       </Section>
@@ -205,11 +235,11 @@ function Home() {
         </p>
         <div className="flex flex-col gap-2">
           {faq.map((f, i) => (
-            <details key={f.q} className="rounded-lg border bg-card p-4">
+            <details key={f.q} className="nk-card p-4">
               <summary className="cursor-pointer font-semibold">
                 {i + 1}. {f.q}
               </summary>
-              <p className="mt-2 text-sm text-muted-foreground">{f.a}</p>
+              <p className="nk-muted mt-2 text-sm">{f.a}</p>
             </details>
           ))}
         </div>
@@ -217,18 +247,18 @@ function Home() {
 
       <section
         id="contacts"
-        className="flex min-h-screen scroll-mt-20 items-center bg-cover px-4 py-14"
+        className="nk-hero flex min-h-[75svh] scroll-mt-20 items-center bg-cover px-4 py-14"
         style={{
           backgroundPosition: "center 45%",
           backgroundImage:
             "linear-gradient(to bottom, rgba(15,15,15,0.15), rgba(15,15,15,0.75)), url('/media/IMG_3459.png')",
         }}
       >
-        <div className="mx-auto w-full max-w-lg rounded-xl border bg-card/80 p-8 backdrop-blur-sm">
-          <h2 className="mb-2 text-2xl font-black md:text-3xl">
+        <div className="nk-card mx-auto w-full max-w-lg p-8 backdrop-blur-sm">
+          <h2 className="nk-h2 mb-3">
             Запишитесь на первое пробное занятие в группе со скидкой 30%!
           </h2>
-          <p className="mb-6 text-sm text-muted-foreground">
+          <p className="nk-muted mb-6 text-sm">
             Мы свяжемся с вами в течение часа и подберем тренера, дату и время
           </p>
           <RequestForm />

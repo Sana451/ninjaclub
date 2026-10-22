@@ -27,6 +27,7 @@ import { Route as LayoutUserServicesRouteImport } from './routes/_layout/user-se
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as PublicCompetitionsRouteImport } from './routes/_public/competitions'
 import { Route as PublicContactsRouteImport } from './routes/_public/contacts'
+import { Route as PublicNinjaRunRouteImport } from './routes/_public/ninja-run'
 import { Route as PublicPriceRouteImport } from './routes/_public/price'
 import { Route as PublicScheduleRouteImport } from './routes/_public/schedule'
 import { Route as PublicDocsSlugRouteImport } from './routes/_public/docs.$slug'
@@ -119,6 +120,11 @@ const PublicContactsRoute = PublicContactsRouteImport.update({
   path: '/contacts',
   getParentRoute: () => PublicRoute,
 } as any)
+const PublicNinjaRunRoute = PublicNinjaRunRouteImport.update({
+  id: '/ninja-run',
+  path: '/ninja-run',
+  getParentRoute: () => PublicRoute,
+} as any)
 const PublicPriceRoute = PublicPriceRouteImport.update({
   id: '/price',
   path: '/price',
@@ -152,6 +158,7 @@ export interface FileRoutesByFullPath {
   '/user-services': typeof LayoutUserServicesRoute
   '/competitions': typeof PublicCompetitionsRoute
   '/contacts': typeof PublicContactsRoute
+  '/ninja-run': typeof PublicNinjaRunRoute
   '/price': typeof PublicPriceRoute
   '/schedule': typeof PublicScheduleRoute
   '/docs/$slug': typeof PublicDocsSlugRoute
@@ -173,6 +180,7 @@ export interface FileRoutesByTo {
   '/user-services': typeof LayoutUserServicesRoute
   '/competitions': typeof PublicCompetitionsRoute
   '/contacts': typeof PublicContactsRoute
+  '/ninja-run': typeof PublicNinjaRunRoute
   '/price': typeof PublicPriceRoute
   '/schedule': typeof PublicScheduleRoute
   '/docs/$slug': typeof PublicDocsSlugRoute
@@ -196,6 +204,7 @@ export interface FileRoutesById {
   '/_layout/user-services': typeof LayoutUserServicesRoute
   '/_public/competitions': typeof PublicCompetitionsRoute
   '/_public/contacts': typeof PublicContactsRoute
+  '/_public/ninja-run': typeof PublicNinjaRunRoute
   '/_public/price': typeof PublicPriceRoute
   '/_public/schedule': typeof PublicScheduleRoute
   '/_public/': typeof PublicIndexRoute
@@ -220,6 +229,7 @@ export interface FileRouteTypes {
     | '/user-services'
     | '/competitions'
     | '/contacts'
+    | '/ninja-run'
     | '/price'
     | '/schedule'
     | '/docs/$slug'
@@ -241,6 +251,7 @@ export interface FileRouteTypes {
     | '/user-services'
     | '/competitions'
     | '/contacts'
+    | '/ninja-run'
     | '/price'
     | '/schedule'
     | '/docs/$slug'
@@ -263,6 +274,7 @@ export interface FileRouteTypes {
     | '/_layout/user-services'
     | '/_public/competitions'
     | '/_public/contacts'
+    | '/_public/ninja-run'
     | '/_public/price'
     | '/_public/schedule'
     | '/_public/'
@@ -406,6 +418,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicContactsRouteImport
       parentRoute: typeof PublicRoute
     }
+    '/_public/ninja-run': {
+      id: '/_public/ninja-run'
+      path: '/ninja-run'
+      fullPath: '/ninja-run'
+      preLoaderRoute: typeof PublicNinjaRunRouteImport
+      parentRoute: typeof PublicRoute
+    }
     '/_public/price': {
       id: '/_public/price'
       path: '/price'
@@ -460,6 +479,7 @@ const LayoutRouteWithChildren =
 interface PublicRouteChildren {
   PublicCompetitionsRoute: typeof PublicCompetitionsRoute
   PublicContactsRoute: typeof PublicContactsRoute
+  PublicNinjaRunRoute: typeof PublicNinjaRunRoute
   PublicPriceRoute: typeof PublicPriceRoute
   PublicScheduleRoute: typeof PublicScheduleRoute
   PublicIndexRoute: typeof PublicIndexRoute
@@ -469,6 +489,7 @@ interface PublicRouteChildren {
 const PublicRouteChildren: PublicRouteChildren = {
   PublicCompetitionsRoute: PublicCompetitionsRoute,
   PublicContactsRoute: PublicContactsRoute,
+  PublicNinjaRunRoute: PublicNinjaRunRoute,
   PublicPriceRoute: PublicPriceRoute,
   PublicScheduleRoute: PublicScheduleRoute,
   PublicIndexRoute: PublicIndexRoute,

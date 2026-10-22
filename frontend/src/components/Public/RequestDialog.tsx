@@ -50,12 +50,14 @@ export function RequestForm({
       }}
     >
       <Input
+        className="nk-input"
         required
         placeholder="Ваше имя"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
       <Input
+        className="nk-input"
         required
         minLength={5}
         type="tel"
@@ -64,17 +66,21 @@ export function RequestForm({
         onChange={(e) => setPhone(e.target.value)}
       />
       <select
-        className="h-9 rounded-md border bg-background text-foreground px-3 text-sm"
+        className="nk-input"
         value={kind}
         onChange={(e) => setKind(e.target.value)}
       >
         <option value="kids">Детские тренировки</option>
         <option value="adults">Тренировки для взрослых</option>
       </select>
-      <Button type="submit" disabled={mutation.isPending}>
+      <Button
+        type="submit"
+        className="nk-btn nk-btn--lime"
+        disabled={mutation.isPending}
+      >
         Записаться на тренировку
       </Button>
-      <p className="text-xs text-muted-foreground">
+      <p className="nk-muted text-xs">
         Вы соглашаетесь на нашу политику обработки персональных данных
       </p>
     </form>

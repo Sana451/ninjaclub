@@ -29,14 +29,12 @@ export function TrainersGrid() {
   return (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {(data ?? []).map((t) => (
-        <div key={t.id} className="overflow-hidden rounded-xl border bg-card">
+        <div key={t.id} className="nk-card nk-card--flush">
           <Avatar t={t} />
           <div className="p-5">
-            <h3 className="text-lg font-bold">{fullName(t)}</h3>
-            <p className="mb-2 text-sm font-medium text-primary">
-              {t.function}
-            </p>
-            <ul className="list-disc space-y-1 pl-4 text-sm text-muted-foreground">
+            <h3 className="nk-h3">{fullName(t)}</h3>
+            <span className="nk-badge mt-2 mb-3">{t.function}</span>
+            <ul className="nk-muted list-disc space-y-1 pl-4 text-sm">
               {(t.description ?? "")
                 .split(/(?<=\.)\s+/)
                 .filter(Boolean)
@@ -56,13 +54,13 @@ export function PriceCards({ adminGrant = false }: { adminGrant?: boolean }) {
   return (
     <div className="grid gap-6 md:grid-cols-3">
       {(data ?? []).map((c) => (
-        <div key={c.id} className="flex flex-col rounded-xl border bg-card p-6">
-          <h3 className="text-lg font-bold uppercase">{c.name}</h3>
-          <p className="text-sm text-muted-foreground">
+        <div key={c.id} className="nk-card flex flex-col">
+          <h3 className="nk-h3">{c.name}</h3>
+          <p className="nk-muted text-sm">
             Срок действия{" "}
             {c.valid_days === 30 ? "1 месяц" : `${c.valid_days} дн.`}
           </p>
-          <p className="my-4 text-3xl font-black text-primary">
+          <p className="nk-h2 my-4 nk-accent">
             {c.price.toLocaleString("ru-RU")} ₽
           </p>
           <p className="mb-4 flex-1 text-sm">{c.description}</p>
@@ -72,7 +70,7 @@ export function PriceCards({ adminGrant = false }: { adminGrant?: boolean }) {
             href={club.social.vk}
             target="_blank"
             rel="noreferrer"
-            className="rounded-md bg-primary px-4 py-2 text-center text-sm font-semibold text-primary-foreground"
+            className="nk-btn nk-btn--lime text-center text-sm"
           >
             Купить абонемент
           </a>

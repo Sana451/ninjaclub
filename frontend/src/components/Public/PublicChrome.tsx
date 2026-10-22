@@ -65,40 +65,50 @@ const nav = [
   { to: "/", hash: "trainers", label: "Тренеры" },
   { to: "/contacts", label: "Контакты" },
   { to: "/competitions", label: "Соревнования" },
+  { to: "/ninja-run", label: "Ниндзя Ран" },
 ] as const
 
 export function PublicHeader() {
   const [open, setOpen] = useState(false)
   return (
-    <header className="sticky top-0 z-20 border-b bg-background/95 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-6xl items-center gap-6 px-4">
-        <Link to="/" className="text-xl font-black tracking-wider text-primary">
-          NINJA CLUB
+    <header className="nk-header sticky top-0 z-20 border-b backdrop-blur">
+      <div className="nk-container flex h-16 items-center gap-6">
+        <Link to="/" className="nk-logo text-xl">
+          <span>NINJA CLUB</span>
         </Link>
-        <nav className="hidden flex-1 items-center gap-5 text-sm lg:flex">
+        <nav className="nk-nav hidden flex-1 items-center gap-5 lg:flex">
           {nav.map((i) => (
             <Link
               key={i.label}
               to={i.to}
               hash={"hash" in i ? i.hash : undefined}
-              className="hover:text-primary"
             >
               {i.label}
             </Link>
           ))}
         </nav>
         <div className="ml-auto hidden flex-col items-end leading-tight md:flex">
-          <a href={club.phoneHref} className="text-sm font-medium">
+          <a href={club.phoneHref} className="nk-link text-sm font-medium">
             {club.phone}
           </a>
-          <span className="text-xs text-muted-foreground">{club.hours}</span>
+          <span className="nk-muted text-xs">{club.hours}</span>
         </div>
         {isLoggedIn() ? (
-          <Button asChild variant="outline" size="sm">
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className="nk-btn nk-btn--ghost nk-btn--sm"
+          >
             <Link to="/account">Личный кабинет</Link>
           </Button>
         ) : (
-          <Button asChild variant="outline" size="sm">
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className="nk-btn nk-btn--ghost nk-btn--sm"
+          >
             <Link to="/login">Войти</Link>
           </Button>
         )}
@@ -115,7 +125,7 @@ export function PublicHeader() {
         </button>
       </div>
       {open && (
-        <div className="flex flex-col gap-3 border-t px-4 py-4 lg:hidden">
+        <div className="nk-nav flex flex-col gap-3 border-t px-4 py-4 lg:hidden">
           {nav.map((i) => (
             <Link
               key={i.label}
@@ -139,25 +149,23 @@ export function PublicHeader() {
 
 export function PublicFooter() {
   return (
-    <footer className="border-t bg-card">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 md:grid-cols-3">
+    <footer className="nk-footer border-t">
+      <div className="nk-container grid gap-8 py-10 md:grid-cols-3">
         <div>
-          <div className="text-xl font-black tracking-wider text-primary">
-            NINJA CLUB
-          </div>
-          <p className="mt-2 text-sm text-muted-foreground">{club.address}</p>
-          <p className="text-sm text-muted-foreground">{club.hours}</p>
+          <div className="nk-logo text-xl">NINJA CLUB</div>
+          <p className="nk-muted mt-2 text-sm">{club.address}</p>
+          <p className="nk-muted text-sm">{club.hours}</p>
         </div>
         <div className="text-sm">
           <p>
             Телефон, Telegram:{" "}
-            <a className="text-primary" href={club.phoneHref}>
+            <a className="nk-link" href={club.phoneHref}>
               {club.phone}
             </a>
           </p>
           <p>
             Почта:{" "}
-            <a className="text-primary" href={`mailto:${club.email}`}>
+            <a className="nk-link" href={`mailto:${club.email}`}>
               {club.email}
             </a>
           </p>
@@ -172,7 +180,7 @@ export function PublicFooter() {
               key={slug}
               to="/docs/$slug"
               params={{ slug }}
-              className="text-muted-foreground hover:text-primary"
+              className="nk-muted hover:text-primary"
             >
               {d.title}
             </Link>

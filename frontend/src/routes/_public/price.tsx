@@ -11,10 +11,10 @@ export const Route = createFileRoute("/_public/price")({
 function PricePage() {
   const { user } = useAuth()
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12">
-      <h1 className="mb-8 text-4xl font-black uppercase">Цены на тренировки</h1>
+    <div className="nk-container py-12">
+      <h1 className="nk-h2 mb-8">Цены на тренировки</h1>
       <PriceCards adminGrant={!!user?.is_superuser} />
-      <p className="mt-8 text-sm text-muted-foreground">
+      <p className="nk-muted mt-8 text-sm">
         Первое пробное занятие в группе со скидкой 30%!
       </p>
     </div>

@@ -34,12 +34,12 @@ import { handleError } from "@/utils"
 
 const formSchema = z
   .object({
-    email: z.email({ message: "Invalid email address" }),
+    email: z.email({ message: "Некорректный адрес эл. почты" }),
     full_name: z.string().optional(),
     phone: optionalPhoneSchema,
     password: z
       .string()
-      .min(8, { message: "Password must be at least 8 characters" })
+      .min(8, { message: "Пароль должен быть не короче 8 символов" })
       .optional()
       .or(z.literal("")),
     confirm_password: z.string().optional(),
@@ -47,7 +47,7 @@ const formSchema = z
     is_active: z.boolean().optional(),
   })
   .refine((data) => !data.password || data.password === data.confirm_password, {
-    message: "The passwords don't match",
+    message: "Пароли не совпадают",
     path: ["confirm_password"],
   })
 
@@ -83,7 +83,7 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
         body: { ...data, phone: phoneOrNull(data.phone) },
       }),
     onSuccess: () => {
-      showSuccessToast("User updated successfully")
+      showSuccessToast("Пользователь обновлён")
       setIsOpen(false)
       onSuccess()
     },
@@ -109,15 +109,15 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
         onClick={() => setIsOpen(true)}
       >
         <Pencil />
-        Edit User
+        Редактировать
       </DropdownMenuItem>
       <DialogContent className="sm:max-w-md">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader>
-              <DialogTitle>Edit User</DialogTitle>
+              <DialogTitle>Редактирование пользователя</DialogTitle>
               <DialogDescription>
-                Update the user details below.
+                Измените данные пользователя ниже.
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
@@ -127,11 +127,11 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Email <span className="text-destructive">*</span>
+                      Эл. почта <span className="text-destructive">*</span>
                     </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Email"
+                        placeholder="Эл. почта"
                         type="email"
                         {...field}
                         required
@@ -147,9 +147,9 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
                 name="full_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Full Name</FormLabel>
+                    <FormLabel>Полное имя</FormLabel>
                     <FormControl>
-                      <Input placeholder="Full name" type="text" {...field} />
+                      <Input placeholder="Полное имя" type="text" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -179,13 +179,9 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Set Password</FormLabel>
+                    <FormLabel>Новый пароль</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Password"
-                        type="password"
-                        {...field}
-                      />
+                      <Input placeholder="Пароль" type="password" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -197,13 +193,9 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
                 name="confirm_password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Confirm Password</FormLabel>
+                    <FormLabel>Подтверждение пароля</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Password"
-                        type="password"
-                        {...field}
-                      />
+                      <Input placeholder="Пароль" type="password" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -221,7 +213,9 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
                         onCheckedChange={field.onChange}
                       />
                     </FormControl>
-                    <FormLabel className="font-normal">Is superuser?</FormLabel>
+                    <FormLabel className="font-normal">
+                      Администратор?
+                    </FormLabel>
                   </FormItem>
                 )}
               />
@@ -237,7 +231,7 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
                         onCheckedChange={field.onChange}
                       />
                     </FormControl>
-                    <FormLabel className="font-normal">Is active?</FormLabel>
+                    <FormLabel className="font-normal">Активен?</FormLabel>
                   </FormItem>
                 )}
               />
@@ -246,11 +240,11 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
             <DialogFooter>
               <DialogClose asChild>
                 <Button variant="outline" disabled={mutation.isPending}>
-                  Cancel
+                  Отмена
                 </Button>
               </DialogClose>
               <LoadingButton type="submit" loading={mutation.isPending}>
-                Save
+                Сохранить
               </LoadingButton>
             </DialogFooter>
           </form>
