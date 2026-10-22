@@ -210,5 +210,5 @@ export function arena(c, _P, o) {
   for (let i = Math.floor(s / 70) - 1; i * 70 - s < W; i++)
     rc(c, Math.round(i * 70 - s), gy + 3, 1, ph, NEON.pad)
   const ch = Math.min(9, ph - 3)
-  chevrons(c, W, gy + 3 + Math.floor((ph - ch) / 2), ch, s)
+  chevrons(c, W, gy + 3 + Math.floor((ph - ch) / 2), ch, s, 48)
 }
