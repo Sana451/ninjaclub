@@ -125,6 +125,18 @@ h3 {
     opacity: 0;
   }
 }
+.nk-prog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  z-index: 60;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: linear-gradient(90deg, var(--nk-fire), var(--nk-lime));
+  pointer-events: none;
+}
 .nk-sw {
   position: fixed;
   left: 50%;
