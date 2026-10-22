@@ -64,7 +64,7 @@ const DRAW = {
   },
   beam: (c, P, o) => {
     rc(c, o.x - 1, GG - 10, o.w + 2, 10, P.out)
-    rc(c, o.x, GG - 9, o.w, 9, "#0f0f1c")
+    rc(c, o.x, GG - 9, o.w, 9, "#3d3780")
     rc(c, o.x - 2, GG - o.h - 1, o.w + 4, 5, P.out)
     rc(c, o.x - 1, GG - o.h, o.w + 2, 3, TEAL)
     rc(c, o.x - 1, GG - o.h, o.w + 2, 1, TEALL)
