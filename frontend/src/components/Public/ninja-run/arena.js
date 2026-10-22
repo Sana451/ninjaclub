@@ -140,13 +140,14 @@ export function chevrons(c, W, y, h, off, per = 24) {
 }
 function crowd(c, y, W, sc) {
   const tones = ["#2a2150", "#3b2a63", "#1d3a5c", "#4a2a4f"]
-  for (let i = Math.floor(sc / 6) - 1; i * 6 - sc < W; i++) {
-    const x = Math.round(i * 6 - sc),
+  for (let i = Math.floor(sc / 16) - 1; i * 16 - sc < W; i++) {
+    const x = Math.round(i * 16 - sc),
       k = hs(i + 5)
-    rc(c, x, y + 3, 5, 6, tones[Math.floor(k * 4)])
-    rc(c, x + 1, y, 3, 3, "#8a6f7a")
+    if (k < 0.25) continue
+    rc(c, x, y + 3, 8, 6, tones[Math.floor(k * 4)])
+    rc(c, x + 2, y, 4, 3, "#8a6f7a")
     if (k > 0.8) rc(c, x - 1, y + 1, 1, 3, "#8a6f7a")
-    if (k > 0.92) rc(c, x + 5, y - 2, 1, 4, NEON.cyan)
+    if (k > 0.92) rc(c, x + 7, y - 2, 1, 4, NEON.cyan)
   }
 }
 
