@@ -579,7 +579,7 @@ export function mountGame(root) {
     }
     if (S.st === "run" && S.slide > 0 && S.y === 0) ball(P)
     else girl(c, P, pose(t, tq), tq)
-    if (S.st === "over" && S.t - S.over < 0.15) {
+    if (S.st === "over" && S.t - S.over < 10) {
       c.fillStyle = "rgba(255,60,60,.25)"
       c.fillRect(0, 0, GW, GH)
     }
