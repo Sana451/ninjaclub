@@ -58,7 +58,7 @@ function Home() {
             <br />
             <span className="nk-accent">Club</span>
           </h1>
-          <p className="nk-muted mt-4 text-3xl md:text-4xl">
+          <p className="mt-4 text-3xl font-semibold text-white md:text-4xl">
             гонки с препятствиями для детей и взрослых
           </p>
           <p className="nk-muted mt-4 text-lg">
