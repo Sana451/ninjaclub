@@ -73,7 +73,7 @@ export function PublicHeader() {
     <header className="nk-header sticky top-0 z-20 border-b backdrop-blur">
       <div className="nk-container flex h-16 items-center gap-6">
         <Link to="/" className="nk-logo text-xl">
-          NINJA CLUB
+          <span>NINJA CLUB</span>
         </Link>
         <nav className="nk-nav hidden flex-1 items-center gap-5 lg:flex">
           {nav.map((i) => (

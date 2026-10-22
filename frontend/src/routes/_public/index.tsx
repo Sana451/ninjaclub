@@ -53,9 +53,8 @@ function Home() {
       >
         <div className="absolute inset-0 bg-black/70" />
         <div className="nk-container relative w-full text-white">
-          <span className="nk-badge mb-4">{club.hours}</span>
           <h1 className="nk-h1">
-            Ninja
+            <span className="nk-accent">Ninja</span>
             <br />
             <span className="nk-accent">Club</span>
           </h1>
