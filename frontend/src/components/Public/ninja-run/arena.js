@@ -97,21 +97,22 @@ function text(c, s, x, y, k) {
 
 function ledWall(c, W, y0, y1, sc, t) {
   rc(c, 0, y0, W, y1 - y0, "#121748")
-  for (let i = Math.floor(sc / 10) - 1; i * 10 - sc < W; i++) {
-    // небоскрёбы с неоновым контуром и окнами
-    const bx = Math.round(i * 10 - sc),
+  for (let i = Math.floor(sc / 26) - 1; i * 26 - sc < W; i++) {
+    // небоскрёбы с неоновым контуром и окнами; часть пропущена, чтобы между домами были просветы
+    if (hs(i + 7) < 0.3) continue
+    const bx = Math.round(i * 26 - sc),
       h = 12 + Math.floor(hs(i) * (y1 - y0 - 22)),
       top = y1 - h,
       col = [NEON.cyan, NEON.pink, NEON.violet][Math.floor(hs(i + 99) * 3)]
-    rc(c, bx, top, 8, h, "#0c1034")
-    rc(c, bx, top, 8, 1, col)
+    rc(c, bx, top, 16, h, "#0c1034")
+    rc(c, bx, top, 16, 1, col)
     rc(c, bx, top, 1, h, col)
-    rc(c, bx + 7, top, 1, h, col)
+    rc(c, bx + 15, top, 1, h, col)
     for (let r = 0; r < h - 4; r += 4)
-      for (let q = 0; q < 2; q++) {
+      for (let q = 0; q < 3; q++) {
         const k = hs(i * 31 + r * 7 + q)
         if (k > 0.55 && (k < 0.8 || ((t * 2 + i) | 0) % 3))
-          rc(c, bx + 2 + q * 3, top + 3 + r, 2, 2, k > 0.9 ? "#fff" : col)
+          rc(c, bx + 3 + q * 5, top + 3 + r, 2, 2, k > 0.9 ? "#fff" : col)
       }
   }
   rc(c, 0, y0 - 1, W, 1, NEON.violet)
