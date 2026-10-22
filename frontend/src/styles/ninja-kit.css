@@ -797,3 +797,85 @@ html.light .nk-deco__star {
 .nk-mascot {
   width: clamp(160px, 16vw, 240px);
 }
+.nk-game {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--nk-line);
+  background: var(--nk-surface-2);
+  user-select: none;
+}
+.nk-game canvas {
+  outline: none;
+  touch-action: none;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+}
+.nk-game__hud {
+  position: absolute;
+  top: 10px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  justify-content: space-between;
+  font: 800 1.3rem var(--nk-display);
+  letter-spacing: 0.1em;
+  color: var(--nk-text);
+  pointer-events: none;
+}
+.nk-game__hud b {
+  color: var(--nk-lime);
+  margin-left: 6px;
+}
+.nk-game__msg {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 8px;
+  text-align: center;
+  padding: 16px;
+  pointer-events: none;
+  background: rgba(5, 6, 8, 0.45);
+  font: 800 clamp(1.6rem, 5vw, 3rem) var(--nk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #fff;
+}
+.nk-game__msg small {
+  font: 500 0.95rem var(--nk-body);
+  letter-spacing: 0;
+  text-transform: none;
+  color: #dfe5ec;
+  max-width: 520px;
+  margin: 0 auto;
+}
+.nk-game__msg[hidden] {
+  display: none;
+}
+.nk-game__pad {
+  display: none;
+  gap: 10px;
+  padding: 10px;
+  background: var(--nk-surface);
+}
+.nk-game__pad button {
+  flex: 1;
+  padding: 16px;
+  border: 0;
+  border-radius: 12px;
+  font: 700 1.1rem var(--nk-display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--nk-fire);
+  color: var(--nk-on-fire);
+  touch-action: none;
+}
+@media (pointer: coarse) {
+  .nk-game__pad {
+    display: flex;
+  }
+}

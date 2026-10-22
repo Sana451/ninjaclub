@@ -65,6 +65,7 @@ const nav = [
   { to: "/", hash: "trainers", label: "Тренеры" },
   { to: "/contacts", label: "Контакты" },
   { to: "/competitions", label: "Соревнования" },
+  { to: "/ninja-run", label: "Ниндзя Ран" },
 ] as const
 
 export function PublicHeader() {
