@@ -1,5 +1,6 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router"
 import { CursorShuriken } from "@/components/Public/CursorShuriken"
+import { PageDecor } from "@/components/Public/PageDecor"
 import { PublicFooter, PublicHeader } from "@/components/Public/PublicChrome"
 import { ScrollProgress } from "@/components/Public/ScrollProgress"
 
@@ -13,7 +14,8 @@ function PublicLayout() {
       <ScrollProgress />
       <CursorShuriken />
       <PublicHeader />
-      <main className="flex-1">
+      <main className="relative isolate flex-1">
+        <PageDecor />
         <Outlet />
       </main>
       <PublicFooter />

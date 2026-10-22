@@ -578,6 +578,8 @@ h3 {
   pointer-events: none;
   opacity: 0;
   color: var(--nk-fire);
+  filter: drop-shadow(0 0 6px var(--nk-fire))
+    drop-shadow(0 0 16px color-mix(in srgb, var(--nk-fire) 70%, transparent));
 }
 @media (pointer: coarse) {
   .nk-cur {
@@ -665,7 +667,112 @@ h3 {
   }
 }
 
+/* ---------- Декор фона страниц (после hero) ---------- */
+.nk-deco-dark,
+.nk-deco-light {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  display: none;
+}
+html.dark .nk-deco-dark {
+  display: block;
+}
+html.light .nk-deco-light {
+  display: block;
+}
+.nk-deco__spot {
+  position: absolute;
+  aspect-ratio: 1;
+}
+.nk-deco__glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 260%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--nk-fire) 28%, transparent),
+    transparent 70%
+  );
+}
+.nk-deco__star {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--nk-fire);
+  opacity: 0.4;
+  filter: drop-shadow(
+    0 0 30px color-mix(in srgb, var(--nk-fire) 50%, transparent)
+  );
+  animation: nk-spin linear infinite;
+}
+html.light .nk-deco__star {
+  opacity: 0.5;
+}
+.nk-deco-dark .nk-p {
+  position: absolute;
+  top: -60px;
+  color: var(--nk-fire);
+  opacity: 0.32;
+  filter: drop-shadow(
+    0 0 10px color-mix(in srgb, var(--nk-fire) 60%, transparent)
+  );
+  animation: nk-fall-vh linear infinite;
+}
+.nk-deco-dark .nk-p svg {
+  display: block;
+  animation: nk-spin 4s linear infinite;
+}
+.nk-deco-light::before,
+.nk-deco-light::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 24px;
+  background:
+    conic-gradient(
+      var(--nk-text) 25%,
+      transparent 0 50%,
+      var(--nk-text) 0 75%,
+      transparent 0
+    )
+    0 0 / 24px 24px;
+  opacity: 0.85;
+  animation: nk-check 1.4s linear infinite;
+}
+.nk-deco-light::before {
+  top: 64px;
+}
+.nk-deco-light::after {
+  bottom: 0;
+  animation-direction: reverse;
+}
+@keyframes nk-fall-vh {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(100vh + 120px));
+  }
+}
+@keyframes nk-check {
+  to {
+    background-position: 24px 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .nk-deco-dark,
+  .nk-deco-light {
+    display: none;
+  }
   .nk-root *,
   .nk-root *::before,
   .nk-root *::after {
