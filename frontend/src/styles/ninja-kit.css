@@ -2,7 +2,7 @@
    Палитра выбирается атрибутом html[data-theme] (см. components/theme-provider.tsx).
    Токены shadcn маппятся на них в index.css. */
 
-@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600&family=Roboto+Condensed:wght@700;800&display=swap");
 
 :root {
   --nk-bg: #0b0d10;
@@ -25,7 +25,7 @@
     14px 100%,
     0 calc(100% - 14px)
   );
-  --nk-display: "Barlow Condensed", Impact, sans-serif;
+  --nk-display: "Barlow Condensed", "Roboto Condensed", Impact, sans-serif;
   --nk-body: "Inter", system-ui, sans-serif;
   --nk-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
@@ -226,7 +226,7 @@ h3 {
 }
 @layer components {
   .nk-container {
-    max-width: 72rem;
+    max-width: 88rem;
     margin: 0 auto;
     padding-inline: 1rem;
   }
@@ -784,4 +784,16 @@ html.light .nk-deco__star {
     opacity: 1;
     transform: none;
   }
+}
+
+/* Пиксельный талисман (канвас 64×64) */
+.px {
+  display: block;
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  background: transparent;
+}
+.nk-mascot {
+  width: clamp(160px, 16vw, 240px);
 }

@@ -23,6 +23,16 @@ export const Route = createFileRoute("/_public/")({
   }),
 })
 
+const MARQUEE_WORDS = [
+  "Бег",
+  "Стена",
+  "Канаты",
+  "Турник",
+  "Лазание",
+  "Баланс",
+  "Финиш",
+]
+
 function Section({
   id,
   title,
@@ -44,7 +54,7 @@ function Home() {
   return (
     <>
       <section
-        className="nk-hero flex min-h-[calc(100svh-4rem)] items-center"
+        className="nk-hero flex min-h-[calc(100svh-8rem)] items-center"
         style={{
           backgroundImage: `url(${club.heroImage})`,
           backgroundSize: "cover",
@@ -53,7 +63,10 @@ function Home() {
       >
         <div className="absolute inset-0 bg-black/70" />
         <div className="nk-container relative w-full text-white">
-          <h1 className="nk-h1">
+          <span className="nk-badge nk-badge--lime">
+            OCR · Ninja · Obstacle Racing
+          </span>
+          <h1 className="nk-h1 mt-6">
             <span className="nk-accent">Ninja</span>
             <br />
             <span className="nk-accent">Club</span>
@@ -83,6 +96,16 @@ function Home() {
           </div>
         </div>
       </section>
+
+      <div className="nk-marquee relative z-10 -mt-12" aria-hidden="true">
+        <div className="nk-marquee__row">
+          {[...MARQUEE_WORDS, ...MARQUEE_WORDS].map((w, i) => (
+            <span key={`${w}-${i}`} className="nk-marquee__item">
+              {w} ✦
+            </span>
+          ))}
+        </div>
+      </div>
 
       <Section id="about" title="Что такое OCR:">
         <div className="grid gap-6 md:grid-cols-2">
@@ -224,7 +247,7 @@ function Home() {
 
       <section
         id="contacts"
-        className="nk-hero flex min-h-screen scroll-mt-20 items-center bg-cover px-4 py-14"
+        className="nk-hero flex min-h-[75svh] scroll-mt-20 items-center bg-cover px-4 py-14"
         style={{
           backgroundPosition: "center 45%",
           backgroundImage:

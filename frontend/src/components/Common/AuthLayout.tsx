@@ -1,5 +1,6 @@
 import { Appearance } from "@/components/Common/Appearance"
 import { Logo } from "@/components/Common/Logo"
+import { Mascot } from "@/components/Common/Mascot"
 import { Footer } from "./Footer"
 
 interface AuthLayoutProps {
@@ -9,7 +10,8 @@ interface AuthLayoutProps {
 export function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
-      <div className="bg-card relative hidden lg:flex lg:items-center lg:justify-center">
+      <div className="bg-card relative hidden lg:flex lg:flex-col lg:items-center lg:justify-center lg:gap-8">
+        <Mascot />
         <Logo variant="full" className="h-16" />
       </div>
       <div className="flex flex-col gap-4 p-6 md:p-10">
