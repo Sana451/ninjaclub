@@ -215,7 +215,7 @@ h3 {
 .nk-container {
   max-width: 1120px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding-inline: 20px;
 }
 .nk-section {
   padding: 72px 0;
