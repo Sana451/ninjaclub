@@ -224,12 +224,17 @@ function reducer(s: State, a: Action): State {
 }
 
 type ScreenProps = {
-  label: string
   name: string
   controls: Controls
   seed: number
   running: boolean
   onEnd: (result: Result) => void
+}
+
+const KEY_HINT: Record<Controls, string | null> = {
+  solo: null,
+  p1: "W / S",
+  p2: "↑ / ↓",
 }
 
 const COUNT_STEPS = ["3", "2", "1", "GO!"]
@@ -273,7 +278,6 @@ export function Countdown({ onDone }: { onDone: () => void }) {
 }
 
 export function GameScreen({
-  label,
   name,
   controls,
   seed,
@@ -317,7 +321,13 @@ export function GameScreen({
 
   return (
     <div className="min-w-0">
-      <div className="nk-muted mb-2 text-sm">{label}</div>
+      <div className="nk-screen-head">
+        {KEY_HINT[controls] && (
+          <span className="nk-keys">
+            Управление: <kbd>{KEY_HINT[controls]}</kbd>
+          </span>
+        )}
+      </div>
       <div ref={ref} />
     </div>
   )
@@ -437,14 +447,17 @@ export function NinjaRunTournament() {
     return (
       <div className="space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <p>
-            Отбор: <b>{player?.name}</b>, попытка {attemptNo} из {ATTEMPTS}
-          </p>
+          <div className="nk-stage">
+            <span className="nk-stage__tag">Отбор</span>
+            <span className="nk-stage__name">{player?.name}</span>
+            <span className="nk-stage__try">
+              Попытка {attemptNo} из {ATTEMPTS}
+            </span>
+          </div>
           {resetButton}
         </div>
         <GameScreen
           key={`q-${s.qPos}`}
-          label="Трасса отбора"
           name={player?.name ?? ""}
           controls="solo"
           seed={QUALI_SEEDS[s.qPos % ATTEMPTS]}
@@ -496,7 +509,6 @@ export function NinjaRunTournament() {
           <div className="nk-pair flex flex-col gap-4">
             <GameScreen
               key={`${s.r}-${s.d}-0`}
-              label={`${duel.players[0].name} — W / S`}
               name={duel.players[0].name}
               controls="p1"
               seed={duel.seed}
@@ -505,7 +517,6 @@ export function NinjaRunTournament() {
             />
             <GameScreen
               key={`${s.r}-${s.d}-1`}
-              label={`${duel.players[1].name} — ↑ / ↓`}
               name={duel.players[1].name}
               controls="p2"
               seed={duel.seed}

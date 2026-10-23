@@ -146,7 +146,7 @@ export function mountGame(root, opts = {}) {
     }
   root.classList.add("nk-game")
   root.innerHTML = `<canvas class="px" width="${GW}" height="${GH}" tabindex="0" aria-label="Игра: беги, прыгай, перекатывайся, цепляйся за зиплайны и собирай светящиеся кольца"></canvas>
-<div class="nk-game__hud"><span>КОЛЬЦА <b class="gr">0</b></span><span>${manual ? "" : "РЕКОРД "}<b class="gb">0</b></span></div>
+<div class="nk-game__hud"><span>КОЛЬЦА <b class="gr">0</b></span><span class="${manual ? "nk-game__name" : ""}">${manual ? "" : "РЕКОРД "}<b class="gb">0</b></span></div>
 <div class="nk-game__msg"><b>Ниндзя-ран</b><small>Пробел / тап — прыжок (держи — выше) · ↓ — перекат под матом · в прыжке цепляйся за зиплайн · собирай светящиеся кольца</small></div>
 <div class="nk-game__pad"><button data-k="up">Прыжок</button><button data-k="down">Перекат</button></div>`
   const cv = root.querySelector("canvas"),
