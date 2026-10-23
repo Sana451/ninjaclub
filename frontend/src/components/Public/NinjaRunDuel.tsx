@@ -94,6 +94,7 @@ export function NinjaRunDuel() {
           name={duel.names[0]}
           controls="p1"
           seed={duel.seed}
+          duel
           running={live}
           onEnd={() => onCrash(0)}
         />
@@ -102,6 +103,7 @@ export function NinjaRunDuel() {
           name={duel.names[1]}
           controls="p2"
           seed={duel.seed}
+          duel
           running={live}
           onEnd={() => onCrash(1)}
         />

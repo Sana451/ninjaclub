@@ -227,6 +227,7 @@ type ScreenProps = {
   name: string
   controls: Controls
   seed: number
+  duel?: boolean
   running: boolean
   onEnd: (result: Result) => void
 }
@@ -281,6 +282,7 @@ export function GameScreen({
   name,
   controls,
   seed,
+  duel,
   running,
   onEnd,
 }: ScreenProps) {
@@ -301,6 +303,7 @@ export function GameScreen({
       filter: TINT[controls],
       boy: controls === "p2",
       seed,
+      duel,
       keys: CONTROLS[controls],
       onEnd: (result) => endRef.current(result),
     }
@@ -310,7 +313,7 @@ export function GameScreen({
       ctl.dispose()
       ctlRef.current = null
     }
-  }, [controls, seed, name])
+  }, [controls, seed, name, duel])
 
   useEffect(() => {
     const ctl = ctlRef.current
@@ -512,6 +515,7 @@ export function NinjaRunTournament() {
               name={duel.players[0].name}
               controls="p1"
               seed={duel.seed}
+              duel
               running={live}
               onEnd={() => dispatch({ type: "crash", side: 0 })}
             />
@@ -520,6 +524,7 @@ export function NinjaRunTournament() {
               name={duel.players[1].name}
               controls="p2"
               seed={duel.seed}
+              duel
               running={live}
               onEnd={() => dispatch({ type: "crash", side: 1 })}
             />

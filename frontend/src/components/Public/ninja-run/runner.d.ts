@@ -4,6 +4,7 @@ export type GameOptions = {
   manual?: boolean
   keys?: GameKeys
   seed?: number
+  duel?: boolean
   onEnd?: (result: GameResult) => void
   name?: string
   filter?: string

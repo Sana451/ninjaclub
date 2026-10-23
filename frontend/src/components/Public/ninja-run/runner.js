@@ -136,7 +136,7 @@ function seeded(seed) {
 
 /* opts: manual — старт только через controller.start(), без автозапуска прыжком;
    keys — { up, down } по KeyboardEvent.code; seed — фиксированная трасса; onEnd({ rings, dist }) — при столкновении;
-   name — имя игрока вместо рекорда в HUD (режим manual).
+   name — имя игрока вместо рекорда в HUD (режим manual); duel — без ускорения на зиплайне, чтобы трассы двух экранов не расходились.
    Возвращает { start, stop, dispose }. */
 export function mountGame(root, opts = {}) {
   const manual = !!opts.manual,
@@ -347,7 +347,7 @@ export function mountGame(root, opts = {}) {
     if (S.st !== "run") return
     S.grace = Math.max(0, S.grace - dt)
     S.buf = Math.max(0, S.buf - dt)
-    const sp = S.speed * (S.zip ? 1.5 : 1)
+    const sp = S.speed * (S.zip && !opts.duel ? 1.5 : 1)
     S.dist += sp * dt
     S.speed = 125 + S.dist * 0.02
     if (S.zip) {
