@@ -1,5 +1,7 @@
 import { useEffect, useReducer, useRef, useState } from "react"
 
+import { PodiumScene } from "@/components/Common/PodiumScene"
+
 import {
   type GameController,
   type GameKeys,
@@ -8,7 +10,8 @@ import {
   mountGame,
 } from "./ninja-run/runner.js"
 
-const ATTEMPTS = 3
+const ATTEMPT_OPTIONS = [1, 2, 3]
+const DEFAULT_ATTEMPTS = 3
 const MAX_BRACKET = 8
 // Одинаковые трассы для всех участников: попытка N всегда идёт на одной и той же трассе
 const QUALI_SEEDS = [101, 202, 303]
@@ -40,6 +43,7 @@ type State = {
   phase: Phase
   players: Player[]
   nextId: number
+  attemptsPerPlayer: number
   attempts: Record<number, Result[]>
   qPos: number
   qRunning: boolean
@@ -47,11 +51,13 @@ type State = {
   r: number
   d: number
   champion: Player | null
+  championBoy: boolean
 }
 
 type Action =
   | { type: "add"; name: string }
   | { type: "remove"; id: number }
+  | { type: "setAttempts"; value: number }
   | { type: "begin" }
   | { type: "qStart" }
   | { type: "qEnd"; result: Result }
@@ -60,11 +66,16 @@ type Action =
   | { type: "nextDuel" }
   | { type: "reset" }
 
-function initialState(players: Player[] = [], nextId = 1): State {
+function initialState(
+  players: Player[] = [],
+  nextId = 1,
+  attemptsPerPlayer = DEFAULT_ATTEMPTS,
+): State {
   return {
     phase: "setup",
     players,
     nextId,
+    attemptsPerPlayer,
     attempts: {},
     qPos: 0,
     qRunning: false,
@@ -72,6 +83,7 @@ function initialState(players: Player[] = [], nextId = 1): State {
     r: 0,
     d: 0,
     champion: null,
+    championBoy: false,
   }
 }
 
@@ -82,6 +94,11 @@ function shuffle<T>(items: T[]): T[] {
     ;[a[i], a[j]] = [a[j], a[i]]
   }
   return a
+}
+
+// Склонение: 1 попытка, 2–3 попытки
+function attemptsWord(n: number): string {
+  return n === 1 ? "попытку" : "попытки"
 }
 
 // Наибольшая степень двойки, не больше 8 и не больше числа участников
@@ -169,6 +186,10 @@ function reducer(s: State, a: Action): State {
       return s.phase === "setup"
         ? { ...s, players: s.players.filter((p) => p.id !== a.id) }
         : s
+    case "setAttempts":
+      return s.phase === "setup" && ATTEMPT_OPTIONS.includes(a.value)
+        ? { ...s, attemptsPerPlayer: a.value }
+        : s
     case "begin":
       if (s.players.length < 2) return s
       return {
@@ -181,19 +202,19 @@ function reducer(s: State, a: Action): State {
     case "qStart":
       return s.phase === "qualifying" &&
         !s.qRunning &&
-        s.qPos < s.players.length * ATTEMPTS
+        s.qPos < s.players.length * s.attemptsPerPlayer
         ? { ...s, qRunning: true }
         : s
     case "qEnd": {
       if (s.phase !== "qualifying" || !s.qRunning) return s
-      const pid = s.players[Math.floor(s.qPos / ATTEMPTS)].id
+      const pid = s.players[Math.floor(s.qPos / s.attemptsPerPlayer)].id
       const attempts = {
         ...s.attempts,
         [pid]: [...(s.attempts[pid] ?? []), a.result],
       }
       const qPos = s.qPos + 1
       const next: State = { ...s, attempts, qPos, qRunning: false }
-      if (qPos < s.players.length * ATTEMPTS) return next
+      if (qPos < s.players.length * s.attemptsPerPlayer) return next
       const ranked = rankPlayers(s.players, attempts).map((x) => x.player)
       const top = ranked.slice(0, bracketSize(ranked.length))
       return {
@@ -203,6 +224,7 @@ function reducer(s: State, a: Action): State {
         r: 0,
         d: 0,
         champion: null,
+        championBoy: false,
       }
     }
     case "duelStart":
@@ -245,11 +267,17 @@ function reducer(s: State, a: Action): State {
         : s.rounds
       const next = { ...s, rounds }
       if (s.d + 1 < round.matches.length) return { ...next, d: s.d + 1 }
-      if (!nextRound) return { ...next, champion: winner }
+      if (!nextRound)
+        return {
+          ...next,
+          champion: winner,
+          // Сторона 1 в паре — игрок с мальчиком (controls p2)
+          championBoy: match?.winner === 1,
+        }
       return { ...next, r: s.r + 1, d: 0 }
     }
     case "reset":
-      return initialState(s.players, s.nextId)
+      return initialState(s.players, s.nextId, s.attemptsPerPlayer)
   }
 }
 
@@ -506,6 +534,7 @@ export function NinjaRunTournament() {
 
   if (s.phase === "setup") {
     const n = s.players.length
+    const perPlayer = s.attemptsPerPlayer
     return (
       <div className="nk-card space-y-4 p-6">
         <form
@@ -544,9 +573,27 @@ export function NinjaRunTournament() {
             </li>
           ))}
         </ol>
+        <div className="space-y-2">
+          <span className="font-semibold">Попыток на отборе</span>
+          <fieldset className="flex gap-2" aria-label="Попыток на отборе">
+            {ATTEMPT_OPTIONS.map((value) => (
+              <button
+                key={value}
+                type="button"
+                aria-pressed={perPlayer === value}
+                className={`nk-btn nk-btn--sm ${
+                  perPlayer === value ? "nk-btn--lime" : "nk-btn--ghost"
+                }`}
+                onClick={() => dispatch({ type: "setAttempts", value })}
+              >
+                {value}
+              </button>
+            ))}
+          </fieldset>
+        </div>
         <p className="nk-muted text-sm">
-          Участников: {n}. Каждый делает {ATTEMPTS} попытки; в турнир выходят до{" "}
-          {MAX_BRACKET} лучших (минимум 2 участника).
+          Участников: {n}. Каждый делает {perPlayer} {attemptsWord(perPlayer)}.
+          В турнир выходят до {MAX_BRACKET} лучших (минимум 2 участника).
         </p>
         <button
           type="button"
@@ -571,8 +618,9 @@ export function NinjaRunTournament() {
   )
 
   if (s.phase === "qualifying") {
-    const player = s.players[Math.floor(s.qPos / ATTEMPTS)]
-    const attemptNo = (s.qPos % ATTEMPTS) + 1
+    const perPlayer = s.attemptsPerPlayer
+    const player = s.players[Math.floor(s.qPos / perPlayer)]
+    const attemptNo = (s.qPos % perPlayer) + 1
     return (
       <div className="space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
@@ -580,7 +628,7 @@ export function NinjaRunTournament() {
             <span className="nk-stage__tag">Отбор</span>
             <span className="nk-stage__name">{player?.name}</span>
             <span className="nk-stage__try">
-              Попытка {attemptNo} из {ATTEMPTS}
+              Попытка {attemptNo} из {perPlayer}
             </span>
           </div>
           {resetButton}
@@ -589,7 +637,7 @@ export function NinjaRunTournament() {
           key={`q-${s.qPos}`}
           name={player?.name ?? ""}
           controls="solo"
-          seed={QUALI_SEEDS[s.qPos % ATTEMPTS]}
+          seed={QUALI_SEEDS[s.qPos % perPlayer]}
           running={s.qRunning}
           onEnd={(result) => dispatch({ type: "qEnd", result })}
         />
@@ -703,8 +751,16 @@ export function NinjaRunTournament() {
       )}
 
       {s.champion && (
-        <div className="nk-card p-4 text-center">
-          🏆 Чемпион турнира: <b>{s.champion.name}</b>
+        <div className="nk-card nk-podium p-4 text-center">
+          <PodiumScene
+            className="nk-podium__scene"
+            label="Победный танец чемпиона"
+            boy={s.championBoy}
+          />
+          <div className="nk-podium__block">
+            <span className="nk-podium__name">🏆 {s.champion.name}</span>
+          </div>
+          <div className="nk-podium__label">Чемпион турнира</div>
         </div>
       )}
 
