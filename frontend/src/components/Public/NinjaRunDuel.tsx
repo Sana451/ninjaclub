@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-import { GameScreen } from "./NinjaRunTournament.js"
+import { Countdown, GameScreen } from "./NinjaRunTournament.js"
 
 type Duel = {
   names: [string, string]
@@ -17,6 +17,7 @@ export function NinjaRunDuel() {
   const [p1, setP1] = useState("")
   const [p2, setP2] = useState("")
   const [duel, setDuel] = useState<Duel | null>(null)
+  const [counting, setCounting] = useState(false)
 
   if (!duel) {
     const ready = p1.trim() !== "" && p2.trim() !== ""
@@ -69,6 +70,14 @@ export function NinjaRunDuel() {
 
   return (
     <div className="space-y-4">
+      {counting && (
+        <Countdown
+          onDone={() => {
+            setCounting(false)
+            setDuel((d) => (d ? { ...d, started: true } : d))
+          }}
+        />
+      )}
       <div className="flex flex-col gap-4">
         <GameScreen
           key={`${duel.seed}-0`}
@@ -95,7 +104,8 @@ export function NinjaRunDuel() {
           <button
             type="button"
             className="nk-btn nk-btn--lime"
-            onClick={() => setDuel({ ...duel, started: true })}
+            disabled={counting}
+            onClick={() => setCounting(true)}
           >
             Старт
           </button>

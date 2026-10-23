@@ -667,6 +667,31 @@ h3 {
   }
 }
 
+/* ---------- Обратный отсчёт перед стартом дуэли ---------- */
+.nk-count {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  background: rgba(5, 6, 8, 0.82);
+  font: 800 clamp(8rem, 30vw, 18rem) var(--nk-display);
+  color: var(--nk-fire);
+}
+.nk-count b {
+  animation: nk-boom 0.7s ease-out both;
+}
+@keyframes nk-boom {
+  from {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
 /* ---------- Декор фона страниц (после hero) ---------- */
 .nk-deco-dark,
 .nk-deco-light {

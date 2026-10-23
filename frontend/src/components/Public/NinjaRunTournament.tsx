@@ -232,6 +232,38 @@ type ScreenProps = {
   onEnd: (result: Result) => void
 }
 
+const COUNT_STEPS = ["3", "2", "1", "GO!"]
+const COUNT_STEP_MS = 750
+
+export function Countdown({ onDone }: { onDone: () => void }) {
+  const [step, setStep] = useState(0)
+  const doneRef = useRef(onDone)
+  useEffect(() => {
+    doneRef.current = onDone
+  }, [onDone])
+  useEffect(() => {
+    const t = setTimeout(
+      () =>
+        step < COUNT_STEPS.length - 1
+          ? setStep((n) => n + 1)
+          : doneRef.current(),
+      COUNT_STEP_MS,
+    )
+    return () => clearTimeout(t)
+  }, [step])
+  const label = COUNT_STEPS[step]
+  return (
+    <div className="nk-count" role="status" aria-live="assertive">
+      <b
+        key={step}
+        style={label === "GO!" ? { color: "var(--nk-lime)" } : undefined}
+      >
+        {label}
+      </b>
+    </div>
+  )
+}
+
 export function GameScreen({
   label,
   name,
@@ -323,6 +355,7 @@ function RankTable({
 export function NinjaRunTournament() {
   const [s, dispatch] = useReducer(reducer, undefined, () => initialState())
   const [name, setName] = useState("")
+  const [counting, setCounting] = useState(false)
 
   if (s.phase === "setup") {
     const n = s.players.length
@@ -444,6 +477,14 @@ export function NinjaRunTournament() {
 
       {round && duel && (
         <>
+          {counting && (
+            <Countdown
+              onDone={() => {
+                setCounting(false)
+                dispatch({ type: "duelStart" })
+              }}
+            />
+          )}
           <div className="flex flex-col gap-4">
             <GameScreen
               key={`${s.r}-${s.d}-0`}
@@ -470,7 +511,8 @@ export function NinjaRunTournament() {
               <button
                 type="button"
                 className="nk-btn nk-btn--lime"
-                onClick={() => dispatch({ type: "duelStart" })}
+                disabled={counting}
+                onClick={() => setCounting(true)}
               >
                 Старт пары
               </button>
