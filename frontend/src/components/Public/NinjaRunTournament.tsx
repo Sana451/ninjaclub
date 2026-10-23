@@ -52,6 +52,8 @@ type State = {
   d: number
   champion: Player | null
   championBoy: boolean
+  // Ключ последнего этапа, заставка которого уже закрыта
+  introSeen: string
 }
 
 type Action =
@@ -59,6 +61,7 @@ type Action =
   | { type: "remove"; id: number }
   | { type: "setAttempts"; value: number }
   | { type: "begin" }
+  | { type: "introSeen"; key: string }
   | { type: "qStart" }
   | { type: "qEnd"; result: Result }
   | { type: "duelStart" }
@@ -84,6 +87,7 @@ function initialState(
     d: 0,
     champion: null,
     championBoy: false,
+    introSeen: "",
   }
 }
 
@@ -111,10 +115,10 @@ function bracketSize(n: number): number {
 
 // Название раунда по числу участников в нём
 const ROUND_NAMES: Record<number, string> = {
-  2: "Финал",
-  4: "Полуфинал",
-  8: "1/4 финала",
-  16: "1/8 финала",
+  2: "СУПЕРФИНАЛ",
+  4: "ФИНАЛ",
+  8: "ПОЛУФИНАЛ",
+  16: "1/8 ФИНАЛА",
 }
 
 function newMatch(players: [Player | null, Player | null]): Match {
@@ -199,6 +203,8 @@ function reducer(s: State, a: Action): State {
         qPos: 0,
         qRunning: false,
       }
+    case "introSeen":
+      return { ...s, introSeen: a.key }
     case "qStart":
       return s.phase === "qualifying" &&
         !s.qRunning &&
@@ -359,6 +365,31 @@ export function Versus({
       <span className="nk-versus__name nk-versus__name--l">{left}</span>
       <b className="nk-versus__vs">VS</b>
       <span className="nk-versus__name nk-versus__name--r">{right}</span>
+      <span className="nk-versus__hint">Нажмите любую клавишу</span>
+    </div>
+  )
+}
+
+export function StageIntro({
+  title,
+  onDone,
+}: {
+  title: string
+  onDone: () => void
+}) {
+  const doneRef = useRef(onDone)
+  useEffect(() => {
+    doneRef.current = onDone
+  }, [onDone])
+  useEffect(() => {
+    const onKey = () => doneRef.current()
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [])
+  return (
+    <div className="nk-stage-intro" role="status" aria-live="assertive">
+      <span className="nk-stage-intro__kicker">Этап турнира</span>
+      <b className="nk-stage-intro__title">{title}</b>
       <span className="nk-versus__hint">Нажмите любую клавишу</span>
     </div>
   )
@@ -623,9 +654,15 @@ export function NinjaRunTournament() {
     const attemptNo = (s.qPos % perPlayer) + 1
     return (
       <div className="space-y-4">
+        {s.introSeen !== "qual" && (
+          <StageIntro
+            title="ОТБОР"
+            onDone={() => dispatch({ type: "introSeen", key: "qual" })}
+          />
+        )}
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="nk-stage">
-            <span className="nk-stage__tag">Отбор</span>
+            <span className="nk-stage__tag">ОТБОР</span>
             <span className="nk-stage__name">{player?.name}</span>
             <span className="nk-stage__try">
               Попытка {attemptNo} из {perPlayer}
@@ -664,9 +701,18 @@ export function NinjaRunTournament() {
   const p1 = duel?.players[1]
   const live = !!duel && duel.started && duel.winner === null && !s.champion
   const pairKey = `${s.r}-${s.d}`
+  const stageKey = `r-${s.r}`
+  const stageOpen = !s.champion && s.introSeen !== stageKey
 
   return (
     <div className="space-y-4">
+      {stageOpen && round && (
+        <StageIntro
+          key={stageKey}
+          title={round.name}
+          onDone={() => dispatch({ type: "introSeen", key: stageKey })}
+        />
+      )}
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 className="nk-h3">
           {round?.name} · пара {s.d + 1} из {round?.matches.length ?? 0}
@@ -676,7 +722,7 @@ export function NinjaRunTournament() {
 
       {!s.champion && round && duel && p0 && p1 && (
         <>
-          {!duel.started && introKey !== pairKey && (
+          {!stageOpen && !duel.started && introKey !== pairKey && (
             <Versus
               key={pairKey}
               left={p0.name}

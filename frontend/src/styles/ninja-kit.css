@@ -762,6 +762,51 @@ h3 {
     transform: skewX(-8deg);
   }
 }
+.nk-stage-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-content: center;
+  gap: 16px;
+  padding: 16px;
+  text-align: center;
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      rgba(139, 92, 255, 0.35),
+      transparent 60%
+    ),
+    linear-gradient(180deg, #120b2e 0%, #07060f 100%);
+}
+.nk-stage-intro__kicker {
+  color: #4cc9f0;
+  font: 800 clamp(0.9rem, 2.5vw, 1.2rem) var(--nk-display);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  animation: nk-stage-in 0.5s ease-out both;
+}
+.nk-stage-intro__title {
+  color: #fff;
+  font: 900 clamp(3rem, 14vw, 10rem) var(--nk-display);
+  font-style: italic;
+  text-shadow:
+    0 0 30px #8b5cff,
+    0 0 60px #ff4fd8;
+  text-transform: uppercase;
+  overflow-wrap: break-word;
+  animation: nk-stage-in 0.7s ease-out both;
+}
+@keyframes nk-stage-in {
+  from {
+    opacity: 0;
+    transform: scale(1.6) skewX(-8deg);
+  }
+  to {
+    opacity: 1;
+    transform: skewX(-8deg);
+  }
+}
 .nk-winner {
   position: fixed;
   inset: 0;
