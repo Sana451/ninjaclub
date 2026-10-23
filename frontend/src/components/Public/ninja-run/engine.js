@@ -181,25 +181,29 @@ function drawHead(c, P, x, y, e, m, side, glasses) {
 /* Рисует героиню (чёрная футболка клуба с неоновым принтом, леггинсы, коса с неоновой резинкой, браслеты, бело-розовые кроссовки).
    p = { hip:[x,y], hl, hr (цели рук), fl, fr (цели стоп), eye:0|1|2, mouth:0|1, hd:[dx,dy],
          flow (сила развевания косы), side (вид сбоку), sw (угол косы), alpha, glasses } */
-export function girl(c, P, p, t) {
+export function girl(c, base, p, t, look = {}) {
+  const boy = !!look.boy
+  const P = { ...base, ...(look.pal || {}) }
   const [X, Y] = p.hip,
     fl = p.flow ?? 1,
     O = P.out,
     S = !!p.side
   c.globalAlpha = p.alpha ?? 1
-  const br = [[X - (S ? 7 : 8), Y - 20]]
-  let a = p.sw ?? (S ? -1.1 : -0.35) // коса
-  for (let i = 0; i < 9; i++) {
-    a += Math.sin(t * 4.2 - i * 0.5) * 0.1 * fl
-    const q = br[i]
-    br.push([q[0] + Math.sin(a) * 2.3, q[1] + Math.cos(a) * 2.3])
+  if (!boy) {
+    const br = [[X - (S ? 7 : 8), Y - 20]]
+    let a = p.sw ?? (S ? -1.1 : -0.35) // коса
+    for (let i = 0; i < 9; i++) {
+      a += Math.sin(t * 4.2 - i * 0.5) * 0.1 * fl
+      const q = br[i]
+      br.push([q[0] + Math.sin(a) * 2.3, q[1] + Math.cos(a) * 2.3])
+    }
+    poly(c, br, 3, P.hair, O)
+    for (let i = 0; i < 9; i += 2) ln(c, br[i], br[i + 1], 3, P.hair2)
+    for (const q of look.horns ? [br[0]] : [br[0], br[9]]) {
+      rc(c, q[0] - 2, q[1] - 2, 5, 5, O)
+      rc(c, q[0] - 1, q[1] - 1, 3, 3, P.lime)
+    } // неоновые резинки
   }
-  poly(c, br, 3, P.hair, O)
-  for (let i = 0; i < 9; i += 2) ln(c, br[i], br[i + 1], 3, P.hair2)
-  for (const q of [br[0], br[9]]) {
-    rc(c, q[0] - 2, q[1] - 2, 5, 5, O)
-    rc(c, q[0] - 1, q[1] - 1, 3, 3, P.lime)
-  } // неоновые резинки
   const leg = (k) => {
     const h = [X + (k ? 2 : -2), Y],
       r = ik(h, k ? p.fr : p.fl, 6, 6, S ? 1 : k ? 1 : -1),
@@ -241,15 +245,57 @@ export function girl(c, P, p, t) {
   arm(0)
   arm(1)
   const hd = p.hd || [0, 0]
+  const hx = Math.round(X - 8 + hd[0]),
+    hy = Math.round(Y - 23 + hd[1])
+  if (look.horns) {
+    // две косички, уложенные рожками поверх головы
+    for (const x of [hx + 3, hx + 9]) {
+      rc(c, x - 1, hy - 5, 6, 6, O)
+      rc(c, x, hy - 4, 4, 4, P.hair)
+      rc(c, x + 1, hy - 2, 2, 1, P.hair2)
+      rc(c, x, hy - 5, 4, 2, P.lime)
+    }
+  }
   drawHead(
     c,
     P,
-    Math.round(X - 8 + hd[0]),
-    Math.round(Y - 23 + hd[1]),
+    hx,
+    hy,
     p.eye || 0,
     p.mouth || 0,
     S,
     p.glasses ?? STYLE.glasses,
   )
+  if (look.cap) {
+    rc(c, hx + 1, hy - 1, 14, 4, look.cap)
+    // козырёк: длиннее и толще (2 px заливки + контур снизу)
+    rc(c, hx - (S ? 0 : 4), hy + 3, S ? 19 : 22, 2, look.cap)
+    rc(c, hx - (S ? 0 : 4), hy + 5, S ? 19 : 22, 1, O)
+  }
   c.globalAlpha = 1
+}
+
+// Голова персонажа для карточек выбора: тот же girl(), обрезанный по области головы
+export function headPortrait(c, base, look = {}) {
+  const X = 12,
+    Y = 31 // бедро; голова начинается в Y-23 = 8
+  c.save()
+  c.beginPath()
+  c.rect(0, 0, 24, Y - 9)
+  c.clip()
+  girl(
+    c,
+    base,
+    {
+      hip: [X, Y],
+      hl: [X - 6, Y - 6],
+      hr: [X + 6, Y - 6],
+      fl: [X - 2, Y + 6],
+      fr: [X + 2, Y + 6],
+      flow: 0,
+    },
+    0,
+    look,
+  )
+  c.restore()
 }

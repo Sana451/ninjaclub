@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 type Ctx = CanvasRenderingContext2D
 type Pt = [number, number]
 
-interface Palette {
+export interface Palette {
   out: string
   tee: string
   teeHi: string
@@ -21,6 +21,8 @@ interface Palette {
   wristL: string
   wristR: string
   lime: string
+  fire: string
+  steel: string
 }
 
 interface Pose {
@@ -42,10 +44,12 @@ const mix = (a: Pt, b: Pt, w: number): Pt => [
 ]
 const blink = (t: number) => t % 3.7 < 0.14
 
-function readPalette(el: HTMLElement): Palette {
+export function readPalette(el: HTMLElement): Palette {
   const s = getComputedStyle(el)
   return {
     lime: s.getPropertyValue("--nk-lime").trim() || "#c6ff3d",
+    fire: s.getPropertyValue("--nk-fire").trim() || "#ff5a1f",
+    steel: s.getPropertyValue("--nk-steel").trim() || "#4cc9f0",
     out: "#0a0812",
     tee: "#262a34",
     teeHi: "#454b5a",
@@ -63,7 +67,14 @@ function readPalette(el: HTMLElement): Palette {
   }
 }
 
-function rc(c: Ctx, x: number, y: number, w: number, h: number, col: string) {
+export function rc(
+  c: Ctx,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  col: string,
+) {
   c.fillStyle = col
   c.fillRect(Math.round(x), Math.round(y), w, h)
 }
@@ -197,24 +208,37 @@ function drawHead(
 }
 
 // Героиня: футболка с неоновым принтом, леггинсы, коса, браслеты, кроссовки
-function girl(c: Ctx, P: Palette, p: Pose, t: number) {
+// Мальчик: та же поза и скелет, другая одежда и волосы, без косы
+const BOY: Partial<Palette> = {
+  tee: "#1d3557",
+  teeHi: "#2e5282",
+  legs: "#2a2e3a",
+  legsHi: "#454c60",
+  hair: "#3a2616",
+  hair2: "#22150b",
+}
+
+export function girl(c: Ctx, base: Palette, p: Pose, t: number, boy = false) {
+  const P = boy ? { ...base, ...BOY } : base
   const [X, Y] = p.hip
   const fl = p.flow
   const O = P.out
-  const br: Pt[] = [[X - 8, Y - 20]]
-  let a = -0.35
-  for (let i = 0; i < 9; i++) {
-    a += Math.sin(t * 4.2 - i * 0.5) * 0.1 * fl
-    const q = br[i]
-    br.push([q[0] + Math.sin(a) * 2.3, q[1] + Math.cos(a) * 2.3])
-  }
-  poly(c, br, 3, P.hair, O)
-  for (let i = 0; i < 9; i += 2) {
-    ln(c, br[i], br[i + 1], 3, P.hair2)
-  }
-  for (const q of [br[0], br[9]]) {
-    rc(c, q[0] - 2, q[1] - 2, 5, 5, O)
-    rc(c, q[0] - 1, q[1] - 1, 3, 3, P.lime)
+  if (!boy) {
+    const br: Pt[] = [[X - 8, Y - 20]]
+    let a = -0.35
+    for (let i = 0; i < 9; i++) {
+      a += Math.sin(t * 4.2 - i * 0.5) * 0.1 * fl
+      const q = br[i]
+      br.push([q[0] + Math.sin(a) * 2.3, q[1] + Math.cos(a) * 2.3])
+    }
+    poly(c, br, 3, P.hair, O)
+    for (let i = 0; i < 9; i += 2) {
+      ln(c, br[i], br[i + 1], 3, P.hair2)
+    }
+    for (const q of [br[0], br[9]]) {
+      rc(c, q[0] - 2, q[1] - 2, 5, 5, O)
+      rc(c, q[0] - 1, q[1] - 1, 3, 3, P.lime)
+    }
   }
 
   const leg = (k: number) => {
@@ -269,7 +293,7 @@ function girl(c: Ctx, P: Palette, p: Pose, t: number) {
 }
 
 // Танцевальная поза на «площадке» с центром cx и уровнем земли gy
-function pDance(t: number, cx: number, gy: number): Pose {
+export function pDance(t: number, cx: number, gy: number): Pose {
   const ph = t * 6.283
   const s = Math.sin(ph)
   const u = (s + 1) / 2
