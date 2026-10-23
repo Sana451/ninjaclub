@@ -308,6 +308,34 @@ export function Countdown({ onDone }: { onDone: () => void }) {
   )
 }
 
+export function Versus({
+  left,
+  right,
+  onDone,
+}: {
+  left: string
+  right: string
+  onDone: () => void
+}) {
+  const doneRef = useRef(onDone)
+  useEffect(() => {
+    doneRef.current = onDone
+  }, [onDone])
+  useEffect(() => {
+    const onKey = () => doneRef.current()
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [])
+  return (
+    <div className="nk-versus" role="status" aria-live="assertive">
+      <span className="nk-versus__name nk-versus__name--l">{left}</span>
+      <b className="nk-versus__vs">VS</b>
+      <span className="nk-versus__name nk-versus__name--r">{right}</span>
+      <span className="nk-versus__hint">Нажмите любую клавишу</span>
+    </div>
+  )
+}
+
 export function GameScreen({
   name,
   controls,
@@ -474,6 +502,7 @@ export function NinjaRunTournament() {
   const [s, dispatch] = useReducer(reducer, undefined, () => initialState())
   const [name, setName] = useState("")
   const [counting, setCounting] = useState(false)
+  const [introKey, setIntroKey] = useState("")
 
   if (s.phase === "setup") {
     const n = s.players.length
@@ -586,6 +615,7 @@ export function NinjaRunTournament() {
   const p0 = duel?.players[0]
   const p1 = duel?.players[1]
   const live = !!duel && duel.started && duel.winner === null && !s.champion
+  const pairKey = `${s.r}-${s.d}`
 
   return (
     <div className="space-y-4">
@@ -598,6 +628,14 @@ export function NinjaRunTournament() {
 
       {round && duel && p0 && p1 && (
         <>
+          {!duel.started && introKey !== pairKey && (
+            <Versus
+              key={pairKey}
+              left={p0.name}
+              right={p1.name}
+              onDone={() => setIntroKey(pairKey)}
+            />
+          )}
           {counting && (
             <Countdown
               onDone={() => {

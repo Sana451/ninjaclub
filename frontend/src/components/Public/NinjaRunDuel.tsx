@@ -1,6 +1,11 @@
 import { useState } from "react"
 
-import { Countdown, GameScreen, WinnerBanner } from "./NinjaRunTournament.js"
+import {
+  Countdown,
+  GameScreen,
+  Versus,
+  WinnerBanner,
+} from "./NinjaRunTournament.js"
 
 type Duel = {
   names: [string, string]
@@ -18,6 +23,7 @@ export function NinjaRunDuel() {
   const [p2, setP2] = useState("")
   const [duel, setDuel] = useState<Duel | null>(null)
   const [counting, setCounting] = useState(false)
+  const [introSeen, setIntroSeen] = useState<number | null>(null)
 
   if (!duel) {
     const ready = p1.trim() !== "" && p2.trim() !== ""
@@ -80,6 +86,14 @@ export function NinjaRunDuel() {
 
   return (
     <div className="space-y-4">
+      {!duel.started && introSeen !== duel.seed && (
+        <Versus
+          key={duel.seed}
+          left={duel.names[0]}
+          right={duel.names[1]}
+          onDone={() => setIntroSeen(duel.seed)}
+        />
+      )}
       {counting && (
         <Countdown
           onDone={() => {
