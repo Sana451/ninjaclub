@@ -972,6 +972,134 @@ html.light .nk-deco__star {
   white-space: nowrap;
 }
 
+/* ---------- Табло отбора ---------- */
+.nk-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: left;
+  font-size: 0.95rem;
+}
+.nk-table th {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--nk-line);
+  color: var(--nk-muted);
+  font: 700 0.75rem var(--nk-display);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.nk-table td {
+  padding: 10px;
+  border-bottom: 1px solid color-mix(in srgb, var(--nk-line) 60%, transparent);
+  font-variant-numeric: tabular-nums;
+}
+.nk-table__q td {
+  background: color-mix(in srgb, var(--nk-lime) 6%, transparent);
+}
+.nk-table__cut td {
+  border-bottom: 2px dashed var(--nk-lime);
+}
+.nk-rank {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--nk-surface-2);
+  color: var(--nk-text);
+  font: 800 0.9rem var(--nk-display);
+}
+.nk-rank--1 {
+  background: var(--nk-lime);
+  color: var(--nk-on-lime);
+}
+.nk-rank--2 {
+  background: var(--nk-steel);
+  color: var(--nk-on-lime);
+}
+.nk-rank--3 {
+  background: var(--nk-fire);
+  color: var(--nk-on-fire);
+}
+
+/* ---------- Турнирная сетка на вылет ---------- */
+.nk-bracket {
+  display: flex;
+  align-items: stretch;
+  gap: 40px;
+  min-width: max-content;
+  padding: 4px 4px 8px;
+}
+.nk-bracket__col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 14px;
+  width: 200px;
+}
+.nk-bracket__title {
+  margin-bottom: 4px;
+  color: var(--nk-muted);
+  font: 800 0.8rem var(--nk-display);
+  letter-spacing: 0.14em;
+  text-align: center;
+  text-transform: uppercase;
+}
+.nk-bracket__match {
+  position: relative;
+  overflow: visible;
+  border: 1px solid var(--nk-line);
+  border-radius: 10px;
+  background: var(--nk-surface-2);
+  transition: border-color 0.25s;
+}
+.nk-bracket__col:not(:last-child) .nk-bracket__match::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -21px;
+  width: 20px;
+  height: 1px;
+  background: var(--nk-line);
+}
+.nk-bracket__match--live {
+  border-color: var(--nk-lime);
+  box-shadow: 0 0 0 1px var(--nk-lime);
+}
+.nk-bracket__slot {
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 6px 10px;
+  font: 700 0.95rem var(--nk-display);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+.nk-bracket__slot + .nk-bracket__slot {
+  border-top: 1px solid var(--nk-line);
+}
+.nk-bracket__slot:empty,
+.nk-bracket__slot span:empty {
+  color: var(--nk-muted);
+}
+.nk-bracket__slot--win {
+  color: var(--nk-lime);
+}
+.nk-bracket__slot--lose {
+  opacity: 0.45;
+}
+.nk-bracket__champ {
+  padding: 16px 10px;
+  border: 1px solid var(--nk-lime);
+  border-radius: 10px;
+  color: var(--nk-lime);
+  font: 800 1.2rem var(--nk-display);
+  letter-spacing: 0.06em;
+  text-align: center;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
 /* ---------- Полноэкранный режим игры ---------- */
 .nk-fs {
   position: fixed;

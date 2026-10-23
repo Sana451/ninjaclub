@@ -28,13 +28,13 @@ const TINT: Record<Controls, string | undefined> = {
 
 type Player = { id: number; name: string }
 type Result = GameResult
-type Duel = {
-  players: [Player, Player]
+type Match = {
+  players: [Player | null, Player | null]
   seed: number
   started: boolean
   winner: 0 | 1 | null
 }
-type Round = { name: string; duels: Duel[] }
+type Round = { name: string; matches: Match[] }
 type Phase = "setup" | "qualifying" | "bracket"
 type State = {
   phase: Phase
@@ -92,25 +92,38 @@ function bracketSize(n: number): number {
   return size
 }
 
-function roundName(pairs: number): string {
-  if (pairs === 4) return "Полуфинал"
-  if (pairs === 2) return "Финал"
-  if (pairs === 1) return "Суперфинал"
-  return "Раунд"
+// Название раунда по числу участников в нём
+const ROUND_NAMES: Record<number, string> = {
+  2: "Финал",
+  4: "Полуфинал",
+  8: "1/4 финала",
+  16: "1/8 финала",
 }
 
-function buildRound(players: Player[]): Round {
-  const list = shuffle(players)
-  const duels: Duel[] = []
-  for (let i = 0; i + 1 < list.length; i += 2) {
-    duels.push({
-      players: [list[i], list[i + 1]],
-      seed: Math.floor(Math.random() * 1_000_000_000),
-      started: false,
-      winner: null,
-    })
+function newMatch(players: [Player | null, Player | null]): Match {
+  return {
+    players,
+    seed: Math.floor(Math.random() * 1_000_000_000),
+    started: false,
+    winner: null,
   }
-  return { name: roundName(duels.length), duels }
+}
+
+// Полная сетка на вылет: первый раунд заполнен, дальше места заполняются по мере побед
+function buildBracket(players: Player[]): Round[] {
+  const list = shuffle(players)
+  const rounds: Round[] = []
+  let slots = list.length
+  let first = true
+  while (slots > 1) {
+    const matches: Match[] = []
+    for (let i = 0; i < slots; i += 2)
+      matches.push(newMatch(first ? [list[i], list[i + 1]] : [null, null]))
+    rounds.push({ name: ROUND_NAMES[slots] ?? "Раунд", matches })
+    slots /= 2
+    first = false
+  }
+  return rounds
 }
 
 function bestOf(list: Result[] | undefined): Result | undefined {
@@ -129,13 +142,13 @@ function rankPlayers(players: Player[], attempts: Record<number, Result[]>) {
     )
 }
 
-function patchDuel(s: State, f: (du: Duel) => Duel): State {
+function patchDuel(s: State, f: (du: Match) => Match): State {
   const rounds = s.rounds.map((rd, ri) =>
     ri !== s.r
       ? rd
       : {
           ...rd,
-          duels: rd.duels.map((du, di) => (di !== s.d ? du : f(du))),
+          matches: rd.matches.map((du, di) => (di !== s.d ? du : f(du))),
         },
   )
   return { ...s, rounds }
@@ -186,7 +199,7 @@ function reducer(s: State, a: Action): State {
       return {
         ...next,
         phase: "bracket",
-        rounds: [buildRound(top)],
+        rounds: buildBracket(top),
         r: 0,
         d: 0,
         champion: null,
@@ -206,17 +219,34 @@ function reducer(s: State, a: Action): State {
     case "nextDuel": {
       const round = s.rounds[s.r]
       if (!round || s.champion) return s
-      const duel = round.duels[s.d]
-      if (!duel || duel.winner === null) return s
-      if (s.d + 1 < round.duels.length) return { ...s, d: s.d + 1 }
-      const winners = round.duels.map((du) => du.players[du.winner ?? 0])
-      if (winners.length === 1) return { ...s, champion: winners[0] }
-      return {
-        ...s,
-        rounds: [...s.rounds, buildRound(winners)],
-        r: s.r + 1,
-        d: 0,
-      }
+      const match = round.matches[s.d]
+      const winner =
+        match && match.winner !== null ? match.players[match.winner] : null
+      if (!winner) return s
+      const nextRound = s.rounds[s.r + 1]
+      // Победитель пары 2k и 2k+1 попадает в матч k следующего раунда
+      const rounds = nextRound
+        ? s.rounds.map((rd, ri) =>
+            ri !== s.r + 1
+              ? rd
+              : {
+                  ...rd,
+                  matches: rd.matches.map((m, mi) => {
+                    if (mi !== Math.floor(s.d / 2)) return m
+                    const players = [...m.players] as [
+                      Player | null,
+                      Player | null,
+                    ]
+                    players[s.d % 2] = winner
+                    return { ...m, players }
+                  }),
+                },
+          )
+        : s.rounds
+      const next = { ...s, rounds }
+      if (s.d + 1 < round.matches.length) return { ...next, d: s.d + 1 }
+      if (!nextRound) return { ...next, champion: winner }
+      return { ...next, r: s.r + 1, d: 0 }
     }
     case "reset":
       return initialState(s.players, s.nextId)
@@ -339,36 +369,103 @@ export function GameScreen({
 function RankTable({
   players,
   attempts,
+  qualifyCount,
 }: {
   players: Player[]
   attempts: Record<number, Result[]>
+  qualifyCount: number
 }) {
   const rows = rankPlayers(players, attempts)
   if (rows.length === 0) return null
   return (
     <div className="nk-card overflow-x-auto p-4">
-      <table className="w-full text-left text-sm">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+        <h3 className="nk-h3">Табло отбора</h3>
+        <span className="nk-badge nk-badge--lime">В сетку: {qualifyCount}</span>
+      </div>
+      <table className="nk-table w-full">
         <thead>
-          <tr className="nk-muted">
-            <th className="py-1">#</th>
-            <th className="py-1">Участник</th>
-            <th className="py-1">Кольца</th>
-            <th className="py-1">Дистанция</th>
-            <th className="py-1">Попыток</th>
+          <tr>
+            <th>#</th>
+            <th>Участник</th>
+            <th>Кольца</th>
+            <th>Дистанция</th>
+            <th>Попыток</th>
           </tr>
         </thead>
         <tbody>
           {rows.map((row, i) => (
-            <tr key={row.player.id}>
-              <td className="py-1">{i + 1}</td>
-              <td className="py-1">{row.player.name}</td>
-              <td className="py-1">{row.best?.rings ?? "—"}</td>
-              <td className="py-1">{row.best?.dist ?? "—"}</td>
-              <td className="py-1">{attempts[row.player.id]?.length ?? 0}</td>
+            <tr
+              key={row.player.id}
+              className={[
+                i < qualifyCount ? "nk-table__q" : "",
+                i === qualifyCount - 1 ? "nk-table__cut" : "",
+              ].join(" ")}
+            >
+              <td>
+                <span className={`nk-rank${i < 3 ? ` nk-rank--${i + 1}` : ""}`}>
+                  {i + 1}
+                </span>
+              </td>
+              <td className="font-semibold uppercase">{row.player.name}</td>
+              <td>{row.best?.rings ?? "—"}</td>
+              <td>{row.best?.dist ?? "—"}</td>
+              <td>{attempts[row.player.id]?.length ?? 0}</td>
             </tr>
           ))}
         </tbody>
       </table>
+    </div>
+  )
+}
+
+function BracketView({
+  rounds,
+  r,
+  d,
+  champion,
+}: {
+  rounds: Round[]
+  r: number
+  d: number
+  champion: Player | null
+}) {
+  return (
+    <div className="nk-card overflow-x-auto p-4">
+      <div className="nk-bracket">
+        {rounds.map((rd, ri) => (
+          <div key={ri} className="nk-bracket__col">
+            <div className="nk-bracket__title">{rd.name}</div>
+            {rd.matches.map((m, mi) => (
+              <div
+                key={mi}
+                className={`nk-bracket__match${
+                  ri === r && mi === d && !champion
+                    ? " nk-bracket__match--live"
+                    : ""
+                }`}
+              >
+                {m.players.map((p, si) => (
+                  <div
+                    key={si}
+                    className={`nk-bracket__slot${
+                      m.winner === si ? " nk-bracket__slot--win" : ""
+                    }${m.winner !== null && m.winner !== si ? " nk-bracket__slot--lose" : ""}`}
+                  >
+                    <span>{p?.name ?? "—"}</span>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        ))}
+        {champion && (
+          <div className="nk-bracket__col">
+            <div className="nk-bracket__title">Чемпион</div>
+            <div className="nk-bracket__champ">🏆 {champion.name}</div>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
@@ -475,31 +572,31 @@ export function NinjaRunTournament() {
         >
           Старт попытки
         </button>
-        <RankTable players={s.players} attempts={s.attempts} />
+        <RankTable
+          players={s.players}
+          attempts={s.attempts}
+          qualifyCount={bracketSize(s.players.length)}
+        />
       </div>
     )
   }
 
   const round = s.rounds[s.r]
-  const duel = round?.duels[s.d]
+  const duel = round?.matches[s.d]
+  const p0 = duel?.players[0]
+  const p1 = duel?.players[1]
   const live = !!duel && duel.started && duel.winner === null && !s.champion
 
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 className="nk-h3">
-          {round?.name} · пара {s.d + 1} из {round?.duels.length ?? 0}
+          {round?.name} · пара {s.d + 1} из {round?.matches.length ?? 0}
         </h2>
         {resetButton}
       </div>
 
-      {s.champion && (
-        <div className="nk-card p-4 text-center">
-          🏆 Чемпион турнира: <b>{s.champion.name}</b>
-        </div>
-      )}
-
-      {round && duel && (
+      {round && duel && p0 && p1 && (
         <>
           {counting && (
             <Countdown
@@ -512,7 +609,7 @@ export function NinjaRunTournament() {
           <div className="nk-pair flex flex-col gap-4">
             <GameScreen
               key={`${s.r}-${s.d}-0`}
-              name={duel.players[0].name}
+              name={p0.name}
               controls="p1"
               seed={duel.seed}
               duel
@@ -521,7 +618,7 @@ export function NinjaRunTournament() {
             />
             <GameScreen
               key={`${s.r}-${s.d}-1`}
-              name={duel.players[1].name}
+              name={p1.name}
               controls="p2"
               seed={duel.seed}
               duel
@@ -550,14 +647,14 @@ export function NinjaRunTournament() {
               <>
                 <WinnerBanner
                   key={`${s.r}-${s.d}-w`}
-                  name={duel.players[duel.winner].name}
+                  name={(duel.winner === 0 ? p0 : p1).name}
                 />
                 <button
                   type="button"
                   className="nk-btn nk-btn--lime"
                   onClick={() => dispatch({ type: "nextDuel" })}
                 >
-                  {round.duels.length === 1
+                  {round.matches.length === 1
                     ? "Завершить турнир"
                     : "Следующая пара"}
                 </button>
@@ -566,6 +663,14 @@ export function NinjaRunTournament() {
           </div>
         </>
       )}
+
+      {s.champion && (
+        <div className="nk-card p-4 text-center">
+          🏆 Чемпион турнира: <b>{s.champion.name}</b>
+        </div>
+      )}
+
+      <BracketView rounds={s.rounds} r={s.r} d={s.d} champion={s.champion} />
     </div>
   )
 }
