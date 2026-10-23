@@ -1,0 +1,137 @@
+import { useState } from "react"
+
+import { GameScreen } from "./NinjaRunTournament.js"
+
+type Duel = {
+  names: [string, string]
+  seed: number
+  started: boolean
+  winner: 0 | 1 | null
+}
+
+function newSeed(): number {
+  return Math.floor(Math.random() * 1_000_000_000)
+}
+
+export function NinjaRunDuel() {
+  const [p1, setP1] = useState("")
+  const [p2, setP2] = useState("")
+  const [duel, setDuel] = useState<Duel | null>(null)
+
+  if (!duel) {
+    const ready = p1.trim() !== "" && p2.trim() !== ""
+    return (
+      <form
+        className="nk-card space-y-4 p-6"
+        onSubmit={(e) => {
+          e.preventDefault()
+          if (!ready) return
+          setDuel({
+            names: [p1.trim(), p2.trim()],
+            seed: newSeed(),
+            started: false,
+            winner: null,
+          })
+        }}
+      >
+        <label className="block">
+          <span className="nk-muted mb-1 block text-sm">Игрок 1 — W / S</span>
+          <input
+            className="nk-input w-full"
+            value={p1}
+            maxLength={24}
+            onChange={(e) => setP1(e.target.value)}
+          />
+        </label>
+        <label className="block">
+          <span className="nk-muted mb-1 block text-sm">Игрок 2 — ↑ / ↓</span>
+          <input
+            className="nk-input w-full"
+            value={p2}
+            maxLength={24}
+            onChange={(e) => setP2(e.target.value)}
+          />
+        </label>
+        <button type="submit" className="nk-btn nk-btn--lime" disabled={!ready}>
+          Создать дуэль
+        </button>
+      </form>
+    )
+  }
+
+  const live = duel.started && duel.winner === null
+  const onCrash = (side: 0 | 1) =>
+    setDuel((d) =>
+      d?.started && d.winner === null
+        ? { ...d, winner: side === 0 ? 1 : 0 }
+        : d,
+    )
+
+  return (
+    <div className="space-y-4">
+      <div className="flex flex-col gap-4">
+        <GameScreen
+          key={`${duel.seed}-0`}
+          label={`${duel.names[0]} — W / S`}
+          name={duel.names[0]}
+          controls="p1"
+          seed={duel.seed}
+          running={live}
+          onEnd={() => onCrash(0)}
+        />
+        <GameScreen
+          key={`${duel.seed}-1`}
+          label={`${duel.names[1]} — ↑ / ↓`}
+          name={duel.names[1]}
+          controls="p2"
+          seed={duel.seed}
+          running={live}
+          onEnd={() => onCrash(1)}
+        />
+      </div>
+
+      <div className="flex flex-wrap items-center gap-3">
+        {!duel.started && (
+          <button
+            type="button"
+            className="nk-btn nk-btn--lime"
+            onClick={() => setDuel({ ...duel, started: true })}
+          >
+            Старт
+          </button>
+        )}
+        {live && <p className="nk-muted">Первый, кто врежется, проигрывает.</p>}
+        {duel.winner !== null && (
+          <p>
+            Проиграл: <b>{duel.names[duel.winner === 0 ? 1 : 0]}</b>
+            {" · "}
+            Победил: <b>{duel.names[duel.winner]}</b>
+          </p>
+        )}
+        {duel.winner !== null && (
+          <button
+            type="button"
+            className="nk-btn nk-btn--lime"
+            onClick={() =>
+              setDuel({
+                ...duel,
+                seed: newSeed(),
+                started: false,
+                winner: null,
+              })
+            }
+          >
+            Рестарт
+          </button>
+        )}
+        <button
+          type="button"
+          className="nk-btn nk-btn--ghost nk-btn--sm"
+          onClick={() => setDuel(null)}
+        >
+          Новая дуэль
+        </button>
+      </div>
+    </div>
+  )
+}

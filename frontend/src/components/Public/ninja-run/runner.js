@@ -122,10 +122,31 @@ const DRAW = {
   },
 }
 
-export function mountGame(root) {
+// детерминированный генератор (mulberry32): одинаковый seed даёт одинаковую трассу на обоих экранах дуэли
+function seeded(seed) {
+  let a = seed >>> 0
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0
+    let t = a
+    t = Math.imul(t ^ (t >>> 15), t | 1)
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61)
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+}
+
+/* opts: manual — старт только через controller.start(), без автозапуска прыжком;
+   keys — { up, down } по KeyboardEvent.code; seed — фиксированная трасса; onEnd({ rings, dist }) — при столкновении;
+   name — имя игрока вместо рекорда в HUD (режим manual).
+   Возвращает { start, stop, dispose }. */
+export function mountGame(root, opts = {}) {
+  const manual = !!opts.manual,
+    KEYS = opts.keys || {
+      up: ["Space", "ArrowUp", "KeyW"],
+      down: ["ArrowDown", "KeyS"],
+    }
   root.classList.add("nk-game")
   root.innerHTML = `<canvas class="px" width="${GW}" height="${GH}" tabindex="0" aria-label="Игра: беги, прыгай, перекатывайся, цепляйся за зиплайны и собирай светящиеся кольца"></canvas>
-<div class="nk-game__hud"><span>КОЛЬЦА <b class="gr">0</b></span><span>РЕКОРД <b class="gb">0</b></span></div>
+<div class="nk-game__hud"><span>КОЛЬЦА <b class="gr">0</b></span><span>${manual ? "" : "РЕКОРД "}<b class="gb">0</b></span></div>
 <div class="nk-game__msg"><b>Ниндзя-ран</b><small>Пробел / тап — прыжок (держи — выше) · ↓ — перекат под матом · в прыжке цепляйся за зиплайн · собирай светящиеся кольца</small></div>
 <div class="nk-game__pad"><button data-k="up">Прыжок</button><button data-k="down">Перекат</button></div>`
   const cv = root.querySelector("canvas"),
@@ -139,7 +160,9 @@ export function mountGame(root) {
   } catch (_e) {
     /* storage недоступен */
   }
-  gb.textContent = best
+  gb.textContent = manual ? opts.name || "" : best
+  msg.hidden = manual
+  let rng = Math.random
 
   const fresh = () => ({
     st: "ready",
@@ -175,10 +198,16 @@ export function mountGame(root) {
     S.st = "run"
     S.grace = 0.8
     msg.hidden = true
+    rng = opts.seed == null ? Math.random : seeded(opts.seed)
+  }
+  const stop = () => {
+    if (S.st === "run") S.st = "stop"
+    hold = false
+    down = false
   }
   const jump = () => {
     if (S.st !== "run") {
-      start()
+      if (!manual) start()
       return
     }
     if (S.zip) {
@@ -189,6 +218,7 @@ export function mountGame(root) {
     } else S.buf = 0.12
   }
   const press = (k) => {
+    if (manual && S.st !== "run") return
     if (k === "up") {
       hold = true
       jump()
@@ -200,13 +230,12 @@ export function mountGame(root) {
   }
 
   const keyOf = (e) =>
-    e.code === "Space" || e.code === "ArrowUp" || e.code === "KeyW"
-      ? "up"
-      : e.code === "ArrowDown" || e.code === "KeyS"
-        ? "down"
-        : null
+    KEYS.up.includes(e.code) ? "up" : KEYS.down.includes(e.code) ? "down" : null
   const active = () =>
-    vis && (hover || document.activeElement === cv || S.st === "run")
+    vis &&
+    (manual
+      ? S.st === "run"
+      : hover || document.activeElement === cv || S.st === "run")
   const kd = (e) => {
     const k = keyOf(e)
     if (!k || !active()) return
@@ -260,6 +289,8 @@ export function mountGame(root) {
   function die() {
     S.st = "over"
     S.over = S.t
+    opts.onEnd?.({ rings: S.nr, dist: Math.round(S.dist) })
+    if (manual) return
     if (S.nr > best) {
       best = S.nr
       try {
@@ -275,8 +306,8 @@ export function mountGame(root) {
   function spawn() {
     const x = GW + 12,
       d = S.dist,
-      gap = () => S.speed * (0.85 + Math.random() * 0.9) + 36
-    if (d > 350 && Math.random() < 0.27) {
+      gap = () => S.speed * (0.85 + rng() * 0.9) + 36
+    if (d > 350 && rng() < 0.27) {
       // зиплайн + препятствия под ним; кольца висят вдоль троса
       S.obs.push(
         { t: "zip", x, w: 150, y0: GG - 58, y1: GG - 46 },
@@ -292,10 +323,10 @@ export function mountGame(root) {
     if (d > 500) pool.push("gate")
     if (d > 1000) pool.push("pool")
     if (d > 1700) pool.push("warped")
-    const t = pool[(Math.random() * pool.length) | 0],
+    const t = pool[(rng() * pool.length) | 0],
       dm = DIM[t]
     S.obs.push({ t, x, w: dm[0], h: dm[1] })
-    if (Math.random() < 0.5)
+    if (rng() < 0.5)
       S.rings.push({
         x: x + dm[0] / 2,
         y: {
@@ -602,12 +633,16 @@ export function mountGame(root) {
   io.observe(cv)
   addEventListener("keydown", kd)
   addEventListener("keyup", ku)
-  return () => {
-    cancelAnimationFrame(raf)
-    io.disconnect()
-    removeEventListener("keydown", kd)
-    removeEventListener("keyup", ku)
-    root.innerHTML = ""
-    root.classList.remove("nk-game")
+  return {
+    start,
+    stop,
+    dispose() {
+      cancelAnimationFrame(raf)
+      io.disconnect()
+      removeEventListener("keydown", kd)
+      removeEventListener("keyup", ku)
+      root.innerHTML = ""
+      root.classList.remove("nk-game")
+    },
   }
 }
