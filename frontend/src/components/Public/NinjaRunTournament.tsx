@@ -485,7 +485,7 @@ export function NinjaRunTournament() {
               }}
             />
           )}
-          <div className="flex flex-col gap-4">
+          <div className="nk-pair flex flex-col gap-4">
             <GameScreen
               key={`${s.r}-${s.d}-0`}
               label={`${duel.players[0].name} — W / S`}

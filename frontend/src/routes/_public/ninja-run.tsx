@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { useState } from "react"
-
+import { FullscreenGame } from "@/components/Public/FullscreenGame"
 import { NinjaRunDuel } from "@/components/Public/NinjaRunDuel"
 import { NinjaRunGame } from "@/components/Public/NinjaRunGame"
 import { NinjaRunTournament } from "@/components/Public/NinjaRunTournament"
@@ -24,38 +24,40 @@ function NinjaRunPage() {
         Беги, прыгай, перекатывайся, цепляйся за зиплайны и собирай светящиеся
         кольца.
       </p>
-      <div role="tablist" className="nk-tabs mb-8">
-        <button
-          type="button"
-          role="tab"
-          aria-selected={mode === "free"}
-          className="nk-tab"
-          onClick={() => setMode("free")}
-        >
-          Свободный забег
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={mode === "duel"}
-          className="nk-tab"
-          onClick={() => setMode("duel")}
-        >
-          1 на 1
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={mode === "tournament"}
-          className="nk-tab"
-          onClick={() => setMode("tournament")}
-        >
-          Турнир
-        </button>
-      </div>
-      {mode === "free" && <NinjaRunGame />}
-      {mode === "duel" && <NinjaRunDuel />}
-      {mode === "tournament" && <NinjaRunTournament />}
+      <FullscreenGame>
+        <div role="tablist" className="nk-tabs mb-8">
+          <button
+            type="button"
+            role="tab"
+            aria-selected={mode === "free"}
+            className="nk-tab"
+            onClick={() => setMode("free")}
+          >
+            Свободный забег
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={mode === "duel"}
+            className="nk-tab"
+            onClick={() => setMode("duel")}
+          >
+            1 на 1
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={mode === "tournament"}
+            className="nk-tab"
+            onClick={() => setMode("tournament")}
+          >
+            Турнир
+          </button>
+        </div>
+        {mode === "free" && <NinjaRunGame />}
+        {mode === "duel" && <NinjaRunDuel />}
+        {mode === "tournament" && <NinjaRunTournament />}
+      </FullscreenGame>
     </div>
   )
 }

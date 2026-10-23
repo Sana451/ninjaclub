@@ -78,7 +78,7 @@ export function NinjaRunDuel() {
           }}
         />
       )}
-      <div className="flex flex-col gap-4">
+      <div className="nk-pair flex flex-col gap-4">
         <GameScreen
           key={`${duel.seed}-0`}
           label={`${duel.names[0]} — W / S`}
