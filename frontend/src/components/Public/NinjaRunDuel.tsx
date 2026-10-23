@@ -36,7 +36,12 @@ export function NinjaRunDuel() {
         }}
       >
         <label className="block">
-          <span className="nk-muted mb-1 block text-sm">Игрок 1 — W / S</span>
+          <span className="mb-1.5 flex items-center gap-2 text-xs font-bold tracking-[0.2em] text-lime-300 uppercase">
+            <span className="grid size-5 place-items-center rounded-full bg-lime-300/15 text-[11px]">
+              1
+            </span>
+            Игрок 1
+          </span>
           <input
             className="nk-input w-full"
             value={p1}
@@ -45,7 +50,12 @@ export function NinjaRunDuel() {
           />
         </label>
         <label className="block">
-          <span className="nk-muted mb-1 block text-sm">Игрок 2 — ↑ / ↓</span>
+          <span className="mb-1.5 flex items-center gap-2 text-xs font-bold tracking-[0.2em] text-pink-400 uppercase">
+            <span className="grid size-5 place-items-center rounded-full bg-pink-400/15 text-[11px]">
+              2
+            </span>
+            Игрок 2
+          </span>
           <input
             className="nk-input w-full"
             value={p2}
