@@ -8,7 +8,12 @@ export type GameOptions = {
   onEnd?: (result: GameResult) => void
   name?: string
   filter?: string
-  boy?: boolean
+  look?: {
+    boy: boolean
+    pal: Partial<Record<string, string>>
+    cap?: string
+    horns?: boolean
+  }
 }
 export type GameController = {
   start: () => void

@@ -6,9 +6,16 @@ import {
   Versus,
   WinnerBanner,
 } from "./NinjaRunTournament.js"
+import { CharacterSelect } from "./ninja-run/CharacterSelect.js"
+import {
+  CHARACTERS,
+  DEFAULT_CHARACTER,
+  lookOf,
+} from "./ninja-run/characters.js"
 
 type Duel = {
   names: [string, string]
+  characters: [string, string]
   seed: number
   started: boolean
   winner: 0 | 1 | null
@@ -21,6 +28,8 @@ function newSeed(): number {
 export function NinjaRunDuel() {
   const [p1, setP1] = useState("")
   const [p2, setP2] = useState("")
+  const [c1, setC1] = useState(DEFAULT_CHARACTER)
+  const [c2, setC2] = useState(CHARACTERS[1]?.id ?? DEFAULT_CHARACTER)
   const [duel, setDuel] = useState<Duel | null>(null)
   const [counting, setCounting] = useState(false)
   const [introSeen, setIntroSeen] = useState<number | null>(null)
@@ -35,6 +44,7 @@ export function NinjaRunDuel() {
           if (!ready) return
           setDuel({
             names: [p1.trim(), p2.trim()],
+            characters: [c1, c2],
             seed: newSeed(),
             started: false,
             winner: null,
@@ -69,6 +79,10 @@ export function NinjaRunDuel() {
             onChange={(e) => setP2(e.target.value)}
           />
         </label>
+        <div className="grid gap-2 sm:grid-cols-2">
+          <CharacterSelect value={c1} onChange={setC1} label="Игрок 1" />
+          <CharacterSelect value={c2} onChange={setC2} label="Игрок 2" />
+        </div>
         <button type="submit" className="nk-btn nk-btn--lime" disabled={!ready}>
           Создать дуэль
         </button>
@@ -107,6 +121,7 @@ export function NinjaRunDuel() {
           key={`${duel.seed}-0`}
           name={duel.names[0]}
           controls="p1"
+          look={lookOf(duel.characters[0])}
           seed={duel.seed}
           duel
           running={live}
@@ -116,6 +131,7 @@ export function NinjaRunDuel() {
           key={`${duel.seed}-1`}
           name={duel.names[1]}
           controls="p2"
+          look={lookOf(duel.characters[1])}
           seed={duel.seed}
           duel
           running={live}

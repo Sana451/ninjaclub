@@ -2,6 +2,13 @@ import { useEffect, useReducer, useRef, useState } from "react"
 
 import { PodiumScene } from "@/components/Common/PodiumScene"
 
+import { CharacterSelect } from "./ninja-run/CharacterSelect.js"
+import {
+  characterName,
+  DEFAULT_CHARACTER,
+  type Look,
+  lookOf,
+} from "./ninja-run/characters.js"
 import {
   type GameController,
   type GameKeys,
@@ -29,7 +36,7 @@ const TINT: Record<Controls, string | undefined> = {
   p2: "hue-rotate(40deg) saturate(1.15) brightness(1.04)",
 }
 
-type Player = { id: number; name: string }
+type Player = { id: number; name: string; character: string }
 type Result = GameResult
 type Match = {
   players: [Player | null, Player | null]
@@ -57,7 +64,7 @@ type State = {
 }
 
 type Action =
-  | { type: "add"; name: string }
+  | { type: "add"; name: string; character: string }
   | { type: "remove"; id: number }
   | { type: "setAttempts"; value: number }
   | { type: "begin" }
@@ -182,7 +189,7 @@ function reducer(s: State, a: Action): State {
       if (!name || s.phase !== "setup") return s
       return {
         ...s,
-        players: [...s.players, { id: s.nextId, name }],
+        players: [...s.players, { id: s.nextId, name, character: a.character }],
         nextId: s.nextId + 1,
       }
     }
@@ -290,6 +297,7 @@ function reducer(s: State, a: Action): State {
 type ScreenProps = {
   name: string
   controls: Controls
+  look: Look
   seed: number
   duel?: boolean
   running: boolean
@@ -400,6 +408,7 @@ export function StageIntro({
 export function GameScreen({
   name,
   controls,
+  look,
   seed,
   duel,
   running,
@@ -420,7 +429,7 @@ export function GameScreen({
       manual: true,
       name,
       filter: TINT[controls],
-      boy: controls === "p2",
+      look,
       seed,
       duel,
       keys: CONTROLS[controls],
@@ -432,7 +441,7 @@ export function GameScreen({
       ctl.dispose()
       ctlRef.current = null
     }
-  }, [controls, seed, name, duel])
+  }, [controls, seed, name, duel, look])
 
   useEffect(() => {
     const ctl = ctlRef.current
@@ -564,6 +573,7 @@ export function NinjaRunTournament() {
   const [name, setName] = useState("")
   const [counting, setCounting] = useState(false)
   const [introKey, setIntroKey] = useState("")
+  const [character, setCharacter] = useState(DEFAULT_CHARACTER)
 
   if (s.phase === "setup") {
     const n = s.players.length
@@ -574,7 +584,7 @@ export function NinjaRunTournament() {
           className="flex gap-2"
           onSubmit={(e) => {
             e.preventDefault()
-            dispatch({ type: "add", name })
+            dispatch({ type: "add", name, character })
             setName("")
           }}
         >
@@ -590,11 +600,19 @@ export function NinjaRunTournament() {
             Добавить
           </button>
         </form>
+        <CharacterSelect
+          value={character}
+          onChange={setCharacter}
+          label="Персонаж участника"
+        />
         <ol className="space-y-2">
           {s.players.map((p, i) => (
             <li key={p.id} className="flex items-center justify-between gap-2">
               <span>
-                {i + 1}. {p.name}
+                {i + 1}. {p.name}{" "}
+                <span className="opacity-60">
+                  ({characterName(p.character)})
+                </span>
               </span>
               <button
                 type="button"
@@ -690,6 +708,7 @@ export function NinjaRunTournament() {
           key={`q-${s.qPos}`}
           name={player?.name ?? ""}
           controls="solo"
+          look={lookOf(player?.character)}
           seed={QUALI_SEEDS[s.qPos % perPlayer]}
           running={s.qRunning}
           onEnd={(result) => dispatch({ type: "qEnd", result })}
@@ -759,6 +778,7 @@ export function NinjaRunTournament() {
               key={`${s.r}-${s.d}-0`}
               name={p0.name}
               controls="p1"
+              look={lookOf(p0.character)}
               seed={duel.seed}
               duel
               running={live}
@@ -768,6 +788,7 @@ export function NinjaRunTournament() {
               key={`${s.r}-${s.d}-1`}
               name={p1.name}
               controls="p2"
+              look={lookOf(p1.character)}
               seed={duel.seed}
               duel
               running={live}
