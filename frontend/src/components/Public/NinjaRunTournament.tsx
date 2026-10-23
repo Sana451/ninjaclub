@@ -372,9 +372,11 @@ export function Versus({
 
 export function StageIntro({
   title,
+  kicker = "Этап турнира",
   onDone,
 }: {
   title: string
+  kicker?: string
   onDone: () => void
 }) {
   const doneRef = useRef(onDone)
@@ -388,7 +390,7 @@ export function StageIntro({
   }, [])
   return (
     <div className="nk-stage-intro" role="status" aria-live="assertive">
-      <span className="nk-stage-intro__kicker">Этап турнира</span>
+      <span className="nk-stage-intro__kicker">{kicker}</span>
       <b className="nk-stage-intro__title">{title}</b>
       <span className="nk-versus__hint">Нажмите любую клавишу</span>
     </div>
@@ -654,12 +656,26 @@ export function NinjaRunTournament() {
     const attemptNo = (s.qPos % perPlayer) + 1
     return (
       <div className="space-y-4">
-        {s.introSeen !== "qual" && (
+        {s.introSeen === "" && (
           <StageIntro
             title="ОТБОР"
             onDone={() => dispatch({ type: "introSeen", key: "qual" })}
           />
         )}
+        {player &&
+          s.introSeen !== "" &&
+          s.introSeen !== `q-${Math.floor(s.qPos / perPlayer)}` && (
+            <StageIntro
+              title={player.name}
+              kicker="Приготовиться к старту"
+              onDone={() =>
+                dispatch({
+                  type: "introSeen",
+                  key: `q-${Math.floor(s.qPos / perPlayer)}`,
+                })
+              }
+            />
+          )}
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="nk-stage">
             <span className="nk-stage__tag">ОТБОР</span>
