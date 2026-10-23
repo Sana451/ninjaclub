@@ -618,13 +618,21 @@ export function mountGame(root, opts = {}) {
     gr.textContent = S.nr
   }
 
+  // фиксированный шаг симуляции: состояние зависит только от числа шагов, а не от частоты кадров,
+  // поэтому два экрана дуэли с одним seed не расходятся по времени кадра
+  const STEP = 1 / 120
+  let acc = 0
   const loop = (ms) => {
-    const dt = Math.min(0.05, (ms - last) / 1000)
+    acc += Math.min(0.05, (ms - last) / 1000)
     last = ms
-    if (vis) {
-      update(dt)
-      draw(ms)
-    }
+    // в дуэли симуляция идёт даже для экрана вне вьюпорта, иначе он отстанет
+    if (vis || opts.seed != null) {
+      while (acc >= STEP) {
+        update(STEP)
+        acc -= STEP
+      }
+    } else acc = 0
+    if (vis) draw(ms)
     raf = requestAnimationFrame(loop)
   }
   raf = requestAnimationFrame(loop)
