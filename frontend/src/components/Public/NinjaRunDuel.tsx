@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-import { Countdown, GameScreen } from "./NinjaRunTournament.js"
+import { Countdown, GameScreen, WinnerBanner } from "./NinjaRunTournament.js"
 
 type Duel = {
   names: [string, string]
@@ -112,11 +112,7 @@ export function NinjaRunDuel() {
         )}
         {live && <p className="nk-muted">Первый, кто врежется, проигрывает.</p>}
         {duel.winner !== null && (
-          <p>
-            Проиграл: <b>{duel.names[duel.winner === 0 ? 1 : 0]}</b>
-            {" · "}
-            Победил: <b>{duel.names[duel.winner]}</b>
-          </p>
+          <WinnerBanner key={`${duel.seed}-w`} name={duel.names[duel.winner]} />
         )}
         {duel.winner !== null && (
           <button

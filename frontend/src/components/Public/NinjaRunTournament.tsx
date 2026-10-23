@@ -235,6 +235,14 @@ type ScreenProps = {
 const COUNT_STEPS = ["3", "2", "1", "GO!"]
 const COUNT_STEP_MS = 750
 
+export function WinnerBanner({ name }: { name: string }) {
+  return (
+    <div className="nk-winner" role="status" aria-live="polite">
+      <b>Победил: {name}</b>
+    </div>
+  )
+}
+
 export function Countdown({ onDone }: { onDone: () => void }) {
   const [step, setStep] = useState(0)
   const doneRef = useRef(onDone)
@@ -524,12 +532,10 @@ export function NinjaRunTournament() {
             )}
             {duel.winner !== null && !s.champion && (
               <>
-                <p>
-                  Проиграл:{" "}
-                  <b>{duel.players[duel.winner === 0 ? 1 : 0].name}</b>
-                  {" · "}
-                  Победил: <b>{duel.players[duel.winner].name}</b>
-                </p>
+                <WinnerBanner
+                  key={`${s.r}-${s.d}-w`}
+                  name={duel.players[duel.winner].name}
+                />
                 <button
                   type="button"
                   className="nk-btn nk-btn--lime"
