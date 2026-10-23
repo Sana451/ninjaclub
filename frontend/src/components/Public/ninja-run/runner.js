@@ -162,6 +162,7 @@ export function mountGame(root, opts = {}) {
   }
   gb.textContent = manual ? opts.name || "" : best
   msg.hidden = manual
+  if (opts.filter) cv.style.filter = opts.filter
   let rng = Math.random
 
   const fresh = () => ({
@@ -609,7 +610,7 @@ export function mountGame(root, opts = {}) {
         )
     }
     if (S.st === "run" && S.slide > 0 && S.y === 0) ball(P)
-    else girl(c, P, pose(t, tq), tq)
+    else girl(c, P, pose(t, tq), tq, !!opts.boy)
     if (S.st === "over" && S.t - S.over < 10) {
       c.fillStyle = "rgba(255,60,60,.25)"
       c.fillRect(0, 0, GW, GH)

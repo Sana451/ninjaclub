@@ -6,6 +6,8 @@ export type GameOptions = {
   seed?: number
   onEnd?: (result: GameResult) => void
   name?: string
+  filter?: string
+  boy?: boolean
 }
 export type GameController = {
   start: () => void

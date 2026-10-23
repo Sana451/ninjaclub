@@ -20,6 +20,12 @@ const CONTROLS: Record<Controls, GameKeys | undefined> = {
   p2: { up: ["ArrowUp"], down: ["ArrowDown"] },
 }
 
+const TINT: Record<Controls, string | undefined> = {
+  solo: undefined,
+  p1: undefined,
+  p2: "hue-rotate(40deg) saturate(1.15) brightness(1.04)",
+}
+
 type Player = { id: number; name: string }
 type Result = GameResult
 type Duel = {
@@ -248,6 +254,8 @@ export function GameScreen({
     const opts: GameOptions = {
       manual: true,
       name,
+      filter: TINT[controls],
+      boy: controls === "p2",
       seed,
       keys: CONTROLS[controls],
       onEnd: (result) => endRef.current(result),

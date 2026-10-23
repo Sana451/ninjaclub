@@ -181,25 +181,37 @@ function drawHead(c, P, x, y, e, m, side, glasses) {
 /* Рисует героиню (чёрная футболка клуба с неоновым принтом, леггинсы, коса с неоновой резинкой, браслеты, бело-розовые кроссовки).
    p = { hip:[x,y], hl, hr (цели рук), fl, fr (цели стоп), eye:0|1|2, mouth:0|1, hd:[dx,dy],
          flow (сила развевания косы), side (вид сбоку), sw (угол косы), alpha, glasses } */
-export function girl(c, P, p, t) {
-  const [X, Y] = p.hip,
+const BOY = {
+  tee: "#1d3557",
+  teeHi: "#2e5282",
+  legs: "#2a2e3a",
+  legsHi: "#454c60",
+  hair: "#3a2616",
+  hair2: "#22150b",
+}
+
+export function girl(c, base, p, t, boy = false) {
+  const P = boy ? { ...base, ...BOY } : base,
+    [X, Y] = p.hip,
     fl = p.flow ?? 1,
     O = P.out,
     S = !!p.side
   c.globalAlpha = p.alpha ?? 1
-  const br = [[X - (S ? 7 : 8), Y - 20]]
-  let a = p.sw ?? (S ? -1.1 : -0.35) // коса
-  for (let i = 0; i < 9; i++) {
-    a += Math.sin(t * 4.2 - i * 0.5) * 0.1 * fl
-    const q = br[i]
-    br.push([q[0] + Math.sin(a) * 2.3, q[1] + Math.cos(a) * 2.3])
+  if (!boy) {
+    const br = [[X - (S ? 7 : 8), Y - 20]]
+    let a = p.sw ?? (S ? -1.1 : -0.35) // коса
+    for (let i = 0; i < 9; i++) {
+      a += Math.sin(t * 4.2 - i * 0.5) * 0.1 * fl
+      const q = br[i]
+      br.push([q[0] + Math.sin(a) * 2.3, q[1] + Math.cos(a) * 2.3])
+    }
+    poly(c, br, 3, P.hair, O)
+    for (let i = 0; i < 9; i += 2) ln(c, br[i], br[i + 1], 3, P.hair2)
+    for (const q of [br[0], br[9]]) {
+      rc(c, q[0] - 2, q[1] - 2, 5, 5, O)
+      rc(c, q[0] - 1, q[1] - 1, 3, 3, P.lime)
+    } // неоновые резинки
   }
-  poly(c, br, 3, P.hair, O)
-  for (let i = 0; i < 9; i += 2) ln(c, br[i], br[i + 1], 3, P.hair2)
-  for (const q of [br[0], br[9]]) {
-    rc(c, q[0] - 2, q[1] - 2, 5, 5, O)
-    rc(c, q[0] - 1, q[1] - 1, 3, 3, P.lime)
-  } // неоновые резинки
   const leg = (k) => {
     const h = [X + (k ? 2 : -2), Y],
       r = ik(h, k ? p.fr : p.fl, 6, 6, S ? 1 : k ? 1 : -1),
