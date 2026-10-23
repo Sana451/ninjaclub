@@ -487,7 +487,7 @@ function BracketView({
   champion: Player | null
 }) {
   return (
-    <div className="nk-card overflow-x-auto p-4">
+    <div className="nk-card p-4">
       <div className="nk-bracket">
         {rounds.map((rd, ri) => (
           <div key={ri} className="nk-bracket__col">
@@ -674,7 +674,7 @@ export function NinjaRunTournament() {
         {resetButton}
       </div>
 
-      {round && duel && p0 && p1 && (
+      {!s.champion && round && duel && p0 && p1 && (
         <>
           {!duel.started && introKey !== pairKey && (
             <Versus
@@ -751,16 +751,12 @@ export function NinjaRunTournament() {
       )}
 
       {s.champion && (
-        <div className="nk-card nk-podium p-4 text-center">
+        <div className="nk-card nk-podium overflow-hidden text-center">
           <PodiumScene
             className="nk-podium__scene"
             label="Победный танец чемпиона"
             boy={s.championBoy}
           />
-          <div className="nk-podium__block">
-            <span className="nk-podium__name">🏆 {s.champion.name}</span>
-          </div>
-          <div className="nk-podium__label">Чемпион турнира</div>
         </div>
       )}
 

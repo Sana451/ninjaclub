@@ -1106,16 +1106,17 @@ html.light .nk-deco__star {
 .nk-bracket {
   display: flex;
   align-items: stretch;
-  gap: 40px;
-  min-width: max-content;
+  gap: 24px;
+  width: 100%;
   padding: 4px 4px 8px;
 }
 .nk-bracket__col {
   display: flex;
+  flex: 1 1 0;
+  min-width: 0;
   flex-direction: column;
   justify-content: space-around;
   gap: 14px;
-  width: 200px;
 }
 .nk-bracket__title {
   margin-bottom: 4px;
@@ -1137,8 +1138,8 @@ html.light .nk-deco__star {
   content: "";
   position: absolute;
   top: 50%;
-  right: -21px;
-  width: 20px;
+  right: -13px;
+  width: 12px;
   height: 1px;
   background: var(--nk-line);
 }
@@ -1150,8 +1151,7 @@ html.light .nk-deco__star {
   display: flex;
   align-items: center;
   min-height: 36px;
-  padding: 6px 10px;
-  font: 700 0.95rem var(--nk-display);
+  padding: 6px 8px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   overflow-wrap: anywhere;
@@ -1165,6 +1165,18 @@ html.light .nk-deco__star {
 }
 .nk-bracket__slot--win {
   color: var(--nk-lime);
+}
+@media (max-width: 640px) {
+  .nk-bracket {
+    gap: 14px;
+  }
+  .nk-bracket__slot {
+    padding: 4px 4px;
+    font-size: 0.75rem;
+  }
+  .nk-bracket__title {
+    font-size: 0.65rem;
+  }
 }
 .nk-bracket__slot--lose {
   opacity: 0.45;
@@ -1188,28 +1200,9 @@ html.light .nk-deco__star {
   overflow: hidden;
 }
 .nk-podium__scene {
-  width: min(100%, 360px);
+  width: 100%;
   height: auto;
   border-radius: 8px;
-}
-.nk-podium__block {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 24px;
-  border-top: 3px solid var(--nk-lime);
-  background: linear-gradient(180deg, rgba(198, 255, 61, 0.18), transparent);
-}
-.nk-podium__name {
-  color: #fff;
-  font: 800 1.3rem var(--nk-display);
-  text-transform: uppercase;
-}
-.nk-podium__label {
-  color: var(--nk-muted);
-  font: 700 0.8rem var(--nk-display);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
 }
 
 /* ---------- Полноэкранный режим игры ---------- */
