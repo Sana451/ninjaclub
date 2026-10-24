@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react"
 import { CHARACTERS, type Look } from "./characters.js"
 import { headPortrait, palette } from "./engine.js"
+import { sfx } from "./sound.js"
 
 function HeadCanvas({ look }: { look: Look }) {
   const ref = useRef<HTMLCanvasElement>(null)
@@ -26,11 +27,13 @@ export function CharacterSelect({
   onChange,
   label,
   compact = false,
+  small = false,
 }: {
   value: string
   onChange: (id: string) => void
   label?: string
   compact?: boolean
+  small?: boolean
 }) {
   return (
     <div className="space-y-1.5">
@@ -43,7 +46,7 @@ export function CharacterSelect({
         aria-label={label ?? "Персонаж"}
         className={`m-0 min-w-0 border-0 p-0 ${
           compact ? "flex flex-wrap gap-1.5" : "grid grid-cols-5 gap-2"
-        }`}
+        } ${small ? "w-1/2" : ""}`}
       >
         {CHARACTERS.map((c) => {
           const selected = c.id === value
@@ -53,7 +56,10 @@ export function CharacterSelect({
               type="button"
               aria-pressed={selected}
               title={c.name}
-              onClick={() => onChange(c.id)}
+              onClick={() => {
+                sfx("tick")
+                onChange(c.id)
+              }}
               className={`group relative overflow-hidden rounded-md border-2 bg-black/60 transition ${
                 compact ? "size-28" : "aspect-square"
               } ${

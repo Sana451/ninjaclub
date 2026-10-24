@@ -4,6 +4,7 @@
 
 import { annulus, arena, drawRing, NEON, trussPost } from "./arena.js"
 import { blink, disk, girl, lerp, palette, rc } from "./engine.js"
+import { isMuted, music, say, sfx, stopAll, toggleMute } from "./sound.js"
 
 const GW = 280,
   GH = 110,
@@ -146,14 +147,18 @@ export function mountGame(root, opts = {}) {
     }
   root.classList.add("nk-game")
   root.innerHTML = `<canvas class="px" width="${GW}" height="${GH}" tabindex="0" aria-label="Игра: беги, прыгай, перекатывайся, цепляйся за зиплайны и собирай светящиеся кольца"></canvas>
-<div class="nk-game__hud"><span>КОЛЬЦА <b class="gr">0</b></span><span class="${manual ? "nk-game__name" : ""}">${manual ? "" : "РЕКОРД "}<b class="gb">0</b></span></div>
+<div class="nk-game__hud"><span>КОЛЬЦА <b class="gr">0</b></span><span class="${manual ? "nk-game__name" : ""}">${manual ? "" : "РЕКОРД "}<b class="gb">0</b></span><button type="button" class="nk-game__sound" aria-label="Звук">${isMuted() ? "🔇" : "🔊"}</button></div>
 <div class="nk-game__msg"><b>Ниндзя-ран</b><small>Пробел / тап — прыжок (держи — выше) · ↓ — перекат под матом · в прыжке цепляйся за зиплайн · собирай светящиеся кольца</small></div>
 <div class="nk-game__pad"><button data-k="up">Прыжок</button><button data-k="down">Перекат</button></div>`
   const cv = root.querySelector("canvas"),
     c = cv.getContext("2d"),
     msg = root.querySelector(".nk-game__msg"),
     gr = root.querySelector(".gr"),
-    gb = root.querySelector(".gb")
+    gb = root.querySelector(".gb"),
+    soundBtn = root.querySelector(".nk-game__sound")
+  soundBtn.addEventListener("click", () => {
+    soundBtn.textContent = toggleMute() ? "🔇" : "🔊"
+  })
   let best = 0
   try {
     best = +localStorage.getItem("nk-best") || 0
@@ -200,17 +205,22 @@ export function mountGame(root, opts = {}) {
     S.grace = 0.8
     msg.hidden = true
     rng = opts.seed == null ? Math.random : seeded(opts.seed)
+    sfx("start")
+    music(true)
+    say("Поехали!")
   }
   const stop = () => {
     if (S.st === "run") S.st = "stop"
     hold = false
     down = false
+    music(false)
   }
   const jump = () => {
     if (S.st !== "run") {
       if (!manual) start()
       return
     }
+    sfx("jump")
     if (S.zip) {
       S.zip = null
       S.vy = 150
@@ -290,6 +300,9 @@ export function mountGame(root, opts = {}) {
   function die() {
     S.st = "over"
     S.over = S.t
+    sfx("hit")
+    music(false)
+    say("Игра окончена")
     opts.onEnd?.({ rings: S.nr, dist: Math.round(S.dist) })
     if (manual) return
     if (S.nr > best) {
@@ -376,6 +389,7 @@ export function mountGame(root, opts = {}) {
           S.y = 0
           S.vy = 0
           burst(6)
+          sfx("land")
         }
       }
       if (S.y === 0 && S.buf > 0) {
@@ -406,6 +420,7 @@ export function mountGame(root, opts = {}) {
         ) {
           S.zip = { o }
           S.vy = 0
+          sfx("zip")
           break
         }
     const bt = GG - 1 - S.y,
@@ -422,6 +437,8 @@ export function mountGame(root, opts = {}) {
         k.g = 1
         S.nr++
         S.fx.push({ x: k.x, y: k.y, l: 0.45 })
+        sfx("ring")
+        if (S.nr % 10 === 0) say("Круто!")
       } // собрали кольцо
     if (!S.zip && !S.grace) {
       // столкновения
@@ -647,6 +664,7 @@ export function mountGame(root, opts = {}) {
     stop,
     dispose() {
       cancelAnimationFrame(raf)
+      stopAll()
       io.disconnect()
       removeEventListener("keydown", kd)
       removeEventListener("keyup", ku)

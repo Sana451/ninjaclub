@@ -48,6 +48,17 @@ export function drawRing(c, P, x0, y0, t, R = 9) {
   annulus(c, x, y, R - 3.5, R - 2.5, "#8e99a8")
   c.fillStyle = "rgba(255,255,255,.9)"
   c.fillRect(x - Math.round(R * 0.5), y - R + 1, 3, 1)
+  for (let i = 0; i < 4; i++) {
+    const a = t * 2 + (i * Math.PI) / 2
+    const sx = Math.round(x + Math.cos(a) * (R + 4))
+    const sy = Math.round(y + Math.sin(a) * (R + 4))
+    c.globalAlpha = 0.5 + 0.5 * Math.sin(t * 8 + i * 1.7)
+    c.fillStyle = "#ffffff"
+    c.fillRect(sx, sy, 1, 1)
+    c.fillRect(sx - 1, sy, 3, 1)
+    c.fillRect(sx, sy - 1, 1, 3)
+  }
+  c.globalAlpha = 1
 }
 
 export function trussPost(c, x, y0, y1, w = 5) {
