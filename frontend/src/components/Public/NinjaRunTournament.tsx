@@ -285,8 +285,7 @@ function reducer(s: State, a: Action): State {
         return {
           ...next,
           champion: winner,
-          // Сторона 1 в паре — игрок с мальчиком (controls p2)
-          championBoy: match?.winner === 1,
+          championBoy: lookOf(winner.character).boy,
         }
       return { ...next, r: s.r + 1, d: 0 }
     }
@@ -589,9 +588,16 @@ export function NinjaRunTournament() {
   const [introKey, setIntroKey] = useState("")
   const [character, setCharacter] = useState(DEFAULT_CHARACTER)
   const championId = s.champion?.id
+  const championName = s.champion?.name
   useEffect(() => {
-    if (championId) victory()
-  }, [championId])
+    if (!championId) return
+    victory()
+    const t = setTimeout(
+      () => say(`Поздравляем с победой в турнире: ${championName}`),
+      1800,
+    )
+    return () => clearTimeout(t)
+  }, [championId, championName])
 
   if (s.phase === "setup") {
     const n = s.players.length
@@ -890,11 +896,19 @@ export function NinjaRunTournament() {
 
       {s.champion && (
         <div className="nk-card nk-podium overflow-hidden text-center">
-          <PodiumScene
-            className="nk-podium__scene"
-            label="Победный танец чемпиона"
-            boy={s.championBoy}
-          />
+          <div className="nk-podium__stage">
+            <PodiumScene
+              className="nk-podium__scene"
+              label="Победный танец чемпиона"
+              boy={s.championBoy}
+            />
+            <div className="nk-podium__overlay">
+              <span className="nk-podium__congrats">
+                Поздравляем с победой в турнире:
+              </span>
+              <b className="nk-podium__name">{s.champion.name}</b>
+            </div>
+          </div>
         </div>
       )}
 

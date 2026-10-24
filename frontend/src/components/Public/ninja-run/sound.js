@@ -125,18 +125,25 @@ let lastUtterance = null
 export function say(text) {
   if (muted || !("speechSynthesis" in window)) return
   const synth = window.speechSynthesis
-  synth.cancel()
-  const u = new SpeechSynthesisUtterance(text)
-  u.lang = "ru-RU"
-  u.rate = 1.15
-  u.pitch = 1.1
-  const voice = synth.getVoices().find((v) => v.lang.startsWith("ru"))
-  if (voice) u.voice = voice
-  lastUtterance = u
-  u.onend = () => {
-    if (lastUtterance === u) lastUtterance = null
+  const run = () => {
+    synth.cancel()
+    const u = new SpeechSynthesisUtterance(text)
+    u.lang = "ru-RU"
+    u.rate = 1.15
+    u.pitch = 1.1
+    const voice = synth.getVoices().find((v) => v.lang.startsWith("ru"))
+    if (voice) u.voice = voice
+    lastUtterance = u
+    u.onend = () => {
+      if (lastUtterance === u) lastUtterance = null
+    }
+    synth.speak(u)
   }
-  synth.speak(u)
+  if (synth.getVoices().length === 0) {
+    synth.addEventListener("voiceschanged", run, { once: true })
+  } else {
+    run()
+  }
 }
 
 export function stopAll() {

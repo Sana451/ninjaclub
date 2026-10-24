@@ -1252,10 +1252,42 @@ html.light .nk-deco__star {
   gap: 8px;
   overflow: hidden;
 }
+.nk-podium__stage {
+  position: relative;
+  width: 100%;
+}
 .nk-podium__scene {
   width: 100%;
   height: auto;
   border-radius: 8px;
+}
+.nk-podium__overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: start center;
+  gap: 4px;
+  padding: 6% 12px 12px;
+  text-align: center;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(5, 6, 8, 0.55), transparent 75%);
+}
+.nk-podium__congrats {
+  color: #4cc9f0;
+  font: 800 clamp(0.7rem, 2.2vw, 1rem) var(--nk-display);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+.nk-podium__name {
+  color: #fff;
+  font: 900 clamp(1.8rem, 7vw, 3.5rem) var(--nk-display);
+  font-style: italic;
+  text-shadow:
+    0 0 24px #8b5cff,
+    0 0 48px #ff4fd8;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
 }
 
 /* ---------- Полноэкранный режим игры ---------- */
