@@ -1005,6 +1005,14 @@ html.light .nk-deco__star {
   color: var(--nk-lime);
   margin-left: 6px;
 }
+.nk-game__sound {
+  pointer-events: auto;
+  border: 0;
+  background: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0 4px;
+}
 .nk-game__name b {
   font-size: 2.2rem;
   line-height: 1;

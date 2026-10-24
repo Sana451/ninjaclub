@@ -12,6 +12,7 @@ import {
   DEFAULT_CHARACTER,
   lookOf,
 } from "./ninja-run/characters.js"
+import { sfx } from "./ninja-run/sound.js"
 
 type Duel = {
   names: [string, string]
@@ -42,6 +43,7 @@ export function NinjaRunDuel() {
         onSubmit={(e) => {
           e.preventDefault()
           if (!ready) return
+          sfx("go")
           setDuel({
             names: [p1.trim(), p2.trim()],
             characters: [c1, c2],
@@ -145,7 +147,10 @@ export function NinjaRunDuel() {
             type="button"
             className="nk-btn nk-btn--lime"
             disabled={counting}
-            onClick={() => setCounting(true)}
+            onClick={() => {
+              sfx("go")
+              setCounting(true)
+            }}
           >
             Старт
           </button>
@@ -158,14 +163,15 @@ export function NinjaRunDuel() {
           <button
             type="button"
             className="nk-btn nk-btn--lime"
-            onClick={() =>
+            onClick={() => {
+              sfx("go")
               setDuel({
                 ...duel,
                 seed: newSeed(),
                 started: false,
                 winner: null,
               })
-            }
+            }}
           >
             Рестарт
           </button>
@@ -173,7 +179,10 @@ export function NinjaRunDuel() {
         <button
           type="button"
           className="nk-btn nk-btn--ghost nk-btn--sm"
-          onClick={() => setDuel(null)}
+          onClick={() => {
+            sfx("back")
+            setDuel(null)
+          }}
         >
           Новая дуэль
         </button>

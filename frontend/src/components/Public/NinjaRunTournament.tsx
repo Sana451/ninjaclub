@@ -16,6 +16,7 @@ import {
   type GameResult,
   mountGame,
 } from "./ninja-run/runner.js"
+import { say, sfx } from "./ninja-run/sound.js"
 
 const ATTEMPT_OPTIONS = [1, 2, 3]
 const DEFAULT_ATTEMPTS = 3
@@ -311,6 +312,7 @@ const KEY_HINT: Record<Controls, string | null> = {
 }
 
 const COUNT_STEPS = ["3", "2", "1", "GO!"]
+const COUNT_SPEECH = ["Три", "Два", "Один", "Старт!"]
 const COUNT_STEP_MS = 750
 
 export function WinnerBanner({ name }: { name: string }) {
@@ -338,6 +340,9 @@ export function Countdown({ onDone }: { onDone: () => void }) {
     return () => clearTimeout(t)
   }, [step])
   const label = COUNT_STEPS[step]
+  useEffect(() => {
+    say(COUNT_SPEECH[step])
+  }, [step])
   return (
     <div className="nk-count" role="status" aria-live="assertive">
       <b
@@ -368,6 +373,9 @@ export function Versus({
     window.addEventListener("keydown", onKey)
     return () => window.removeEventListener("keydown", onKey)
   }, [])
+  useEffect(() => {
+    say(`Приготовиться! ${left} против ${right}`)
+  }, [left, right])
   return (
     <div className="nk-versus" role="status" aria-live="assertive">
       <span className="nk-versus__name nk-versus__name--l">{left}</span>
@@ -396,6 +404,9 @@ export function StageIntro({
     window.addEventListener("keydown", onKey)
     return () => window.removeEventListener("keydown", onKey)
   }, [])
+  useEffect(() => {
+    say(`${kicker}. ${title}`)
+  }, [kicker, title])
   return (
     <div className="nk-stage-intro" role="status" aria-live="assertive">
       <span className="nk-stage-intro__kicker">{kicker}</span>
@@ -584,6 +595,7 @@ export function NinjaRunTournament() {
           className="flex gap-2"
           onSubmit={(e) => {
             e.preventDefault()
+            sfx("add")
             dispatch({ type: "add", name, character })
             setName("")
           }}
@@ -604,26 +616,44 @@ export function NinjaRunTournament() {
           value={character}
           onChange={setCharacter}
           label="Персонаж участника"
+          small
         />
-        <ol className="space-y-2">
-          {s.players.map((p, i) => (
-            <li key={p.id} className="flex items-center justify-between gap-2">
-              <span>
-                {i + 1}. {p.name}{" "}
-                <span className="opacity-60">
-                  ({characterName(p.character)})
-                </span>
-              </span>
-              <button
-                type="button"
-                className="nk-btn nk-btn--ghost nk-btn--sm"
-                onClick={() => dispatch({ type: "remove", id: p.id })}
+        <div className="nk-card space-y-3 p-4">
+          <h3 className="nk-h3">Участники ({n})</h3>
+          {n === 0 && (
+            <p className="nk-muted">
+              Пока никого нет. Добавьте первого участника.
+            </p>
+          )}
+          <ol className="space-y-2">
+            {s.players.map((p, i) => (
+              <li
+                key={p.id}
+                className="flex items-center justify-between gap-3 rounded-lg border border-white/10 bg-black/40 px-3 py-2"
               >
-                Удалить
-              </button>
-            </li>
-          ))}
-        </ol>
+                <span className="flex min-w-0 items-center gap-3 text-lg">
+                  <span className="grid size-8 shrink-0 place-items-center rounded-full bg-lime-300/15 font-bold text-lime-300">
+                    {i + 1}
+                  </span>
+                  <span className="truncate font-semibold">{p.name}</span>
+                  <span className="truncate text-base opacity-60">
+                    {characterName(p.character)}
+                  </span>
+                </span>
+                <button
+                  type="button"
+                  className="nk-btn nk-btn--ghost nk-btn--sm"
+                  onClick={() => {
+                    sfx("remove")
+                    dispatch({ type: "remove", id: p.id })
+                  }}
+                >
+                  Удалить
+                </button>
+              </li>
+            ))}
+          </ol>
+        </div>
         <div className="space-y-2">
           <span className="font-semibold">Попыток на отборе</span>
           <fieldset className="flex gap-2" aria-label="Попыток на отборе">
@@ -635,7 +665,10 @@ export function NinjaRunTournament() {
                 className={`nk-btn nk-btn--sm ${
                   perPlayer === value ? "nk-btn--lime" : "nk-btn--ghost"
                 }`}
-                onClick={() => dispatch({ type: "setAttempts", value })}
+                onClick={() => {
+                  sfx("tick")
+                  dispatch({ type: "setAttempts", value })
+                }}
               >
                 {value}
               </button>
@@ -650,7 +683,10 @@ export function NinjaRunTournament() {
           type="button"
           className="nk-btn nk-btn--lime"
           disabled={n < 2}
-          onClick={() => dispatch({ type: "begin" })}
+          onClick={() => {
+            sfx("go")
+            dispatch({ type: "begin" })
+          }}
         >
           Начать отборочный этап
         </button>
@@ -662,7 +698,10 @@ export function NinjaRunTournament() {
     <button
       type="button"
       className="nk-btn nk-btn--ghost nk-btn--sm"
-      onClick={() => dispatch({ type: "reset" })}
+      onClick={() => {
+        sfx("back")
+        dispatch({ type: "reset" })
+      }}
     >
       Сбросить турнир
     </button>
@@ -717,7 +756,10 @@ export function NinjaRunTournament() {
           type="button"
           className="nk-btn nk-btn--lime"
           disabled={s.qRunning}
-          onClick={() => dispatch({ type: "qStart" })}
+          onClick={() => {
+            sfx("go")
+            dispatch({ type: "qStart" })
+          }}
         >
           Старт попытки
         </button>
@@ -802,7 +844,10 @@ export function NinjaRunTournament() {
                 type="button"
                 className="nk-btn nk-btn--lime"
                 disabled={counting}
-                onClick={() => setCounting(true)}
+                onClick={() => {
+                  sfx("go")
+                  setCounting(true)
+                }}
               >
                 Старт пары
               </button>
@@ -821,7 +866,10 @@ export function NinjaRunTournament() {
                 <button
                   type="button"
                   className="nk-btn nk-btn--lime"
-                  onClick={() => dispatch({ type: "nextDuel" })}
+                  onClick={() => {
+                    sfx("next")
+                    dispatch({ type: "nextDuel" })
+                  }}
                 >
                   {round.matches.length === 1
                     ? "Завершить турнир"
