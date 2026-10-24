@@ -120,20 +120,73 @@ export function music(on) {
   else stopLoop()
 }
 
+let lastUtterance = null
+
 export function say(text) {
   if (muted || !("speechSynthesis" in window)) return
-  window.speechSynthesis.cancel()
+  const synth = window.speechSynthesis
+  synth.cancel()
   const u = new SpeechSynthesisUtterance(text)
   u.lang = "ru-RU"
   u.rate = 1.15
   u.pitch = 1.1
-  window.speechSynthesis.speak(u)
+  const voice = synth.getVoices().find((v) => v.lang.startsWith("ru"))
+  if (voice) u.voice = voice
+  lastUtterance = u
+  u.onend = () => {
+    if (lastUtterance === u) lastUtterance = null
+  }
+  synth.speak(u)
 }
 
 export function stopAll() {
   stopLoop()
   wantMusic = false
   if ("speechSynthesis" in window) window.speechSynthesis.cancel()
+}
+
+const crowd = (at, dur) => {
+  const len = Math.floor(ctx.sampleRate * dur)
+  const buf = ctx.createBuffer(1, len, ctx.sampleRate)
+  const data = buf.getChannelData(0)
+  for (let i = 0; i < len; i++) data[i] = Math.random() * 2 - 1
+  const src = ctx.createBufferSource()
+  src.buffer = buf
+  const bp = ctx.createBiquadFilter()
+  bp.type = "bandpass"
+  bp.frequency.value = 1400
+  bp.Q.value = 0.6
+  const g = ctx.createGain()
+  g.gain.setValueAtTime(0.0001, at)
+  g.gain.exponentialRampToValueAtTime(0.5, at + 0.6)
+  g.gain.exponentialRampToValueAtTime(0.0001, at + dur)
+  src.connect(bp).connect(g).connect(master)
+  src.start(at)
+  src.stop(at + dur + 0.02)
+}
+
+export function victory() {
+  if (muted || !ensure()) return
+  stopLoop()
+  const t0 = ctx.currentTime + 0.05
+  const melody = [
+    [523.25, 0],
+    [659.25, 0.2],
+    [783.99, 0.4],
+    [1046.5, 0.6],
+    [783.99, 0.9],
+    [1046.5, 1.05],
+    [1318.5, 1.2],
+    [1046.5, 1.6],
+  ]
+  for (const [f, d] of melody) tone(f, t0 + d, 0.26, "square", 0.14)
+  const chords = [
+    [261.63, 0],
+    [392, 0.9],
+    [523.25, 1.2],
+  ]
+  for (const [f, d] of chords) tone(f, t0 + d, 0.7, "triangle", 0.3)
+  crowd(t0, 3.2)
 }
 
 export function isMuted() {

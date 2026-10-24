@@ -16,7 +16,7 @@ import {
   type GameResult,
   mountGame,
 } from "./ninja-run/runner.js"
-import { say, sfx } from "./ninja-run/sound.js"
+import { say, sfx, victory } from "./ninja-run/sound.js"
 
 const ATTEMPT_OPTIONS = [1, 2, 3]
 const DEFAULT_ATTEMPTS = 3
@@ -316,9 +316,12 @@ const COUNT_SPEECH = ["Три", "Два", "Один", "Старт!"]
 const COUNT_STEP_MS = 750
 
 export function WinnerBanner({ name }: { name: string }) {
+  useEffect(() => {
+    say(`Победитель: ${name}`)
+  }, [name])
   return (
     <div className="nk-winner" role="status" aria-live="polite">
-      <b>Победил: {name}</b>
+      <b>Победитель: {name}</b>
     </div>
   )
 }
@@ -585,6 +588,10 @@ export function NinjaRunTournament() {
   const [counting, setCounting] = useState(false)
   const [introKey, setIntroKey] = useState("")
   const [character, setCharacter] = useState(DEFAULT_CHARACTER)
+  const championId = s.champion?.id
+  useEffect(() => {
+    if (championId) victory()
+  }, [championId])
 
   if (s.phase === "setup") {
     const n = s.players.length
